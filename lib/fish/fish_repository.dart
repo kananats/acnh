@@ -1,5 +1,5 @@
-import 'package:acnh/api/api.dart';
-import 'package:acnh/data/fish.dart';
+import 'package:acnh/api.dart';
+import 'package:acnh/fish/fish.dart';
 import 'package:acnh/module.dart';
 import 'package:sqflite/sqlite_api.dart';
 

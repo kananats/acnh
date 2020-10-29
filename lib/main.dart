@@ -1,4 +1,3 @@
-import 'package:acnh/home_page.dart';
 import 'package:acnh/load_page.dart';
 import 'package:flutter/material.dart';
 

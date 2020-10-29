@@ -1,5 +1,5 @@
 import 'package:acnh/db/db.dart';
-import 'package:acnh/repository/fish_repository.dart';
+import 'package:acnh/fish/fish_repository.dart';
 
 var modules = Modules();
 

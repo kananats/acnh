@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:acnh/data/fish.dart';
+import 'package:acnh/fish/fish.dart';
 import 'package:http/http.dart' as http;
 
 mixin RequestMixin<T> {

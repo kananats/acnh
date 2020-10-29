@@ -1,4 +1,4 @@
-import 'package:acnh/fish_page.dart';
+import 'package:acnh/fish/fish_page.dart';
 import 'package:acnh/setting_page.dart';
 import 'package:flutter/material.dart';
 
