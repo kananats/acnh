@@ -5,6 +5,8 @@ import 'package:sqflite/sqlite_api.dart';
 
 class FishRepository {
   Future<void> fetch() async {
+    return;
+
     var db = await modules.localStorage.db;
     var fishes = await GetFish().execute();
 

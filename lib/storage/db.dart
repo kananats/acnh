@@ -9,7 +9,7 @@ class LocalStorage {
     if (_db != null) return _db;
 
     // Uncomment this to delete database
-    await deleteDatabase();
+    // await deleteDatabase();
 
     await _createDatabase();
     return _db;
