@@ -9,7 +9,7 @@ class LocalStorage {
     if (_db != null) return _db;
 
     // Uncomment this to delete database
-    // await deleteDatabase();
+    await deleteDatabase();
 
     await _createDatabase();
     return _db;
@@ -22,7 +22,7 @@ class LocalStorage {
     _db = await openDatabase(
       join(await getDatabasesPath(), "acnh.db"),
       onCreate: (db, version) => db.execute(
-        "CREATE TABLE fishes(id INTEGER PRIMARY KEY, name TEXT, image_uri TEXT, icon_uri TEXT)",
+        "CREATE TABLE fishes(id INTEGER PRIMARY KEY, name TEXT, image_uri TEXT, icon_uri TEXT, is_caught INTEGER, is_donated INTEGER)",
       ),
       version: 1,
     );

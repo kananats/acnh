@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:acnh/fish/fish.dart';
-import 'package:http/http.dart' as http;
 
 mixin RequestMixin<T> {
   String get baseUrl => "http://acnhapi.com";
@@ -11,9 +10,9 @@ mixin RequestMixin<T> {
   T fromJson(dynamic json);
 
   Future<T> execute() async {
-    var response = await http.get(baseUrl + path);
+    Response<String> response = await Dio().get(baseUrl + path);
     if (response.statusCode != 200) throw Exception("Failed to fetch");
-    return fromJson(json.decode(response.body));
+    return fromJson(json.decode(response.data));
   }
 }
 

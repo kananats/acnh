@@ -5,11 +5,16 @@ class Fish {
   String imageUri;
   String iconUri;
 
+  bool isCaught;
+  bool isDonated;
+
   Fish({
     this.id,
     this.name,
     this.imageUri,
     this.iconUri,
+    this.isCaught = false,
+    this.isDonated = false,
   });
 
   Map<String, dynamic> toMap() => {
@@ -17,6 +22,8 @@ class Fish {
         "name": name,
         "image_uri": imageUri,
         "icon_uri": iconUri,
+        "is_caught": isCaught ? 1 : 0,
+        "is_donated": isDonated ? 1 : 0,
       };
 
   factory Fish.fromMap(Map<String, dynamic> map) => Fish(
@@ -24,6 +31,8 @@ class Fish {
         name: map["name"],
         imageUri: map["image_uri"],
         iconUri: map["icon_uri"],
+        isCaught: map["is_caught"] == 1,
+        isDonated: map["is_donated"] == 1,
       );
 
   factory Fish.fromJson(Map<String, dynamic> json) => Fish(

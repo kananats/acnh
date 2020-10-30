@@ -1,6 +1,7 @@
 import 'package:acnh/common/my_drawer.dart';
 import 'package:acnh/fish/fish.dart';
 import 'package:acnh/fish/fish_filter.dart';
+import 'package:acnh/fish/fish_filter_condition.dart';
 import 'package:acnh/module.dart';
 import 'package:acnh/extension/string_extension.dart';
 
@@ -13,6 +14,8 @@ class FishPage extends StatefulWidget {
 
 class _FishPageState extends State<FishPage> {
   Future<List<Fish>> _getFishes;
+
+  FishFilterCondition _condition = FishFilterCondition();
 
   @override
   void initState() {
@@ -27,11 +30,7 @@ class _FishPageState extends State<FishPage> {
           actions: [
             GestureDetector(
               child: Icon(Icons.article),
-              onTap: () => showGeneralDialog(
-                context: context,
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    FishFilter(),
-              ),
+              onTap: () => _showFishFilter(context),
             ),
             SizedBox(width: 12),
           ],
@@ -70,7 +69,6 @@ class _FishPageState extends State<FishPage> {
       );
 
   Widget _listViewItem(Fish fish) => Container(
-        //color: Colors.green,
         child: ListTile(
           leading: SizedBox(
             height: 50,
@@ -81,4 +79,13 @@ class _FishPageState extends State<FishPage> {
           //subtitle: Text(fis),
         ),
       );
+
+  Future<void> _showFishFilter(BuildContext context) async {
+    var condition = await showGeneralDialog<FishFilterCondition>(
+      context: context,
+      pageBuilder: (context, animation, secondaryAnimation) => FishFilter(),
+    );
+
+    if (condition != null) setState(() => _condition = condition);
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:acnh/fish/fish_filter_condition.dart';
 import 'package:flutter/material.dart';
 
 class FishFilter extends StatefulWidget {
@@ -9,50 +10,46 @@ class _FishFilterState extends State<FishFilter> {
   final FishFilterCondition _condition = FishFilterCondition();
 
   @override
-  Widget build(BuildContext context) {
-    MediaQuery.of(context).size.width;
-
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _hemisphereToggle,
-                SizedBox(height: 12),
-                _availabilityToggle,
-                SizedBox(height: 12),
-                Wrap(
-                  spacing: 12,
-                  children: [
-                    _hideCaughtChip,
-                    _hideDonatedChip,
-                    _hideAllYearChip,
-                  ],
-                ),
-                ButtonBar(
-                  alignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text("OK"),
-                    ),
-                    RaisedButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: Text("Cancel"),
-                    ),
-                  ],
-                )
-              ],
+  Widget build(BuildContext context) => Center(
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _hemisphereToggle,
+                  SizedBox(height: 12),
+                  _availabilityToggle,
+                  SizedBox(height: 12),
+                  Wrap(
+                    spacing: 12,
+                    children: [
+                      _hideCaughtChip,
+                      _hideDonatedChip,
+                      _hideAllYearChip,
+                    ],
+                  ),
+                  ButtonBar(
+                    alignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text("OK"),
+                      ),
+                      RaisedButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: Text("Cancel"),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 
   Widget get _hemisphereToggle => Row(
         children: [

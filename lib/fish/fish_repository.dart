@@ -5,11 +5,13 @@ import 'package:sqflite/sqlite_api.dart';
 
 class FishRepository {
   Future<void> fetch() async {
-    //return;
     var db = await modules.localStorage.db;
     var fishes = await GetFish().execute();
 
     for (var fish in fishes) {
+      fish.imageUri = await modules.fileManager.download(fish.imageUri);
+      fish.iconUri = await modules.fileManager.download(fish.iconUri);
+
       await db.insert(
         "fishes",
         fish.toMap(),
