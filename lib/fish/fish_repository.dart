@@ -4,15 +4,20 @@ import 'package:acnh/module.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class FishRepository {
-  Future<void> fetch() async {
-    return;
+  Future<void> fetch({Function(int count, int total) onReceiveProgress}) async {
+    //return;
 
     var db = await modules.localStorage.db;
     var fishes = await GetFish().execute();
 
-    for (var fish in fishes) {
-      fish.imageUri = await modules.fileManager.download(fish.imageUri);
-      fish.iconUri = await modules.fileManager.download(fish.iconUri);
+    for (int index = 0; index < fishes.length; index++) {
+      var fish = fishes[index];
+
+      if (onReceiveProgress != null)
+        onReceiveProgress(index + 1, fishes.length);
+
+      fish.imageUri = await modules.fileManager.downloadImage(fish.imageUri);
+      fish.iconUri = await modules.fileManager.downloadImage(fish.iconUri);
 
       await db.insert(
         "fishes",
