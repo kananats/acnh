@@ -5,7 +5,7 @@ import 'package:sqflite/sqlite_api.dart';
 
 class FishRepository {
   Future<void> fetch({Function(int count, int total) onReceiveProgress}) async {
-    //return;
+    return;
 
     var db = await modules.localStorage.db;
     var fishes = await GetFish().execute();
@@ -34,6 +34,16 @@ class FishRepository {
     return List.generate(
       maps.length,
       (index) => Fish.fromMap(maps[index]),
+    );
+  }
+
+  Future<int> updateFish(Fish fish) async {
+    var db = await modules.localStorage.db;
+    return await db.update(
+      "fishes",
+      fish.toMap(),
+      where: "id = ?",
+      whereArgs: [fish.id],
     );
   }
 }
