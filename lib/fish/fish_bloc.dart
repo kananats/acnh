@@ -30,15 +30,13 @@ class FishBloc extends Bloc<FishEvent, FishState> {
   @override
   Stream<FishState> mapEventToState(FishEvent event) async* {
     if (event is InitializeFishEvent) {
-      if (state is InitialFishState) {
-        try {
-          var fishs = await modules.fishRepository.getFishs();
-          if (fishs.isEmpty) throw Exception("Fishs are empty");
+      try {
+        var fishs = await modules.fishRepository.getFishs();
+        if (fishs.isEmpty) throw Exception("Fishs are empty");
 
-          yield SuccessFishState()..fishs = fishs;
-        } catch (_) {
-          yield NotDownloadedFishState();
-        }
+        yield SuccessFishState()..fishs = fishs;
+      } catch (_) {
+        yield NotDownloadedFishState();
       }
     } else if (event is DownloadFishEvent) {
       if (state is DownloadingFishState)
@@ -58,6 +56,8 @@ class FishBloc extends Bloc<FishEvent, FishState> {
           );
 
           var fishs = await modules.fishRepository.getFishs();
+          if (fishs.isEmpty) throw Exception("Fishs are empty");
+
           yield SuccessFishState()..fishs = fishs;
         } catch (_) {
           yield FailedFishState();
