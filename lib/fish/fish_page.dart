@@ -1,30 +1,31 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:acnh/common/my_drawer.dart';
 import 'package:acnh/fish/fish.dart';
+import 'package:acnh/fish/fish_bloc.dart';
+import 'package:acnh/fish/fish_event.dart';
 import 'package:acnh/fish/fish_filter.dart';
 import 'package:acnh/fish/fish_filter_condition.dart';
+import 'package:acnh/fish/fish_state.dart';
 import 'package:acnh/module.dart';
 import 'package:acnh/extension/string_extension.dart';
-
-import 'package:flutter/material.dart';
 
 class FishPage extends StatefulWidget {
   @override
   _FishPageState createState() => _FishPageState();
 }
 
-class _FishPageState extends State<FishPage> {
-  Future<List<Fish>> _getFishes;
+class _FishPageState extends State<FishPage> with FishBlocProviderMixin {
   FishFilterCondition _condition = FishFilterCondition();
 
   @override
   void initState() {
     super.initState();
 
-    _getFishes = modules.fishRepository.getFishes();
-    //_getFishes.then((value) => _fishes = value);
-    //_getFishes.then((value) => _isSelected = value.map((e) => false));
+    fishBloc.add(FetchFishEvent());
   }
 
   @override
@@ -53,22 +54,27 @@ class _FishPageState extends State<FishPage> {
                 ],
               ),
             ),
-            FutureBuilder<List<Fish>>(
-              future: _getFishes,
-              builder: (context, snapshot) => snapshot.hasData
-                  ? Expanded(
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.all(12),
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, index) =>
-                            _listViewItem(snapshot.data[index]),
-                        separatorBuilder: (context, index) =>
-                            SizedBox(height: 12),
-                      ),
-                    )
-                  : Center(child: CircularProgressIndicator()),
-            ),
+            BlocBuilder<FishBloc, FishState>(
+              builder: (context, state) {
+                if (state is SuccessFishState)
+                  return Expanded(
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.all(12),
+                      itemCount: state.fishs.length,
+                      itemBuilder: (context, index) =>
+                          _listViewItem(state.fishs[index]),
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: 12),
+                    ),
+                  );
+                return Expanded(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              },
+            )
           ],
         ),
       );

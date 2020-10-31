@@ -1,4 +1,6 @@
-class Fish {
+import 'package:equatable/equatable.dart';
+
+class Fish with EquatableMixin {
   int id;
   String name;
 
@@ -16,6 +18,9 @@ class Fish {
     this.isCaught = false,
     this.isDonated = false,
   });
+
+  @override
+  List<Object> get props => [id];
 
   Map<String, dynamic> toMap() => {
         "id": id,
