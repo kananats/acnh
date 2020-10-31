@@ -8,11 +8,22 @@ abstract class FishState with EquatableMixin {
 
 class InitialFishState extends FishState {}
 
-class FailedFishState extends FishState {}
+class NotDownloadedFishState extends FishState {}
+
+class DownloadingFishState extends FishState {
+  int count;
+  int total;
+
+  @override
+  List<Object> get props => [count, total];
+}
 
 class SuccessFishState extends FishState {
   List<Fish> fishs;
+  DateTime lastUpdated;
 
   @override
   List<Object> get props => [fishs];
 }
+
+class FailedFishState extends FishState {}

@@ -10,15 +10,15 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        title: "acnh",
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: BlocProvider(
-          create: (context) => FishBloc(),
-          child: FishPage(),
+  Widget build(BuildContext context) => BlocProvider(
+        create: (context) => FishBloc(),
+        child: MaterialApp(
+          title: "acnh",
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          home: FishPage(),
         ),
       );
 }

@@ -1,13 +1,14 @@
 import 'dart:io';
 
+import 'package:acnh/common/download_dialog.dart';
+import 'package:acnh/fish/fish_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:acnh/common/my_drawer.dart';
 import 'package:acnh/fish/fish.dart';
 import 'package:acnh/fish/fish_bloc.dart';
-import 'package:acnh/fish/fish_event.dart';
-import 'package:acnh/fish/fish_filter.dart';
+import 'package:acnh/fish/fish_filter_dialog.dart';
 import 'package:acnh/fish/fish_filter_condition.dart';
 import 'package:acnh/fish/fish_state.dart';
 import 'package:acnh/module.dart';
@@ -25,7 +26,7 @@ class _FishPageState extends State<FishPage> with FishBlocProviderMixin {
   void initState() {
     super.initState();
 
-    fishBloc.add(FetchFishEvent());
+    fishBloc.add(InitializeFishEvent());
   }
 
   @override
@@ -33,10 +34,15 @@ class _FishPageState extends State<FishPage> with FishBlocProviderMixin {
         appBar: AppBar(
           actions: [
             GestureDetector(
-              child: Icon(Icons.article),
-              onTap: () => _showFishFilter(context),
+              child: Icon(Icons.cloud_download),
+              onTap: () => _showDownloadDialog(context),
             ),
-            SizedBox(width: 12),
+            SizedBox(width: 18),
+            GestureDetector(
+              child: Icon(Icons.article),
+              onTap: () => _showFilterDialog(context),
+            ),
+            SizedBox(width: 18),
           ],
         ),
         drawer: MyDrawer(),
@@ -155,10 +161,20 @@ class _FishPageState extends State<FishPage> with FishBlocProviderMixin {
         ],
       );
 
-  Future<void> _showFishFilter(BuildContext context) async {
+  Future<void> _showDownloadDialog(BuildContext context) async {
+    await showGeneralDialog<void>(
+      context: context,
+      pageBuilder: (context, animation, secondaryAnimation) => DownloadDialog(),
+    );
+
+    setState(() {});
+  }
+
+  Future<void> _showFilterDialog(BuildContext context) async {
     var condition = await showGeneralDialog<FishFilterCondition>(
       context: context,
-      pageBuilder: (context, animation, secondaryAnimation) => FishFilter(),
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          FishFilterDialog(),
     );
 
     if (condition != null)

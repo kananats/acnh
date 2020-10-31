@@ -16,7 +16,7 @@ class _LoadPageState extends State<LoadPage> {
   void initState() {
     super.initState();
 
-    _fetch = modules.fishRepository.fetch(
+    _fetch = modules.fishRepository.fetchFishs(
       onReceiveProgress: (count, total) => setState(
         () => _status = "Downloading $count of $total fishes",
       ),

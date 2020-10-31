@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:acnh/fish/fish_event.dart';
 import 'package:acnh/fish/fish_state.dart';
 import 'package:acnh/module.dart';
-import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 mixin FishBlocProviderMixin<T extends StatefulWidget> on State<T> {
   FishBloc fishBloc;
@@ -28,10 +29,33 @@ class FishBloc extends Bloc<FishEvent, FishState> {
 
   @override
   Stream<FishState> mapEventToState(FishEvent event) async* {
-    if (event is FetchFishEvent) {
+    if (event is InitializeFishEvent) {
       if (state is InitialFishState) {
         try {
-          var fishs = await modules.fishRepository.getFishes();
+          var fishs = await modules.fishRepository.getFishs();
+          if (fishs.isNotEmpty) yield SuccessFishState()..fishs = fishs;
+        } catch (_) {
+          yield NotDownloadedFishState();
+        }
+      }
+    } else if (event is DownloadFishEvent) {
+      if (state is DownloadingFishState)
+        yield DownloadingFishState()
+          ..count = event.count
+          ..total = event.total;
+      else {
+        try {
+          yield DownloadingFishState();
+
+          await modules.fishRepository.fetchFishs(
+            onReceiveProgress: (count, total) => onEvent(
+              DownloadFishEvent()
+                ..count = count
+                ..total = total,
+            ),
+          );
+
+          var fishs = await modules.fishRepository.getFishs();
           yield SuccessFishState()..fishs = fishs;
         } catch (_) {
           yield FailedFishState();

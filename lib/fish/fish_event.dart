@@ -5,4 +5,12 @@ abstract class FishEvent with EquatableMixin {
   List<Object> get props => [];
 }
 
-class FetchFishEvent extends FishEvent {}
+class InitializeFishEvent extends FishEvent {}
+
+class DownloadFishEvent extends FishEvent {
+  int count;
+  int total;
+
+  @override
+  List<Object> get props => [count, total];
+}

@@ -1,12 +1,12 @@
 import 'package:acnh/fish/fish_filter_condition.dart';
 import 'package:flutter/material.dart';
 
-class FishFilter extends StatefulWidget {
+class FishFilterDialog extends StatefulWidget {
   @override
-  _FishFilterState createState() => _FishFilterState();
+  _FishFilterDialogState createState() => _FishFilterDialogState();
 }
 
-class _FishFilterState extends State<FishFilter> {
+class _FishFilterDialogState extends State<FishFilterDialog> {
   final FishFilterCondition _condition = FishFilterCondition();
 
   @override

@@ -1,4 +1,4 @@
-import 'package:acnh/fish/fish_filter.dart';
+import 'package:acnh/fish/fish_filter_dialog.dart';
 
 class FishFilterCondition {
   bool isNorthernHemisphere = true;
