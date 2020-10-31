@@ -1,4 +1,4 @@
-import 'package:acnh/data/db.dart';
+import 'package:acnh/dao/dao.dart';
 import 'package:acnh/ui/fish/fish.dart';
 
 class FishDao with Dao<Fish> {
