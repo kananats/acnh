@@ -62,7 +62,13 @@ class _FishPageState extends State<FishPage> with FishBlocProviderMixin {
             ),
             BlocBuilder<FishBloc, FishState>(
               builder: (context, state) {
-                if (state is SuccessFishState)
+                if (state is NotDownloadedFishState)
+                  return Expanded(
+                    child: Center(
+                      child: Text("Please download first"),
+                    ),
+                  );
+                else if (state is SuccessFishState)
                   return Expanded(
                     child: ListView.separated(
                       shrinkWrap: true,

@@ -33,7 +33,9 @@ class FishBloc extends Bloc<FishEvent, FishState> {
       if (state is InitialFishState) {
         try {
           var fishs = await modules.fishRepository.getFishs();
-          if (fishs.isNotEmpty) yield SuccessFishState()..fishs = fishs;
+          if (fishs.isEmpty) throw Exception("Fishs are empty");
+
+          yield SuccessFishState()..fishs = fishs;
         } catch (_) {
           yield NotDownloadedFishState();
         }
