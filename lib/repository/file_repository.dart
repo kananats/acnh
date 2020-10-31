@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 
-class FileManager {
+class FileRepository {
   Future<String> download(String url) async {
     var directory = await getApplicationDocumentsDirectory();
     var path = "${directory.path}/downloads/$url";
@@ -17,5 +18,10 @@ class FileManager {
     var path = "${directory.path}/$imageUrl.png";
     await Dio().download(url, path);
     return path;
+  }
+
+  Future<bool> exists(String path) async {
+    if (path == null || path.isEmpty) return false;
+    return await File(path).exists();
   }
 }

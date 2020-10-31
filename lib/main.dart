@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:acnh/fish/fish_bloc.dart';
-import 'package:acnh/fish/fish_page.dart';
-import 'package:acnh/storage/file_manager.dart';
+import 'package:acnh/repository/file_repository.dart';
+import 'package:acnh/ui/fish/fish_bloc.dart';
+import 'package:acnh/ui/fish/fish_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,7 +38,7 @@ class _TestState extends State<Test> {
   }
 
   void test() async {
-    var path = await FileManager()
+    var path = await FileRepository()
         .downloadImage("https://acnhapi.com/v1/images/fish/1");
     print(path);
   }

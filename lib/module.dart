@@ -1,14 +1,22 @@
-import 'package:acnh/storage/db.dart';
-import 'package:acnh/fish/fish_repository.dart';
-import 'package:acnh/storage/file_manager.dart';
+import 'package:acnh/dao/fish_dao.dart';
+import 'package:acnh/data/db.dart';
+import 'package:acnh/repository/fish_repository.dart';
+import 'package:acnh/repository/file_repository.dart';
 
 var modules = Modules();
 
 class Modules {
-  // Storage
-  final localStorage = LocalStorage();
-  final fileManager = FileManager();
+  // Data
+  final LocalStorage localStorage = LocalStorage();
+
+  // DAO
+  final FishDao fishDao = FishDao();
 
   // Repository
-  final fishRepository = FishRepository();
+  final FishRepository fishRepository = FishRepository();
+  final FileRepository fileRepository = FileRepository();
+}
+
+mixin DaoProviderMixin {
+  FishDao get fishDao => modules.fishDao;
 }

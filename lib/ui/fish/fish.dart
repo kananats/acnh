@@ -7,6 +7,9 @@ class Fish with EquatableMixin {
   String imageUri;
   String iconUri;
 
+  String imagePath;
+  String iconPath;
+
   bool isCaught;
   bool isDonated;
 
@@ -15,6 +18,8 @@ class Fish with EquatableMixin {
     this.name,
     this.imageUri,
     this.iconUri,
+    this.imagePath,
+    this.iconPath,
     this.isCaught = false,
     this.isDonated = false,
   });
@@ -27,6 +32,8 @@ class Fish with EquatableMixin {
         "name": name,
         "image_uri": imageUri,
         "icon_uri": iconUri,
+        "image_path": imagePath,
+        "icon_path": iconPath,
         "is_caught": isCaught ? 1 : 0,
         "is_donated": isDonated ? 1 : 0,
       };
@@ -36,6 +43,8 @@ class Fish with EquatableMixin {
         name: map["name"],
         imageUri: map["image_uri"],
         iconUri: map["icon_uri"],
+        imagePath: map["image_path"],
+        iconPath: map["icon_path"],
         isCaught: map["is_caught"] == 1,
         isDonated: map["is_donated"] == 1,
       );

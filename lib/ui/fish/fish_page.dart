@@ -1,18 +1,18 @@
 import 'dart:io';
 
-import 'package:acnh/common/download_dialog.dart';
-import 'package:acnh/fish/fish_event.dart';
+import 'package:acnh/bloc/fish_event.dart';
+import 'package:acnh/bloc/fish_state.dart';
+import 'package:acnh/ui/common/my_drawer.dart';
+import 'package:acnh/ui/fish/fish.dart';
+import 'package:acnh/ui/fish/fish_bloc.dart';
+import 'package:acnh/ui/fish/fish_download_dialog.dart';
+import 'package:acnh/ui/fish/fish_filter_condition.dart';
+import 'package:acnh/extension/string_extension.dart';
+import 'package:acnh/ui/fish/fish_filter_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:acnh/common/my_drawer.dart';
-import 'package:acnh/fish/fish.dart';
-import 'package:acnh/fish/fish_bloc.dart';
-import 'package:acnh/fish/fish_filter_dialog.dart';
-import 'package:acnh/fish/fish_filter_condition.dart';
-import 'package:acnh/fish/fish_state.dart';
 import 'package:acnh/module.dart';
-import 'package:acnh/extension/string_extension.dart';
 
 class FishPage extends StatefulWidget {
   @override
@@ -32,6 +32,7 @@ class _FishPageState extends State<FishPage> with FishBlocProviderMixin {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+          title: Text("Fish"),
           actions: [
             GestureDetector(
               child: Icon(Icons.cloud_download),
@@ -62,13 +63,7 @@ class _FishPageState extends State<FishPage> with FishBlocProviderMixin {
             ),
             BlocBuilder<FishBloc, FishState>(
               builder: (context, state) {
-                if (state is NotDownloadedFishState)
-                  return Expanded(
-                    child: Center(
-                      child: Text("Please download first"),
-                    ),
-                  );
-                else if (state is SuccessFishState)
+                if (state is SuccessFishState)
                   return Expanded(
                     child: ListView.separated(
                       shrinkWrap: true,
@@ -82,7 +77,7 @@ class _FishPageState extends State<FishPage> with FishBlocProviderMixin {
                   );
                 return Expanded(
                   child: Center(
-                    child: CircularProgressIndicator(),
+                    child: Text("Please download first"),
                   ),
                 );
               },
@@ -170,7 +165,8 @@ class _FishPageState extends State<FishPage> with FishBlocProviderMixin {
   Future<void> _showDownloadDialog(BuildContext context) async {
     await showGeneralDialog<void>(
       context: context,
-      pageBuilder: (context, animation, secondaryAnimation) => DownloadDialog(),
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          FishDownloadDialog(),
     );
 
     setState(() {});

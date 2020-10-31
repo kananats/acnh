@@ -1,4 +1,4 @@
-import 'package:acnh/fish/fish_filter_condition.dart';
+import 'package:acnh/ui/fish/fish_filter_condition.dart';
 import 'package:flutter/material.dart';
 
 class FishFilterDialog extends StatefulWidget {

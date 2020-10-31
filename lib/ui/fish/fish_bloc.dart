@@ -1,27 +1,13 @@
+import 'package:acnh/bloc/fish_event.dart';
+import 'package:acnh/bloc/fish_state.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:acnh/fish/fish_event.dart';
-import 'package:acnh/fish/fish_state.dart';
 import 'package:acnh/module.dart';
 
 mixin FishBlocProviderMixin<T extends StatefulWidget> on State<T> {
-  FishBloc fishBloc;
-
-  @override
-  void initState() {
-    super.initState();
-
-    fishBloc = BlocProvider.of<FishBloc>(context);
-  }
-
-  @override
-  void dispose() {
-    fishBloc.close();
-
-    super.dispose();
-  }
+  FishBloc get fishBloc => BlocProvider.of<FishBloc>(context);
 }
 
 class FishBloc extends Bloc<FishEvent, FishState> {
@@ -39,24 +25,22 @@ class FishBloc extends Bloc<FishEvent, FishState> {
         yield NotDownloadedFishState();
       }
     } else if (event is DownloadFishEvent) {
-      if (state is DownloadingFishState)
-        yield DownloadingFishState()
-          ..count = event.count
-          ..total = event.total;
-      else {
+      if (state is! DownloadingFishState) {
         try {
           yield DownloadingFishState();
 
-          await modules.fishRepository.fetchFishs(
-            onReceiveProgress: (count, total) => onEvent(
-              DownloadFishEvent()
-                ..count = count
-                ..total = total,
-            ),
-          );
+          await modules.fishRepository.fetchFishs();
 
           var fishs = await modules.fishRepository.getFishs();
           if (fishs.isEmpty) throw Exception("Fishs are empty");
+
+          for (int index = 0; index < fishs.length; index++) {
+            yield DownloadingFishState()
+              ..count = index + 1
+              ..total = fishs.length;
+
+            await modules.fishRepository.downloadFishImage(fishs[index]);
+          }
 
           yield SuccessFishState()..fishs = fishs;
         } catch (_) {

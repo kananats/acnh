@@ -1,25 +1,16 @@
-import 'package:acnh/fish/fish_bloc.dart';
-import 'package:acnh/fish/fish_event.dart';
-import 'package:acnh/fish/fish_state.dart';
+import 'package:acnh/bloc/fish_event.dart';
+import 'package:acnh/bloc/fish_state.dart';
+import 'package:acnh/ui/fish/fish_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DownloadDialog extends StatefulWidget {
+class FishDownloadDialog extends StatefulWidget {
   @override
-  _DownloadDialogState createState() => _DownloadDialogState();
+  _FishDownloadDialogState createState() => _FishDownloadDialogState();
 }
 
-class _DownloadDialogState extends State<DownloadDialog>
+class _FishDownloadDialogState extends State<FishDownloadDialog>
     with FishBlocProviderMixin {
-  @override
-  void initState() {
-    super.initState();
-
-    //BlocListener<FishBloc, FishState>(
-    //  listener: (context, state) => print(state),
-    //);
-  }
-
   @override
   Widget build(BuildContext context) => Center(
         child: Container(
@@ -68,7 +59,7 @@ class _DownloadDialogState extends State<DownloadDialog>
         children: [
           CircularProgressIndicator(),
           SizedBox(height: 12),
-          Text("Downloading..."),
+          Text("Downloading ${state.count} of ${state.total}..."),
         ],
       );
 
@@ -80,8 +71,12 @@ class _DownloadDialogState extends State<DownloadDialog>
             alignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
+                onPressed: () => fishBloc.add(DownloadFishEvent()),
+                child: Text("Download Again"),
+              ),
+              RaisedButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: Text("OK"),
+                child: Text("Close"),
               ),
             ],
           )
