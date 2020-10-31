@@ -6,6 +6,10 @@ class FishDao with Dao<Fish> {
   String get tableName => "fishs";
 
   @override
+  List<String> get ignoredProps =>
+      ["image_path", "icon_path", "is_caught", "is_donated"];
+
+  @override
   Fish fromMap(Map<String, dynamic> map) => Fish(
         id: map["id"],
         name: map["name"],

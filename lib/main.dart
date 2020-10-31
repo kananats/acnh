@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:acnh/repository/file_repository.dart';
-import 'package:acnh/ui/fish/fish_bloc.dart';
+import 'package:acnh/bloc/fish_bloc.dart';
+import 'package:acnh/dao/dao.dart';
 import 'package:acnh/ui/fish/fish_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +29,7 @@ class Test extends StatefulWidget {
   _TestState createState() => _TestState();
 }
 
-class _TestState extends State<Test> {
+class _TestState extends State<Test> with DaoProviderMixin {
   @override
   void initState() {
     super.initState();
@@ -38,9 +38,8 @@ class _TestState extends State<Test> {
   }
 
   void test() async {
-    var path = await FileRepository()
-        .downloadImage("https://acnhapi.com/v1/images/fish/1");
-    print(path);
+    var path = await fishDao.findById(80);
+    print(path.name);
   }
 
   @override

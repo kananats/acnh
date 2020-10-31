@@ -1,27 +1,16 @@
+import 'package:acnh/dao/dao.dart';
 import 'package:acnh/data/get_fishs.dart';
 import 'package:acnh/module.dart';
 import 'package:acnh/ui/fish/fish.dart';
-import 'package:sqflite/sqlite_api.dart';
 
 class FishRepository with DaoProviderMixin {
   Future<void> fetchFishs() async {
-    return;
-
-    var db = await modules.localStorage.db;
     var fishs = await GetFishs().execute();
 
-    for (var fish in fishs) {
-      await db.insert(
-        "fishs",
-        fish.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-    }
+    for (var fish in fishs) await fishDao.insert(fish);
   }
 
   Future<void> downloadFishImage(Fish fish) async {
-    print(fish.imagePath);
-
     if (!await modules.fileRepository.exists(fish.imagePath))
       fish.imagePath =
           await modules.fileRepository.downloadImage(fish.imageUri);

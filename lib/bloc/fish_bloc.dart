@@ -43,8 +43,9 @@ class FishBloc extends Bloc<FishEvent, FishState> {
           }
 
           yield SuccessFishState()..fishs = fishs;
-        } catch (_) {
-          yield FailedFishState();
+        } catch (error) {
+          print(error.toString());
+          yield FailedFishState()..error = error.toString();
         }
       }
     }

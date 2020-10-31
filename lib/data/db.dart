@@ -40,6 +40,6 @@ class LocalStorage {
     );
 
     // Uncomment this to log
-    print(await _db.query("fishs"));
+    // print(await _db.query("fishs"));
   }
 }

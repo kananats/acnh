@@ -30,4 +30,6 @@ class SuccessFishState extends FishState {
   List<Object> get props => [fishs];
 }
 
-class FailedFishState extends FishState {}
+class FailedFishState extends FishState {
+  String error;
+}

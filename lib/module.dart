@@ -13,10 +13,6 @@ class Modules {
   final FishDao fishDao = FishDao();
 
   // Repository
-  final FishRepository fishRepository = FishRepository();
   final FileRepository fileRepository = FileRepository();
-}
-
-mixin DaoProviderMixin {
-  FishDao get fishDao => modules.fishDao;
+  final FishRepository fishRepository = FishRepository();
 }

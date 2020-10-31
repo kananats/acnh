@@ -1,10 +1,10 @@
 import 'dart:io';
 
+import 'package:acnh/bloc/fish_bloc.dart';
 import 'package:acnh/bloc/fish_event.dart';
 import 'package:acnh/bloc/fish_state.dart';
 import 'package:acnh/ui/common/my_drawer.dart';
 import 'package:acnh/ui/fish/fish.dart';
-import 'package:acnh/ui/fish/fish_bloc.dart';
 import 'package:acnh/ui/fish/fish_download_dialog.dart';
 import 'package:acnh/ui/fish/fish_filter_condition.dart';
 import 'package:acnh/extension/string_extension.dart';
