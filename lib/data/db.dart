@@ -10,7 +10,7 @@ class LocalStorage {
     if (_db != null) return _db;
 
     // Uncomment this to delete database
-    // await deleteDatabase();
+    await deleteDatabase();
 
     await _createDatabase();
     return _db;
@@ -26,7 +26,11 @@ class LocalStorage {
         """
         CREATE TABLE fishs(
           id INTEGER PRIMARY KEY, 
-          name TEXT, 
+          name TEXT,
+          price INTEGER,
+          location TEXT,
+          shadow TEXT,
+          month_array_northern TEXT,
           image_uri TEXT, 
           icon_uri TEXT,
           image_path TEXT,

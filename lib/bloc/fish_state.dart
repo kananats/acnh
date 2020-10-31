@@ -1,4 +1,4 @@
-import 'package:acnh/ui/fish/fish.dart';
+import 'package:acnh/dto/fish.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class FishState with EquatableMixin {

@@ -1,4 +1,6 @@
+import 'package:acnh/dto/fish.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 abstract class FishEvent with EquatableMixin {
   @override
@@ -13,4 +15,10 @@ class DownloadFishEvent extends FishEvent {
 
   @override
   List<Object> get props => [count, total];
+}
+
+class UpdateFishEvent extends FishEvent {
+  Fish fish;
+
+  UpdateFishEvent({@required this.fish});
 }

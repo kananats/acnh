@@ -1,9 +1,9 @@
 import 'package:acnh/dao/dao.dart';
 import 'package:acnh/data/get_fishs.dart';
-import 'package:acnh/module.dart';
-import 'package:acnh/ui/fish/fish.dart';
+import 'package:acnh/repository/repository.dart';
+import 'package:acnh/dto/fish.dart';
 
-class FishRepository with DaoProviderMixin {
+class FishRepository with DaoProviderMixin, RepositoryProviderMixin {
   Future<void> fetchFishs() async {
     var fishs = await GetFishs().execute();
 
@@ -11,25 +11,18 @@ class FishRepository with DaoProviderMixin {
   }
 
   Future<void> downloadFishImage(Fish fish) async {
-    if (!await modules.fileRepository.exists(fish.imagePath))
-      fish.imagePath =
-          await modules.fileRepository.downloadImage(fish.imageUri);
+    return;
 
-    if (!await modules.fileRepository.exists(fish.iconPath))
-      fish.iconPath = await modules.fileRepository.downloadImage(fish.iconUri);
+    if (!await fileRepository.exists(fish.imagePath))
+      fish.imagePath = await fileRepository.downloadImage(fish.imageUri);
+
+    if (!await fileRepository.exists(fish.iconPath))
+      fish.iconPath = await fileRepository.downloadImage(fish.iconUri);
 
     await updateFish(fish);
   }
 
   Future<List<Fish>> getFishs() async => fishDao.findAll();
 
-  Future<void> updateFish(Fish fish) async {
-    var db = await modules.localStorage.db;
-    await db.update(
-      "fishs",
-      fish.toMap(),
-      where: "id = ?",
-      whereArgs: [fish.id],
-    );
-  }
+  Future<void> updateFish(Fish fish) async => fishDao.update(fish.id, fish);
 }

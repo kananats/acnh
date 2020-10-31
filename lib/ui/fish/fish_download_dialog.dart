@@ -1,3 +1,4 @@
+import 'package:acnh/bloc/bloc.dart';
 import 'package:acnh/bloc/fish_bloc.dart';
 import 'package:acnh/bloc/fish_event.dart';
 import 'package:acnh/bloc/fish_state.dart';
@@ -10,7 +11,7 @@ class FishDownloadDialog extends StatefulWidget {
 }
 
 class _FishDownloadDialogState extends State<FishDownloadDialog>
-    with FishBlocProviderMixin {
+    with BlocProviderMixin {
   @override
   Widget build(BuildContext context) => Center(
         child: Container(
@@ -59,7 +60,7 @@ class _FishDownloadDialogState extends State<FishDownloadDialog>
         children: [
           CircularProgressIndicator(),
           SizedBox(height: 12),
-          Text("Downloading ${state.count} of ${state.total}..."),
+          Text(state.downloadingString),
         ],
       );
 

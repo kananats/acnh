@@ -51,11 +51,13 @@ mixin Dao<T> {
     return fromMap(maps.first);
   }
 
-  Future<void> update(T t) async {
+  Future<void> update(int id, T t) async {
     var db = await modules.localStorage.db;
     await db.update(
       tableName,
       toMap(t),
+      where: "id = ?",
+      whereArgs: [id],
     );
   }
 }
