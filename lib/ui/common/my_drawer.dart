@@ -26,7 +26,7 @@ class MyDrawer extends StatelessWidget {
       );
 
   Widget _setting(BuildContext context) => ListTile(
-        title: Text("Setting"),
+        title: Text("Settings"),
         onTap: () {
           Navigator.of(context).pop();
           Navigator.of(context).push(MaterialPageRoute(
