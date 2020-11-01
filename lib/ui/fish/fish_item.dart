@@ -49,7 +49,7 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
                   children: [
                     _name,
                     SizedBox(width: 6),
-                    if (widget.fish.isCatchableNow(
+                    if (widget.fish.isAvailable(
                       timeBloc.state.dateTime,
                       fishBloc.condition.isNorth,
                     ))
