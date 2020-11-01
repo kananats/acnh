@@ -15,7 +15,12 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var timeBloc = TimeBloc();
+    final timeBloc = TimeBloc();
+    final fishBloc = FishBloc();
+
+    fishBloc.timeBloc = timeBloc;
+    timeBloc.fishBloc = fishBloc;
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -23,7 +28,7 @@ class MyApp extends StatelessWidget {
           create: (context) => timeBloc,
         ),
         BlocProvider(
-          create: (context) => FishBloc(timeBloc: timeBloc),
+          create: (context) => fishBloc,
         ),
       ],
       child: MaterialApp(

@@ -2,7 +2,6 @@ import 'package:acnh/bloc/time/time_bloc.dart';
 import 'package:acnh/repository/repository.dart';
 import 'package:acnh/ui/fish/fish_filter_condition.dart';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:acnh/bloc/fish/fish_event.dart';
@@ -13,7 +12,7 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
 
   FishFilterCondition condition;
 
-  FishBloc({@required this.timeBloc}) : super(InitialFishState()) {
+  FishBloc() : super(InitialFishState()) {
     add(InitializeFishEvent());
   }
 
