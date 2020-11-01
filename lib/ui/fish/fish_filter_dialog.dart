@@ -10,7 +10,14 @@ class FishFilterDialog extends StatefulWidget {
 
 class _FishFilterDialogState extends State<FishFilterDialog>
     with BlocProviderMixin {
-  final FishFilterCondition _condition = FishFilterCondition();
+  FishFilterCondition _condition;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _condition = fishBloc.condition;
+  }
 
   @override
   Widget build(BuildContext context) => Center(
@@ -71,11 +78,11 @@ class _FishFilterDialogState extends State<FishFilterDialog>
                 Text("South"),
               ],
               isSelected: [
-                _condition.isNorthernHemisphere,
-                !_condition.isNorthernHemisphere,
+                _condition.isNorth,
+                !_condition.isNorth,
               ],
               onPressed: (index) => setState(
-                () => _condition.isNorthernHemisphere = index == 0,
+                () => _condition.isNorth = index == 0,
               ),
             ),
           ),

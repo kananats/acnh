@@ -31,20 +31,12 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
             actions: [
               GestureDetector(
                 child: Icon(Icons.cloud_download),
-                onTap: () => showGeneralDialog<void>(
-                  context: context,
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      FishDownloadDialog(),
-                ),
+                onTap: () => _showDownloadDialog(context),
               ),
               SizedBox(width: 18),
               GestureDetector(
                 child: Icon(Icons.article),
-                onTap: () => showGeneralDialog<void>(
-                  context: context,
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      FishFilterDialog(),
-                ),
+                onTap: () => _showFilterDialog(context),
               ),
               SizedBox(width: 18),
             ],
@@ -75,6 +67,26 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
           ),
         ),
       );
+
+  Future<void> _showFilterDialog(BuildContext context) async {
+    await showGeneralDialog<void>(
+      context: context,
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          FishFilterDialog(),
+    );
+
+    setState(() {});
+  }
+
+  Future<void> _showDownloadDialog(BuildContext context) async {
+    await showGeneralDialog<void>(
+      context: context,
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          FishDownloadDialog(),
+    );
+
+    setState(() {});
+  }
 
   Widget _body(BuildContext context, FishState state) {
     if (state is SuccessFishState)

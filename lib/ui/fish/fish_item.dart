@@ -58,7 +58,10 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
             ),
             children: [
               ButtonBar(
-                children: [_caughtChip, _donatedChip],
+                children: [
+                  _caughtChip,
+                  _donatedChip,
+                ],
               )
             ],
           ),
@@ -109,7 +112,7 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
           SizedBox(width: 4),
           Expanded(
             child: Text(
-              widget.fish.availableMonthNorth.toString(), // TODO
+              widget.fish.availableMonth(fishBloc.condition.isNorth).toString(),
             ),
           ),
         ],

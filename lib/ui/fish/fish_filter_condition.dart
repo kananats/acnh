@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 class FishFilterCondition with EquatableMixin {
   String search = "";
 
-  bool isNorthernHemisphere = true;
+  bool isNorth = true;
   AvailabilityEnum availability = AvailabilityEnum.all;
 
   bool hideCaught = false;
@@ -19,7 +19,7 @@ class FishFilterCondition with EquatableMixin {
   @override
   List<Object> get props => [
         search,
-        isNorthernHemisphere,
+        isNorth,
         availability,
         hideCaught,
         hideDonated,

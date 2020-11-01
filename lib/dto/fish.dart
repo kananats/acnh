@@ -66,5 +66,6 @@ class Fish with EquatableMixin {
 }
 
 extension FishExtension on Fish {
-  String get monthArray => availableMonthNorth.toString();
+  AvailableMonth availableMonth(bool isNorth) =>
+      isNorth ? availableMonthNorth : availableMonthSouth;
 }
