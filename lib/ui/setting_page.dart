@@ -24,12 +24,7 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
               ListTile(
                 title: Text("Date"),
                 trailing: TextButton(
-                  onPressed: () => showDatePicker(
-                    context: context,
-                    initialDate: state.dateTime,
-                    firstDate: DateTime(1000, 1, 1),
-                    lastDate: DateTime(3000, 1, 1),
-                  ),
+                  onPressed: () => _showDatePicker(context, state),
                   child: Text(
                     DateFormat(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY)
                         .format(state.dateTime ?? DateTime.now()),
@@ -39,14 +34,7 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
               ListTile(
                 title: Text("Time"),
                 trailing: TextButton(
-                  onPressed: () => showTimePicker(
-                    context: context,
-                    initialEntryMode: TimePickerEntryMode.input,
-                    initialTime: TimeOfDay(
-                      hour: state.dateTime.hour,
-                      minute: state.dateTime.minute,
-                    ),
-                  ),
+                  onPressed: () => _showTimePicker(context, state),
                   child: Text(
                     DateFormat(DateFormat.HOUR24_MINUTE_SECOND)
                         .format(state.dateTime),
@@ -62,8 +50,68 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
                   ),
                 ),
               ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () => timeBloc.add(ResetTimeEvent()),
+                  child: Text("Reset"),
+                ),
+              ),
+              Divider(),
             ],
           ),
         ),
       );
+
+  Future<void> _showDatePicker(BuildContext context, TimeState state) async {
+    var newDateTime = await showDatePicker(
+      context: context,
+      initialDate: state.dateTime,
+      firstDate: DateTime(1000, 1, 1),
+      lastDate: DateTime(3000, 1, 1),
+    );
+
+    if (newDateTime != null) {
+      var dateTime = state.dateTime.toLocal();
+      dateTime = DateTime(
+        newDateTime.year,
+        newDateTime.month,
+        newDateTime.day,
+        dateTime.hour,
+        dateTime.minute,
+      );
+
+      print(dateTime.toString());
+
+      timeBloc.add(PauseTimeEvent()..dateTime = dateTime);
+    }
+
+    setState(() {});
+  }
+
+  Future<void> _showTimePicker(BuildContext context, TimeState state) async {
+    var time = await showTimePicker(
+      context: context,
+      initialEntryMode: TimePickerEntryMode.input,
+      initialTime: TimeOfDay(
+        hour: state.dateTime.hour,
+        minute: state.dateTime.minute,
+      ),
+    );
+
+    if (time != null) {
+      var dateTime = state.dateTime.toLocal();
+      dateTime = DateTime(
+        dateTime.year,
+        dateTime.month,
+        dateTime.day,
+        time.hour,
+        time.minute,
+      );
+
+      print(dateTime.toString());
+      timeBloc.add(PauseTimeEvent()..dateTime = dateTime);
+    }
+
+    setState(() {});
+  }
 }

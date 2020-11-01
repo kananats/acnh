@@ -34,13 +34,12 @@ class TimeBloc extends Bloc<TimeEvent, TimeState> with RepositoryProviderMixin {
         yield PlayTimeState()..dateTime = DateTime.now().add(_offset);
       }
     } else if (event is PauseTimeEvent) {
-      if (state is NowTimeState) {
-        _freezedDateTime = DateTime.now();
-        yield PauseTimeState()..dateTime = _freezedDateTime;
-      } else if (state is PlayTimeState) {
-        _freezedDateTime = state.dateTime;
-        yield PauseTimeState()..dateTime = _freezedDateTime;
-      }
+      if (state is NowTimeState)
+        _freezedDateTime = event.dateTime ?? DateTime.now();
+      else
+        _freezedDateTime = event.dateTime ?? state.dateTime;
+
+      yield PauseTimeState()..dateTime = _freezedDateTime;
     } else if (event is ResetTimeEvent) {
       yield NowTimeState();
     }
