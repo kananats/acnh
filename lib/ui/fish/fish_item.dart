@@ -75,7 +75,7 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
           SizedBox(width: 4),
           Expanded(
             child: Text(
-              formatTimeList(widget.fish.monthArrayNorthern).join(", "),
+              widget.fish.availableTime.toString(),
             ),
           ),
         ],
@@ -91,7 +91,7 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
           SizedBox(width: 4),
           Expanded(
             child: Text(
-              formatMonthList(widget.fish.monthArrayNorthern).join(", "),
+              widget.fish.availableMonthNorth.toString(), // TODO
             ),
           ),
         ],

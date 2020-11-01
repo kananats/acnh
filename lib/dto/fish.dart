@@ -1,3 +1,5 @@
+import 'package:acnh/dto/available_month.dart';
+import 'package:acnh/dto/available_time.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +12,9 @@ class Fish with EquatableMixin {
   String shadow;
   int price;
 
-  List<int> monthArrayNorthern;
+  AvailableMonth availableMonthNorth;
+  AvailableMonth availableMonthSouth;
+  AvailableTime availableTime;
 
   String imageUri;
   String iconUri;
@@ -27,7 +31,9 @@ class Fish with EquatableMixin {
     @required this.location,
     @required this.shadow,
     @required this.price,
-    @required this.monthArrayNorthern,
+    @required this.availableMonthNorth,
+    @required this.availableMonthSouth,
+    @required this.availableTime,
     @required this.imageUri,
     @required this.iconUri,
     this.imagePath,
@@ -44,8 +50,15 @@ class Fish with EquatableMixin {
         name: json["name"]["name-USen"],
         location: json["availability"]["location"],
         shadow: json["shadow"],
-        monthArrayNorthern:
-            json["availability"]["month-array-northern"].cast<int>(),
+        availableMonthNorth: AvailableMonth.fromJson(
+          json["availability"]["month-array-northern"],
+        ),
+        availableMonthSouth: AvailableMonth.fromJson(
+          json["availability"]["month-array-southern"],
+        ),
+        availableTime: AvailableTime.fromJson(
+          json["availability"]["time-array"],
+        ),
         price: json["price"],
         imageUri: json["image_uri"],
         iconUri: json["icon_uri"],
@@ -53,5 +66,5 @@ class Fish with EquatableMixin {
 }
 
 extension FishExtension on Fish {
-  String get monthArray => monthArrayNorthern.toString();
+  String get monthArray => availableMonthNorth.toString();
 }

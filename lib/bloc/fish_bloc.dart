@@ -36,7 +36,6 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
 
             await fishRepository.downloadFishImage(fishs[index]);
           }
-
           yield SuccessFishState()..fishs = fishs;
         } catch (error) {
           print(error.toString());
