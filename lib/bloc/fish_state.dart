@@ -27,12 +27,10 @@ class SuccessFishState extends FishState {
   List<Fish> fishs;
   List<bool> isVisibles;
 
-  FishFilterCondition condition = FishFilterCondition();
-
   DateTime lastUpdated; // TODO
 
   @override
-  List<Object> get props => [fishs, isVisibles, condition];
+  List<Object> get props => [fishs, isVisibles];
 }
 
 class FailedFishState extends FishState {

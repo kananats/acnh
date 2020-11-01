@@ -24,75 +24,75 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text("Fish"),
-          actions: [
-            GestureDetector(
-              child: Icon(Icons.cloud_download),
-              onTap: () => showGeneralDialog<void>(
-                context: context,
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    FishDownloadDialog(),
+  Widget build(BuildContext context) => BlocBuilder<FishBloc, FishState>(
+        builder: (context, state) => Scaffold(
+          appBar: AppBar(
+            title: Text("Fish"),
+            actions: [
+              GestureDetector(
+                child: Icon(Icons.cloud_download),
+                onTap: () => showGeneralDialog<void>(
+                  context: context,
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      FishDownloadDialog(),
+                ),
               ),
-            ),
-            SizedBox(width: 18),
-            GestureDetector(
-              child: Icon(Icons.article),
-              onTap: () => showGeneralDialog<void>(
-                context: context,
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    FishFilterDialog(),
+              SizedBox(width: 18),
+              GestureDetector(
+                child: Icon(Icons.article),
+                onTap: () => showGeneralDialog<void>(
+                  context: context,
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      FishFilterDialog(),
+                ),
               ),
-            ),
-            SizedBox(width: 18),
-          ],
-        ),
-        drawer: MyDrawer(),
-        body: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 12),
-              child: Row(
-                children: [
-                  Icon(Icons.search),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: TextField(
-                      onChanged: (value) => fishBloc.add(
-                        FilterFishEvent(
-                          condition: FishFilterCondition()..search = value,
+              SizedBox(width: 18),
+            ],
+          ),
+          drawer: MyDrawer(),
+          body: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  children: [
+                    Icon(Icons.search),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: TextField(
+                        onChanged: (value) => fishBloc.add(
+                          FilterFishEvent(
+                            condition: fishBloc.condition..search = value,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            BlocBuilder<FishBloc, FishState>(
-              builder: (context, state) {
-                if (state is SuccessFishState)
-                  return Expanded(
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.all(12),
-                      itemCount: state.fishs.length,
-                      itemBuilder: (context, index) => FishItem(
-                        fish: state.fishs[index],
-                        isVisible: state.isVisibles[index],
-                      ),
-                      separatorBuilder: (context, index) =>
-                          SizedBox(height: 12),
-                    ),
-                  );
-                return Expanded(
-                  child: Center(
-                    child: Text("Please download first"),
-                  ),
-                );
-              },
-            )
-          ],
+              _body(context, state),
+            ],
+          ),
         ),
       );
+
+  Widget _body(BuildContext context, FishState state) {
+    if (state is SuccessFishState)
+      return Expanded(
+        child: ListView.builder(
+          shrinkWrap: true,
+          padding: EdgeInsets.all(12),
+          itemCount: state.fishs.length,
+          itemBuilder: (context, index) => FishItem(
+            fish: state.fishs[index],
+            isVisible: state.isVisibles[index],
+          ),
+        ),
+      );
+    return Expanded(
+      child: Center(
+        child: Text("Please download first"),
+      ),
+    );
+  }
 }
