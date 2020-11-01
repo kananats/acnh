@@ -17,86 +17,114 @@ class FishItem extends StatefulWidget {
 
 class _FishItemState extends State<FishItem> with BlocProviderMixin {
   @override
-  Widget build(BuildContext context) => Stack(
-        clipBehavior: Clip.none,
+  Widget build(BuildContext context) => Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.lightBlue[300]),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: ExpansionTile(
+          leading: SizedBox(child: _iconImage()),
+          title: Text(capitalize(widget.fish.name)),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _location,
+              _availableMonth,
+              _availableTime,
+            ],
+          ),
+          children: [
+            ButtonBar(
+              children: [_caughtChip, _donatedChip],
+            )
+          ],
+        ),
+      );
+
+  Row _price() {
+    return Row(
+      children: [
+        Icon(
+          Icons.call_missed_outgoing,
+          size: 16,
+        ),
+        SizedBox(width: 4),
+        Text("${widget.fish.price} Bells"),
+      ],
+    );
+  }
+
+  Widget get _location => Row(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.lightBlue[300]),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: ListTile(
-              leading: SizedBox(
-                height: 50,
-                width: 50,
-                child: Image(
-                  image: widget.fish.iconPath != null
-                      ? FileImage(File(widget.fish.iconPath))
-                      : NetworkImage(widget.fish.iconUri),
-                ),
-              ),
-              title: Text(capitalize(widget.fish.name)),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.calendar_today,
-                        size: 16,
-                        color: Colors.grey[700],
-                      ),
-                      SizedBox(width: 4),
-                      Text(formatMonthList(widget.fish.monthArrayNorthern)
-                          .toString()),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.timelapse,
-                        size: 16,
-                        color: Colors.grey[700],
-                      ),
-                      SizedBox(width: 4),
-                      Text(widget.fish.monthArray),
-                    ],
-                  ),
-                ],
-              ),
-              isThreeLine: true,
-              trailing: Column(
-                children: [
-                  RaisedButton(
-                    child: Text("Caught"),
-                    onPressed: () => _setCaught(widget.fish),
-                  ),
-                ],
-              ),
-              //subtitle: Text(fis),
+          Icon(
+            Icons.location_pin,
+            size: 16,
+          ),
+          SizedBox(width: 4),
+          Text(widget.fish.location),
+        ],
+      );
+
+  Widget get _availableTime => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.timelapse,
+            size: 16,
+          ),
+          SizedBox(width: 4),
+          Expanded(
+            child: Text(
+              formatTimeList(widget.fish.monthArrayNorthern).join(", "),
             ),
           ),
-          if (widget.fish.isCaught)
-            Positioned(
-              left: -10,
-              top: -10,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 2,
-                  ),
-                ),
-                child: Icon(
-                  Icons.check,
-                  color: Colors.white,
-                  size: 24,
-                ),
-              ),
-            )
         ],
+      );
+
+  Widget get _availableMonth => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.calendar_today,
+            size: 16,
+          ),
+          SizedBox(width: 4),
+          Expanded(
+            child: Text(
+              formatMonthList(widget.fish.monthArrayNorthern).join(", "),
+            ),
+          ),
+        ],
+      );
+
+  Image _iconImage() {
+    return Image(
+      width: 50,
+      height: 50,
+      image: widget.fish.iconPath != null
+          ? FileImage(File(widget.fish.iconPath))
+          : NetworkImage(widget.fish.iconUri),
+    );
+  }
+
+  Widget get _caughtChip => FilterChip(
+        selectedColor: Colors.lightBlue,
+        selected: true,
+        onSelected: (hideDonated) => setState(() {}),
+        label: Text(
+          "Caught",
+          style: TextStyle(fontSize: 12),
+        ),
+      );
+
+  Widget get _donatedChip => FilterChip(
+        selectedColor: Colors.lightBlue,
+        selected: true,
+        onSelected: (hideDonated) => setState(() {}),
+        label: Text(
+          "Donated",
+          style: TextStyle(fontSize: 12),
+        ),
       );
 
   Future<void> _setCaught(Fish fish) async {

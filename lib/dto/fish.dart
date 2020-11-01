@@ -42,7 +42,7 @@ class Fish with EquatableMixin {
   factory Fish.fromJson(Map<String, dynamic> json) => Fish(
         id: json["id"],
         name: json["name"]["name-USen"],
-        location: json["location"],
+        location: json["availability"]["location"],
         shadow: json["shadow"],
         monthArrayNorthern:
             json["availability"]["month-array-northern"].cast<int>(),

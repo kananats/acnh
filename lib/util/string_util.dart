@@ -51,3 +51,37 @@ List<String> formatMonthList(List<int> months) {
   }
   return result;
 }
+
+List<String> formatTimeList(List<int> times) {
+  if (times.isEmpty) return [];
+  if (times.length >= 12) return ["All day"];
+
+  List<String> result = [];
+  var from = times[0];
+  var to = times[0];
+
+  for (int index = 1; index <= times.length; index++) {
+    if (index >= times.length) {
+      if (from == to)
+        result.add(monthToString(from));
+      else
+        result.add("$from:00~$to:00");
+      break;
+    }
+
+    int month = times[index];
+    if (to + 1 == month) {
+      to = month;
+      continue;
+    }
+
+    if (from == to)
+      result.add(monthToString(from));
+    else
+      result.add("$from:00~$to:00");
+
+    from = month;
+    to = month;
+  }
+  return result;
+}
