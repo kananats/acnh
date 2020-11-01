@@ -23,50 +23,57 @@ class FishItem extends StatefulWidget {
 class _FishItemState extends State<FishItem> with BlocProviderMixin {
   @override
   Widget build(BuildContext context) {
-    if (!widget.isVisible) return Container();
-    return Column(
-      children: [
-        SizedBox(height: 12),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.lightBlue[300]),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: ExpansionTile(
-            leading: Column(
-              children: [
-                SizedBox(child: _iconImage),
-              ],
+    //if (!widget.isVisible) return Container();
+    return AnimatedCrossFade(
+      duration: Duration(milliseconds: 300),
+      crossFadeState: widget.isVisible
+          ? CrossFadeState.showFirst
+          : CrossFadeState.showSecond,
+      firstChild: Column(
+        children: [
+          SizedBox(height: 12),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.lightBlue[300]),
+              borderRadius: BorderRadius.circular(12),
             ),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                _name,
-                SizedBox(width: 6),
-                if (widget.fish.isCaught) Badge("C"),
-                if (widget.fish.isCaught) SizedBox(width: 3),
-                if (widget.fish.isDonated) Badge("D"),
-              ],
-            ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _location,
-                _availableMonth,
-                _availableTime,
-              ],
-            ),
-            children: [
-              ButtonBar(
+            child: ExpansionTile(
+              leading: Column(
                 children: [
-                  _caughtChip,
-                  _donatedChip,
+                  SizedBox(child: _iconImage),
                 ],
-              )
-            ],
+              ),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  _name,
+                  SizedBox(width: 6),
+                  if (widget.fish.isCaught) Badge("C"),
+                  if (widget.fish.isCaught) SizedBox(width: 3),
+                  if (widget.fish.isDonated) Badge("D"),
+                ],
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _location,
+                  _availableMonth,
+                  _availableTime,
+                ],
+              ),
+              children: [
+                ButtonBar(
+                  children: [
+                    _caughtChip,
+                    _donatedChip,
+                  ],
+                )
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
+      secondChild: Container(),
     );
   }
 
