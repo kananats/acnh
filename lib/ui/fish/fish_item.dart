@@ -49,9 +49,9 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
                   children: [
                     _name,
                     SizedBox(width: 6),
-                    if (widget.fish.isCaught) Badge("C"),
+                    if (widget.fish.isCaught) Badge("Caught"),
                     if (widget.fish.isCaught) SizedBox(width: 3),
-                    if (widget.fish.isDonated) Badge("D"),
+                    if (widget.fish.isDonated) Badge("Donated"),
                   ],
                 ),
                 subtitle: Column(

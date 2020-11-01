@@ -6,17 +6,20 @@ class Badge extends StatelessWidget {
   Badge(this.text);
 
   @override
-  Widget build(BuildContext context) => Container(
-        width: 16,
-        height: 16,
-        decoration: BoxDecoration(
-          color: Colors.blue,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Center(
-          child: Text(
-            text,
-            style: TextStyle(fontSize: 12, color: Colors.white),
+  Widget build(BuildContext context) => ConstrainedBox(
+        constraints: BoxConstraints(minWidth: 16),
+        child: Container(
+          height: 16,
+          padding: EdgeInsets.symmetric(horizontal: 3),
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Center(
+            child: Text(
+              text,
+              style: TextStyle(fontSize: 10, color: Colors.white),
+            ),
           ),
         ),
       );
