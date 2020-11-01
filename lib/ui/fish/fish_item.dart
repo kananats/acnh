@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:acnh/bloc/bloc.dart';
-import 'package:acnh/bloc/fish_event.dart';
+import 'package:acnh/bloc/fish/fish_event.dart';
 import 'package:acnh/dto/fish.dart';
 import 'package:acnh/ui/common/badge.dart';
 import 'package:acnh/util/string_util.dart';

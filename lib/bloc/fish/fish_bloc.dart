@@ -3,8 +3,8 @@ import 'package:acnh/ui/fish/fish_filter_condition.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:acnh/bloc/fish_event.dart';
-import 'package:acnh/bloc/fish_state.dart';
+import 'package:acnh/bloc/fish/fish_event.dart';
+import 'package:acnh/bloc/fish/fish_state.dart';
 
 class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
   FishFilterCondition condition = FishFilterCondition();

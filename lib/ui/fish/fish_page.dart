@@ -1,10 +1,9 @@
 import 'package:acnh/bloc/bloc.dart';
-import 'package:acnh/bloc/fish_bloc.dart';
-import 'package:acnh/bloc/fish_event.dart';
-import 'package:acnh/bloc/fish_state.dart';
+import 'package:acnh/bloc/fish/fish_bloc.dart';
+import 'package:acnh/bloc/fish/fish_event.dart';
+import 'package:acnh/bloc/fish/fish_state.dart';
 import 'package:acnh/ui/common/my_drawer.dart';
 import 'package:acnh/ui/fish/fish_download_dialog.dart';
-import 'package:acnh/ui/fish/fish_filter_condition.dart';
 import 'package:acnh/ui/fish/fish_filter_dialog.dart';
 import 'package:acnh/ui/fish/fish_item.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
 import 'package:acnh/bloc/bloc.dart';
-import 'package:acnh/bloc/fish_event.dart';
+import 'package:acnh/bloc/fish/fish_event.dart';
 import 'package:acnh/ui/fish/fish_filter_condition.dart';
 import 'package:flutter/material.dart';
 
