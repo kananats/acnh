@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class TimeBloc extends Bloc<TimeEvent, TimeState> with RepositoryProviderMixin {
   StreamSubscription<void> _subscription;
 
-  DateTime _freezedDateTime;
+  DateTime _freezedDateTime = DateTime.now();
   Duration _offset = Duration();
 
   TimeBloc() : super(NowTimeState()) {

@@ -49,9 +49,13 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
                   children: [
                     _name,
                     SizedBox(width: 6),
-                    if (widget.fish.isCaught) Badge("Caught"),
-                    if (widget.fish.isCaught) SizedBox(width: 3),
-                    if (widget.fish.isDonated) Badge("Donated"),
+                    if (widget.fish.isCatchableNow(
+                      timeBloc.state.dateTime,
+                      fishBloc.condition.isNorth,
+                    ))
+                      _badge("Now"),
+                    if (widget.fish.isCaught) _badge("Caught"),
+                    if (widget.fish.isDonated) _badge("Donated"),
                   ],
                 ),
                 subtitle: Column(
@@ -75,6 +79,13 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
           ],
         ),
         secondChild: Container(),
+      );
+
+  Widget _badge(String text) => Row(
+        children: [
+          Badge(text),
+          SizedBox(width: 3),
+        ],
       );
 
   Widget get _name => Text(

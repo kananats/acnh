@@ -80,12 +80,8 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
         dateTime.minute,
       );
 
-      print(dateTime.toString());
-
       timeBloc.add(PauseTimeEvent()..dateTime = dateTime);
     }
-
-    setState(() {});
   }
 
   Future<void> _showTimePicker(BuildContext context, TimeState state) async {
@@ -108,10 +104,7 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
         time.minute,
       );
 
-      print(dateTime.toString());
       timeBloc.add(PauseTimeEvent()..dateTime = dateTime);
     }
-
-    setState(() {});
   }
 }

@@ -68,4 +68,11 @@ class Fish with EquatableMixin {
 extension FishExtension on Fish {
   AvailableMonth availableMonth(bool isNorth) =>
       isNorth ? availableMonthNorth : availableMonthSouth;
+
+  bool isCatchableNow(DateTime dateTime, bool isNorth) {
+    bool availableThisMonth =
+        availableMonth(isNorth).months.contains(dateTime.month + 1);
+    bool availableThisTime = availableTime.times.contains(dateTime.hour);
+    return availableThisMonth && availableThisTime;
+  }
 }
