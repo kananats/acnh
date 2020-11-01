@@ -10,6 +10,7 @@ class MyDrawer extends StatelessWidget {
             _fish(context),
             Divider(),
             _setting(context),
+            _about(context),
           ],
         ),
       );
@@ -32,5 +33,18 @@ class MyDrawer extends StatelessWidget {
             builder: (_) => SettingPage(),
           ));
         },
+      );
+
+  Widget _about(BuildContext context) => ListTile(
+        title: Text("About"),
+        onTap: () => showAboutDialog(
+          context: context,
+          applicationVersion: "0.0.1",
+          applicationLegalese: """
+Things may break. 
+Use at your own risk.
+Made by @mnrfromnano
+          """,
+        ),
       );
 }
