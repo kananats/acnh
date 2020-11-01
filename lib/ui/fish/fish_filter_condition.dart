@@ -16,6 +16,14 @@ class FishFilterCondition with EquatableMixin {
     return fish.name.contains(search);
   }
 
+  FishFilterCondition copy() => FishFilterCondition()
+    ..search = search
+    ..isNorth = isNorth
+    ..availability = availability
+    ..hideCaught = hideCaught
+    ..hideDonated = hideDonated
+    ..hideAllYear = hideAllYear;
+
   @override
   List<Object> get props => [
         search,
