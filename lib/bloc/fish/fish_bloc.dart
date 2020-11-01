@@ -9,25 +9,21 @@ import 'package:acnh/bloc/fish/fish_event.dart';
 import 'package:acnh/bloc/fish/fish_state.dart';
 
 class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
-  FishFilterCondition condition = FishFilterCondition();
-
   TimeBloc timeBloc;
 
-  FishBloc({@required this.timeBloc}) : super(InitialFishState());
+  FishFilterCondition condition;
+
+  FishBloc({@required this.timeBloc}) : super(InitialFishState()) {
+    add(InitializeFishEvent());
+  }
 
   @override
   Stream<FishState> mapEventToState(FishEvent event) async* {
     if (event is InitializeFishEvent) {
-      try {
-        var fishs = await fishRepository.getFishs();
-        if (fishs.isEmpty) throw Exception("Fishs are empty");
+      var preferences = await fileRepository.preferences;
+      condition = FishFilterCondition.fromPreferences(preferences);
 
-        yield SuccessFishState()
-          ..fishs = fishs
-          ..isVisibles = fishs.map((e) => true).toList();
-      } catch (_) {
-        yield NotDownloadedFishState();
-      }
+      add(ViewFishEvent());
     } else if (event is DownloadFishEvent) {
       if (state is! DownloadingFishState) {
         try {
@@ -52,38 +48,36 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
           yield FailedFishState()..error = error.toString();
         }
       }
-    } else if (event is UpdateFishEvent) {
-      await fishRepository.updateFish(event.fish);
-
+    } else if (event is ViewFishEvent) {
       try {
         var fishs = await fishRepository.getFishs();
         if (fishs.isEmpty) throw Exception("Fishs are empty");
 
         yield SuccessFishState()
           ..fishs = fishs
-          ..isVisibles = fishs.map((e) => true).toList();
-      } catch (error) {
-        yield FailedFishState()..error = error.toString();
-      }
-    } else if (event is FilterFishEvent) {
-      if (state is SuccessFishState) {
-        var fishs = await fishRepository.getFishs();
-        if (fishs.isEmpty) throw Exception("Fishs are empty");
-
-        condition = event.condition;
-
-        //var sharedPreferences = await fileRepository.sharedPreferences;
-
-        yield SuccessFishState()
-          ..fishs = fishs
           ..isVisibles = fishs
               .map(
-                (fish) => event.condition.apply(
+                (fish) => condition.apply(
                   fish,
                   timeBloc.state.dateTime,
                 ),
               )
               .toList();
+      } catch (_) {
+        yield NotDownloadedFishState();
+      }
+    } else if (event is UpdateFishEvent) {
+      await fishRepository.updateFish(event.fish);
+
+      add(ViewFishEvent());
+    } else if (event is SetFilterConditionFishEvent) {
+      if (state is SuccessFishState) {
+        condition = event.condition;
+
+        var preferences = await fileRepository.preferences;
+        condition.toPreferences(preferences);
+
+        add(ViewFishEvent());
       }
     }
   }

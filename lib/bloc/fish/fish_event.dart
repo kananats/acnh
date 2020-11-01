@@ -18,14 +18,16 @@ class DownloadFishEvent extends FishEvent {
   List<Object> get props => [count, total];
 }
 
+class ViewFishEvent extends FishEvent {}
+
 class UpdateFishEvent extends FishEvent {
   Fish fish;
 
-  UpdateFishEvent({@required this.fish});
+  UpdateFishEvent(this.fish);
 }
 
-class FilterFishEvent extends FishEvent {
+class SetFilterConditionFishEvent extends FishEvent {
   FishFilterCondition condition;
 
-  FilterFishEvent({@required this.condition});
+  SetFilterConditionFishEvent(this.condition);
 }

@@ -94,13 +94,14 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
       );
 
   Widget get _location => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
             Icons.location_pin,
             size: 16,
           ),
           SizedBox(width: 4),
-          Text(widget.fish.location),
+          Expanded(child: Text(widget.fish.location)),
         ],
       );
 
@@ -149,7 +150,7 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
         selected: widget.fish.isCaught,
         onSelected: (isCaught) {
           widget.fish.isCaught = !widget.fish.isCaught;
-          fishBloc.add(UpdateFishEvent(fish: widget.fish));
+          fishBloc.add(UpdateFishEvent(widget.fish));
           setState(() {});
         },
         label: Text(
@@ -163,7 +164,7 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
         selected: widget.fish.isDonated,
         onSelected: (isDonated) {
           widget.fish.isDonated = !widget.fish.isDonated;
-          fishBloc.add(UpdateFishEvent(fish: widget.fish));
+          fishBloc.add(UpdateFishEvent(widget.fish));
           setState(() {});
         },
         label: Text(

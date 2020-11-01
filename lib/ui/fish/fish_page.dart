@@ -16,13 +16,6 @@ class FishPage extends StatefulWidget {
 
 class _FishPageState extends State<FishPage> with BlocProviderMixin {
   @override
-  void initState() {
-    super.initState();
-
-    fishBloc.add(InitializeFishEvent());
-  }
-
-  @override
   Widget build(BuildContext context) => BlocBuilder<FishBloc, FishState>(
         builder: (context, state) => Scaffold(
           appBar: AppBar(
@@ -52,8 +45,8 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
                     Expanded(
                       child: TextField(
                         onChanged: (value) => fishBloc.add(
-                          FilterFishEvent(
-                            condition: fishBloc.condition..search = value,
+                          SetFilterConditionFishEvent(
+                            fishBloc.condition..search = value,
                           ),
                         ),
                       ),

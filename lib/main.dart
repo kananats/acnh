@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: Test(),
+        home: FishPage(),
       ),
     );
   }
@@ -54,13 +54,6 @@ class _TestState extends State<Test> with DaoProviderMixin {
 
   void test() async {
     var preferences = await modules.localStorage.preferences;
-    print(preferences[PreferencesKey.abc]);
-
-    preferences[PreferencesKey.abc] = 1;
-    print(preferences[PreferencesKey.abc]);
-
-    preferences[PreferencesKey.abc] = "abc";
-    print(preferences[PreferencesKey.abc]);
   }
 
   @override
