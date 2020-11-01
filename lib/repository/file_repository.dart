@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:acnh/data/preferences.dart';
+import 'package:acnh/module.dart';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -24,4 +26,6 @@ class FileRepository {
     if (path == null || path.isEmpty) return false;
     return await File(path).exists();
   }
+
+  Future<Preferences> get preferences async => modules.localStorage.preferences;
 }

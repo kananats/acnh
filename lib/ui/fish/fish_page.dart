@@ -61,6 +61,7 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
                   ],
                 ),
               ),
+              SizedBox(height: 4),
               _body(context, state),
             ],
           ),

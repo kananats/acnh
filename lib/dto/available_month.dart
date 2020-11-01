@@ -20,6 +20,8 @@ class AvailableMonth {
   @override
   String toString() => _formatMonthList(months).join(", ");
 
+  bool get isAllYear => months.length >= 12;
+
   static List<String> _formatMonthList(List<int> months) {
     if (months.isEmpty) return [];
     if (months.length >= 12) return ["All year"];

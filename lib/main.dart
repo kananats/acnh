@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:acnh/bloc/fish/fish_bloc.dart';
 import 'package:acnh/bloc/time/time_bloc.dart';
 import 'package:acnh/dao/dao.dart';
+import 'package:acnh/data/preferences.dart';
+import 'package:acnh/module.dart';
 import 'package:acnh/ui/fish/fish_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,25 +14,28 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            lazy: false,
-            create: (context) => TimeBloc(),
-          ),
-          BlocProvider(
-            create: (context) => FishBloc(),
-          ),
-        ],
-        child: MaterialApp(
-          title: "acnh",
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
-          home: FishPage(),
+  Widget build(BuildContext context) {
+    var timeBloc = TimeBloc();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          lazy: false,
+          create: (context) => timeBloc,
         ),
-      );
+        BlocProvider(
+          create: (context) => FishBloc(timeBloc: timeBloc),
+        ),
+      ],
+      child: MaterialApp(
+        title: "acnh",
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: Test(),
+      ),
+    );
+  }
 }
 
 // Test code goes here
@@ -47,8 +53,14 @@ class _TestState extends State<Test> with DaoProviderMixin {
   }
 
   void test() async {
-    var path = await fishDao.findById(80);
-    print(path.name);
+    var preferences = await modules.localStorage.preferences;
+    print(preferences[PreferencesKey.abc]);
+
+    preferences[PreferencesKey.abc] = 1;
+    print(preferences[PreferencesKey.abc]);
+
+    preferences[PreferencesKey.abc] = "abc";
+    print(preferences[PreferencesKey.abc]);
   }
 
   @override

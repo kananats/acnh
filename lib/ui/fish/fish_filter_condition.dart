@@ -1,6 +1,8 @@
+import 'package:acnh/data/preferences.dart';
 import 'package:acnh/dto/fish.dart';
 import 'package:acnh/ui/fish/fish_filter_dialog.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FishFilterCondition with EquatableMixin {
   String search = "";
@@ -12,7 +14,15 @@ class FishFilterCondition with EquatableMixin {
   bool hideDonated = false;
   bool hideAllYear = false;
 
-  bool apply(Fish fish) {
+  bool apply(Fish fish, DateTime dateTime) {
+    if (hideCaught && fish.isCaught) return false;
+    if (hideDonated && fish.isDonated) return false;
+    if (hideAllYear && fish.availableMonth(isNorth).isAllYear) return false;
+    if (availability == AvailabilityEnum.now &&
+        !fish.isAvailable(dateTime, isNorth)) return false;
+    if (availability == AvailabilityEnum.month &&
+        !fish.isAvailableThisMonth(dateTime, isNorth)) return false;
+
     return fish.name.contains(search);
   }
 
@@ -23,6 +33,23 @@ class FishFilterCondition with EquatableMixin {
     ..hideCaught = hideCaught
     ..hideDonated = hideDonated
     ..hideAllYear = hideAllYear;
+
+  static FishFilterCondition fromPreferences(Preferences preferences) =>
+      FishFilterCondition()
+        ..isNorth = preferences[PreferencesKey.isNorth] ?? true
+        ..availability = AvailabilityEnum
+            .values[preferences[PreferencesKey.availability] ?? 0]
+        ..hideCaught = preferences[PreferencesKey.hideCaught] ?? true
+        ..hideDonated = preferences[PreferencesKey.hideDonated] ?? true
+        ..hideAllYear = preferences[PreferencesKey.hideAllYear] ?? true;
+
+  void toPreferences(Preferences preferences) {
+    preferences[PreferencesKey.isNorth] = isNorth;
+    preferences[PreferencesKey.availability] = availability.index;
+    preferences[PreferencesKey.hideCaught] = hideCaught;
+    preferences[PreferencesKey.hideDonated] = hideDonated;
+    preferences[PreferencesKey.hideAllYear] = hideAllYear;
+  }
 
   @override
   List<Object> get props => [

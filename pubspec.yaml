@@ -31,6 +31,7 @@ dependencies:
   # Local storage
   sqflite: ^1.3.0
   path_provider: ^1.6.22
+  shared_preferences: ^0.5.12+2
 
   # HTTP
   dio: ^3.0.10

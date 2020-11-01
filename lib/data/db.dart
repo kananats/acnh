@@ -1,10 +1,15 @@
+import 'package:acnh/data/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/widgets.dart';
 
 class LocalStorage {
   Database _db;
+
+  Future<Preferences> get preferences async =>
+      Preferences(await SharedPreferences.getInstance());
 
   Future<Database> get db async {
     if (_db != null) return _db;
