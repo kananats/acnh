@@ -16,8 +16,6 @@ class FishPage extends StatefulWidget {
 }
 
 class _FishPageState extends State<FishPage> with BlocProviderMixin {
-  FishFilterCondition _condition = FishFilterCondition();
-
   @override
   void initState() {
     super.initState();
@@ -32,12 +30,20 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
           actions: [
             GestureDetector(
               child: Icon(Icons.cloud_download),
-              onTap: () => _showDownloadDialog(context),
+              onTap: () => showGeneralDialog<void>(
+                context: context,
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    FishDownloadDialog(),
+              ),
             ),
             SizedBox(width: 18),
             GestureDetector(
               child: Icon(Icons.article),
-              onTap: () => _showFilterDialog(context),
+              onTap: () => showGeneralDialog<void>(
+                context: context,
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    FishFilterDialog(),
+              ),
             ),
             SizedBox(width: 18),
           ],
@@ -52,7 +58,13 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
                   Icon(Icons.search),
                   SizedBox(width: 12),
                   Expanded(
-                    child: TextField(),
+                    child: TextField(
+                      onChanged: (value) => fishBloc.add(
+                        FilterFishEvent(
+                          condition: FishFilterCondition()..search = value,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -65,8 +77,10 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
                       shrinkWrap: true,
                       padding: EdgeInsets.all(12),
                       itemCount: state.fishs.length,
-                      itemBuilder: (context, index) =>
-                          FishItem(fish: state.fishs[index]),
+                      itemBuilder: (context, index) => FishItem(
+                        fish: state.fishs[index],
+                        isVisible: state.isVisibles[index],
+                      ),
                       separatorBuilder: (context, index) =>
                           SizedBox(height: 12),
                     ),
@@ -81,27 +95,4 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
           ],
         ),
       );
-
-  Future<void> _showDownloadDialog(BuildContext context) async {
-    await showGeneralDialog<void>(
-      context: context,
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          FishDownloadDialog(),
-    );
-
-    setState(() {});
-  }
-
-  Future<void> _showFilterDialog(BuildContext context) async {
-    var condition = await showGeneralDialog<FishFilterCondition>(
-      context: context,
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          FishFilterDialog(),
-    );
-
-    if (condition != null)
-      setState(
-        () => _condition = condition,
-      );
-  }
 }

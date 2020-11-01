@@ -3,13 +3,18 @@ import 'dart:io';
 import 'package:acnh/bloc/bloc.dart';
 import 'package:acnh/bloc/fish_event.dart';
 import 'package:acnh/dto/fish.dart';
+import 'package:acnh/ui/common/badge.dart';
 import 'package:acnh/util/string_util.dart';
 import 'package:flutter/material.dart';
 
 class FishItem extends StatefulWidget {
   final Fish fish;
+  final bool isVisible;
 
-  FishItem({@required this.fish});
+  FishItem({
+    @required this.fish,
+    this.isVisible,
+  });
 
   @override
   _FishItemState createState() => _FishItemState();
@@ -17,42 +22,50 @@ class FishItem extends StatefulWidget {
 
 class _FishItemState extends State<FishItem> with BlocProviderMixin {
   @override
-  Widget build(BuildContext context) => Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.lightBlue[300]),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: ExpansionTile(
-          leading: SizedBox(child: _iconImage()),
-          title: Text(capitalize(widget.fish.name)),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _location,
-              _availableMonth,
-              _availableTime,
-            ],
-          ),
+  Widget build(BuildContext context) {
+    if (!widget.isVisible) return Container();
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.lightBlue[300]),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: ExpansionTile(
+        leading: Column(
           children: [
-            ButtonBar(
-              children: [_caughtChip, _donatedChip],
-            )
+            SizedBox(child: _iconImage),
           ],
         ),
-      );
-
-  Row _price() {
-    return Row(
-      children: [
-        Icon(
-          Icons.call_missed_outgoing,
-          size: 16,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            _name,
+            SizedBox(width: 6),
+            if (widget.fish.isCaught) Badge("C"),
+            if (widget.fish.isCaught) SizedBox(width: 3),
+            if (widget.fish.isDonated) Badge("D"),
+          ],
         ),
-        SizedBox(width: 4),
-        Text("${widget.fish.price} Bells"),
-      ],
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _location,
+            _availableMonth,
+            _availableTime,
+          ],
+        ),
+        children: [
+          ButtonBar(
+            children: [_caughtChip, _donatedChip],
+          )
+        ],
+      ),
     );
   }
+
+  Widget get _name => Text(
+        capitalize(widget.fish.name),
+        style: TextStyle(color: Colors.blue),
+      );
 
   Widget get _location => Row(
         children: [
@@ -97,20 +110,22 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
         ],
       );
 
-  Image _iconImage() {
-    return Image(
-      width: 50,
-      height: 50,
-      image: widget.fish.iconPath != null
-          ? FileImage(File(widget.fish.iconPath))
-          : NetworkImage(widget.fish.iconUri),
-    );
-  }
+  Widget get _iconImage => Image(
+        width: 50,
+        height: 50,
+        image: widget.fish.iconPath != null
+            ? FileImage(File(widget.fish.iconPath))
+            : NetworkImage(widget.fish.iconUri),
+      );
 
   Widget get _caughtChip => FilterChip(
         selectedColor: Colors.lightBlue,
-        selected: true,
-        onSelected: (hideDonated) => setState(() {}),
+        selected: widget.fish.isCaught,
+        onSelected: (isCaught) {
+          widget.fish.isCaught = !widget.fish.isCaught;
+          fishBloc.add(UpdateFishEvent(fish: widget.fish));
+          setState(() {});
+        },
         label: Text(
           "Caught",
           style: TextStyle(fontSize: 12),
@@ -119,17 +134,15 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
 
   Widget get _donatedChip => FilterChip(
         selectedColor: Colors.lightBlue,
-        selected: true,
-        onSelected: (hideDonated) => setState(() {}),
+        selected: widget.fish.isDonated,
+        onSelected: (isDonated) {
+          widget.fish.isDonated = !widget.fish.isDonated;
+          fishBloc.add(UpdateFishEvent(fish: widget.fish));
+          setState(() {});
+        },
         label: Text(
           "Donated",
           style: TextStyle(fontSize: 12),
         ),
       );
-
-  Future<void> _setCaught(Fish fish) async {
-    fish.isCaught = !fish.isCaught;
-    fishBloc.add(UpdateFishEvent(fish: fish));
-    setState(() {});
-  }
 }

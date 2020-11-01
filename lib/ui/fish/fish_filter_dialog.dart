@@ -1,3 +1,5 @@
+import 'package:acnh/bloc/bloc.dart';
+import 'package:acnh/bloc/fish_event.dart';
 import 'package:acnh/ui/fish/fish_filter_condition.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +8,8 @@ class FishFilterDialog extends StatefulWidget {
   _FishFilterDialogState createState() => _FishFilterDialogState();
 }
 
-class _FishFilterDialogState extends State<FishFilterDialog> {
+class _FishFilterDialogState extends State<FishFilterDialog>
+    with BlocProviderMixin {
   final FishFilterCondition _condition = FishFilterCondition();
 
   @override
@@ -35,7 +38,10 @@ class _FishFilterDialogState extends State<FishFilterDialog> {
                     alignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          fishBloc.add(FilterFishEvent(condition: _condition));
+                          Navigator.of(context).pop();
+                        },
                         child: Text("OK"),
                       ),
                       RaisedButton(

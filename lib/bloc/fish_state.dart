@@ -1,4 +1,5 @@
 import 'package:acnh/dto/fish.dart';
+import 'package:acnh/ui/fish/fish_filter_condition.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class FishState with EquatableMixin {
@@ -24,10 +25,14 @@ class DownloadingFishState extends FishState {
 
 class SuccessFishState extends FishState {
   List<Fish> fishs;
-  DateTime lastUpdated;
+  List<bool> isVisibles;
+
+  FishFilterCondition condition = FishFilterCondition();
+
+  DateTime lastUpdated; // TODO
 
   @override
-  List<Object> get props => [fishs];
+  List<Object> get props => [fishs, isVisibles, condition];
 }
 
 class FailedFishState extends FishState {

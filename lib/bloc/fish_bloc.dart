@@ -15,7 +15,9 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
         var fishs = await fishRepository.getFishs();
         if (fishs.isEmpty) throw Exception("Fishs are empty");
 
-        yield SuccessFishState()..fishs = fishs;
+        yield SuccessFishState()
+          ..fishs = fishs
+          ..isVisibles = fishs.map((e) => true).toList();
       } catch (_) {
         yield NotDownloadedFishState();
       }
@@ -36,9 +38,10 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
 
             await fishRepository.downloadFishImage(fishs[index]);
           }
-          yield SuccessFishState()..fishs = fishs;
+          yield SuccessFishState()
+            ..fishs = fishs
+            ..isVisibles = fishs.map((e) => true).toList();
         } catch (error) {
-          print(error.toString());
           yield FailedFishState()..error = error.toString();
         }
       }
@@ -49,9 +52,25 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
         var fishs = await fishRepository.getFishs();
         if (fishs.isEmpty) throw Exception("Fishs are empty");
 
-        yield SuccessFishState()..fishs = fishs;
+        yield SuccessFishState()
+          ..fishs = fishs
+          ..isVisibles = fishs.map((e) => true).toList();
       } catch (error) {
         yield FailedFishState()..error = error.toString();
+      }
+    } else if (event is FilterFishEvent) {
+      if (state is SuccessFishState) {
+        var fishs = await fishRepository.getFishs();
+        if (fishs.isEmpty) throw Exception("Fishs are empty");
+
+        yield SuccessFishState()
+          ..fishs = fishs
+          ..isVisibles = fishs
+              .map(
+                (fish) => event.condition.apply(fish),
+              )
+              .toList()
+          ..condition = event.condition;
       }
     }
   }

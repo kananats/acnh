@@ -1,4 +1,5 @@
 import 'package:acnh/dto/fish.dart';
+import 'package:acnh/ui/fish/fish_filter_condition.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -21,4 +22,10 @@ class UpdateFishEvent extends FishEvent {
   Fish fish;
 
   UpdateFishEvent({@required this.fish});
+}
+
+class FilterFishEvent extends FishEvent {
+  FishFilterCondition condition;
+
+  FilterFishEvent({@required this.condition});
 }

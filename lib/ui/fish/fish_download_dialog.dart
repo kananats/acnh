@@ -26,7 +26,7 @@ class _FishDownloadDialogState extends State<FishDownloadDialog>
                   else if (state is SuccessFishState)
                     return _successState(context);
                   else if (state is FailedFishState)
-                    return _failedState(context);
+                    return _failedState(context, state);
                   return _defaultState(context);
                 },
               ),
@@ -84,9 +84,10 @@ class _FishDownloadDialogState extends State<FishDownloadDialog>
         ],
       );
 
-  Widget _failedState(BuildContext context) => Column(
+  Widget _failedState(BuildContext context, FailedFishState state) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          Text("ERROR: " + state.error),
           Text("Download failed. Try again?"),
           ButtonBar(
             alignment: MainAxisAlignment.center,
