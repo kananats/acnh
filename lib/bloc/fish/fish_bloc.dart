@@ -48,27 +48,31 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
         }
       }
     } else if (event is ViewFishEvent) {
-      try {
-        var fishs = await fishRepository.getFishs();
-        if (fishs.isEmpty) throw Exception("Fishs are empty");
+      if (state is SuccessFishState) {
+        try {
+          var fishs = await fishRepository.getFishs();
+          if (fishs.isEmpty) yield NotDownloadedFishState();
 
-        yield SuccessFishState()
-          ..fishs = fishs
-          ..isVisibles = fishs
-              .map(
-                (fish) => condition.apply(
-                  fish,
-                  timeBloc.state.dateTime,
-                ),
-              )
-              .toList();
-      } catch (_) {
-        yield NotDownloadedFishState();
+          yield SuccessFishState()
+            ..fishs = fishs
+            ..isVisibles = fishs
+                .map(
+                  (fish) => condition.apply(
+                    fish,
+                    timeBloc.state.dateTime,
+                  ),
+                )
+                .toList();
+        } catch (_) {
+          yield FailedFishState();
+        }
       }
     } else if (event is UpdateFishEvent) {
-      await fishRepository.updateFish(event.fish);
+      if (state is SuccessFishState) {
+        await fishRepository.updateFish(event.fish);
 
-      add(ViewFishEvent());
+        add(ViewFishEvent());
+      }
     } else if (event is SetFilterConditionFishEvent) {
       if (state is SuccessFishState) {
         condition = event.condition;

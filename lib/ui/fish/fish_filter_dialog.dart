@@ -109,7 +109,7 @@ class _FishFilterDialogState extends State<FishFilterDialog>
               isSelected: [
                 _condition.availability == AvailabilityEnum.all,
                 _condition.availability == AvailabilityEnum.now,
-                _condition.availability == AvailabilityEnum.month,
+                _condition.availability == AvailabilityEnum.thisMonth,
               ],
               onPressed: (index) => setState(
                 () => _condition.availability = AvailabilityEnum.values[index],
@@ -150,5 +150,5 @@ class _FishFilterDialogState extends State<FishFilterDialog>
 enum AvailabilityEnum {
   all,
   now,
-  month,
+  thisMonth,
 }

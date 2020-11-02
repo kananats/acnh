@@ -49,7 +49,7 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
                   children: [
                     _name,
                     SizedBox(width: 6),
-                    if (widget.fish.isAvailable(
+                    if (widget.fish.availability.isAvailableNow(
                       timeBloc.state.dateTime,
                       fishBloc.condition.isNorth,
                     ))
@@ -89,7 +89,7 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
       );
 
   Widget get _name => Text(
-        capitalize(widget.fish.name),
+        StringUtil.capitalize(widget.fish.name.name),
         style: TextStyle(color: Colors.blue),
       );
 
@@ -101,7 +101,7 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
             size: 16,
           ),
           SizedBox(width: 4),
-          Expanded(child: Text(widget.fish.location)),
+          Expanded(child: Text(widget.fish.availability.location)),
         ],
       );
 
@@ -114,9 +114,7 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
           ),
           SizedBox(width: 4),
           Expanded(
-            child: Text(
-              widget.fish.availableTime.toString(),
-            ),
+            child: Text(widget.fish.availability.availableTime),
           ),
         ],
       );
@@ -131,7 +129,8 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
           SizedBox(width: 4),
           Expanded(
             child: Text(
-              widget.fish.availableMonth(fishBloc.condition.isNorth).toString(),
+              widget.fish.availability
+                  .availableMonth(fishBloc.condition.isNorth),
             ),
           ),
         ],

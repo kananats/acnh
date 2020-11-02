@@ -1,22 +1,32 @@
-import 'package:acnh/dto/available_month.dart';
-import 'package:acnh/dto/available_time.dart';
+import 'package:acnh/dto/availability.dart';
+import 'package:acnh/dto/name.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'fish.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class Fish with EquatableMixin {
   int id;
-  String name;
 
-  String location;
+  @JsonKey(name: "file-name")
+  String fileName;
+
+  Name name;
+  Availability availability;
   String shadow;
   int price;
 
-  AvailableMonth availableMonthNorth;
-  AvailableMonth availableMonthSouth;
-  AvailableTime availableTime;
+  @JsonKey(name: "catch-phrase")
+  String catchPhrase;
 
+  @JsonKey(name: "museum-phrase")
+  String museumPhrase;
+
+  @JsonKey(name: "image_uri")
   String imageUri;
+
+  @JsonKey(name: "icon_uri")
   String iconUri;
 
   String imagePath;
@@ -25,56 +35,10 @@ class Fish with EquatableMixin {
   bool isCaught;
   bool isDonated;
 
-  Fish({
-    @required this.id,
-    @required this.name,
-    @required this.location,
-    @required this.shadow,
-    @required this.price,
-    @required this.availableMonthNorth,
-    @required this.availableMonthSouth,
-    @required this.availableTime,
-    @required this.imageUri,
-    @required this.iconUri,
-    this.imagePath,
-    this.iconPath,
-    this.isCaught = false,
-    this.isDonated = false,
-  });
+  static Fish fromJson(Map<String, dynamic> json) => _$FishFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FishToJson(this);
 
   @override
   List<Object> get props => [id];
-
-  factory Fish.fromJson(Map<String, dynamic> json) => Fish(
-        id: json["id"],
-        name: json["name"]["name-USen"],
-        location: json["availability"]["location"],
-        shadow: json["shadow"],
-        availableMonthNorth: AvailableMonth.fromJson(
-          json["availability"]["month-array-northern"],
-        ),
-        availableMonthSouth: AvailableMonth.fromJson(
-          json["availability"]["month-array-southern"],
-        ),
-        availableTime: AvailableTime.fromJson(
-          json["availability"]["time-array"],
-        ),
-        price: json["price"],
-        imageUri: json["image_uri"],
-        iconUri: json["icon_uri"],
-      );
-}
-
-extension FishExtension on Fish {
-  AvailableMonth availableMonth(bool isNorth) =>
-      isNorth ? availableMonthNorth : availableMonthSouth;
-
-  bool isAvailable(DateTime dateTime, bool isNorth) =>
-      isAvailableThisMonth(dateTime, isNorth) && isAvailableThisTime(dateTime);
-
-  bool isAvailableThisMonth(DateTime dateTime, bool isNorth) =>
-      availableMonth(isNorth).months.contains(dateTime.month + 1);
-
-  bool isAvailableThisTime(DateTime dateTime) =>
-      availableTime.times.contains(dateTime.hour);
 }

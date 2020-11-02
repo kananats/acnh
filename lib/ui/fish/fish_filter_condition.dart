@@ -16,13 +16,15 @@ class FishFilterCondition with EquatableMixin {
   bool apply(Fish fish, DateTime dateTime) {
     if (hideCaught && fish.isCaught) return false;
     if (hideDonated && fish.isDonated) return false;
-    if (hideAllYear && fish.availableMonth(isNorth).isAllYear) return false;
+    if (hideAllYear && fish.availability.isAvailableAllYear) return false;
     if (availability == AvailabilityEnum.now &&
-        !fish.isAvailable(dateTime, isNorth)) return false;
-    if (availability == AvailabilityEnum.month &&
-        !fish.isAvailableThisMonth(dateTime, isNorth)) return false;
+        !fish.availability.isAvailableNow(dateTime, isNorth)) return false;
+    if (availability == AvailabilityEnum.thisMonth &&
+        !fish.availability.isAvailableThisMonth(dateTime, isNorth))
+      return false;
+    if (!fish.name.name.contains(search)) return false;
 
-    return fish.name.contains(search);
+    return true;
   }
 
   FishFilterCondition copy() => FishFilterCondition()
