@@ -2,7 +2,11 @@ import 'package:acnh/data/preferences.dart';
 import 'package:acnh/dto/fish.dart';
 import 'package:acnh/ui/fish/fish_filter_dialog.dart';
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'fish_filter_condition.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class FishFilterCondition with EquatableMixin {
   String search = "";
 
@@ -35,22 +39,10 @@ class FishFilterCondition with EquatableMixin {
     ..hideDonated = hideDonated
     ..hideAllYear = hideAllYear;
 
-  static FishFilterCondition fromPreferences(Preferences preferences) =>
-      FishFilterCondition()
-        ..isNorth = preferences[PreferencesKey.isNorth] ?? true
-        ..availability = AvailabilityEnum
-            .values[preferences[PreferencesKey.availability] ?? 0]
-        ..hideCaught = preferences[PreferencesKey.hideCaught] ?? true
-        ..hideDonated = preferences[PreferencesKey.hideDonated] ?? true
-        ..hideAllYear = preferences[PreferencesKey.hideAllYear] ?? true;
+  static FishFilterCondition fromJson(Map<String, dynamic> json) =>
+      _$FishFilterConditionFromJson(json);
 
-  void toPreferences(Preferences preferences) {
-    preferences[PreferencesKey.isNorth] = isNorth;
-    preferences[PreferencesKey.availability] = availability.index;
-    preferences[PreferencesKey.hideCaught] = hideCaught;
-    preferences[PreferencesKey.hideDonated] = hideDonated;
-    preferences[PreferencesKey.hideAllYear] = hideAllYear;
-  }
+  Map<String, dynamic> toJson() => _$FishFilterConditionToJson(this);
 
   @override
   List<Object> get props => [

@@ -1,5 +1,5 @@
 import 'package:acnh/dto/fish.dart';
-import 'package:acnh/ui/fish/fish_filter_condition.dart';
+import 'package:acnh/dto/fish_filter_condition.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 

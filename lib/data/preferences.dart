@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Preferences {
@@ -18,14 +20,13 @@ class Preferences {
       _preferences.setInt(key.toString(), value);
     else if (value is double)
       _preferences.setDouble(key.toString(), value);
-    else if (value is String) _preferences.setString(key.toString(), value);
+    else if (value is String)
+      _preferences.setString(key.toString(), value);
+    else if (value is Map<String, dynamic>)
+      _preferences.setString(key.toString(), json.encode(value));
   }
 }
 
 enum PreferencesKey {
-  isNorth,
-  availability,
-  hideCaught,
-  hideDonated,
-  hideAllYear,
+  fishFilterCondition,
 }
