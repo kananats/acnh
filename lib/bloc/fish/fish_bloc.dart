@@ -63,8 +63,8 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
                   ),
                 )
                 .toList();
-        } catch (_) {
-          yield FailedFishState();
+        } catch (error) {
+          yield FailedFishState()..error = error.toString();
         }
       }
     } else if (event is UpdateFishEvent) {

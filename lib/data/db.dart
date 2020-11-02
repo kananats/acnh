@@ -12,6 +12,8 @@ class LocalStorage {
       Preferences(await SharedPreferences.getInstance());
 
   Future<Database> get db async {
+    WidgetsFlutterBinding.ensureInitialized();
+
     if (_db != null) return _db;
 
     // Uncomment this to delete database
@@ -24,25 +26,24 @@ class LocalStorage {
   Future<void> deleteDatabase() => databaseFactory.deleteDatabase("acnh.db");
 
   Future<void> _createDatabase() async {
-    WidgetsFlutterBinding.ensureInitialized();
     _db = await openDatabase(
       join(await getDatabasesPath(), "acnh.db"),
       onCreate: (db, version) => db.execute(
         """
         CREATE TABLE fishs(
           id INTEGER PRIMARY KEY, 
+          file_name TEXT,
           name TEXT,
-          price INTEGER,
-          location TEXT,
+          availability TEXT,
           shadow TEXT,
-          available_month_north TEXT,
-          available_month_south TEXT,
-          available_time TEXT,
-          image_uri TEXT, 
+          price INTEGER,
+          catch_phrase TEXT,
+          museum_phrase TEXT,
+          image_uri TEXT,
           icon_uri TEXT,
           image_path TEXT,
           icon_path TEXT,
-          is_caught INTEGER, 
+          is_caught INTEGER,
           is_donated INTEGER
         )
         """,

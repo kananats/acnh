@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:acnh/dto/fish.dart';
+import 'package:acnh/module.dart';
 import 'package:dio/dio.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test("v1/fish", () async {
+  test("fetch fishs", () async {
     Response<String> response =
         await Dio().get("https://acnhapi.com/v1/fish/1");
     var fish = Fish.fromJson(json.decode(response.data));
@@ -62,5 +63,14 @@ void main() {
         "Bitterlings hide their eggs inside large bivalves—like clams—where the young can stay safe until grown. The bitterling isn't being sneaky. No, their young help keep the bivalve healthy by eating invading parasites! It's a wonderful bit of evolutionary deal making, don't you think? Each one keeping the other safe... Though eating parasites does not sound like a happy childhood... Is that why the fish is so bitter?");
     expect(fish.imageUri, "https://acnhapi.com/v1/images/fish/1");
     expect(fish.iconUri, "https://acnhapi.com/v1/icons/fish/1");
+  });
+
+  test("insert fish to db", () async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    // TODO: not working for some reason
+    //await modules.localStorage.deleteDatabase();
+    //await modules.fishDao.insert(fish);
+    //var fishs = await modules.fishDao.findAll();
+    //expect(fishs, []);
   });
 }
