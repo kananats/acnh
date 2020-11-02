@@ -51,8 +51,8 @@ class FishDao with Dao<Fish> {
         _Columns.icon_uri: data.iconUri,
         _Columns.image_path: data.imagePath,
         _Columns.icon_path: data.iconPath,
-        _Columns.is_caught: 1, //data.isCaught ? 1 : 0,
-        _Columns.is_donated: 1, //data.isDonated ? 1 : 0,
+        _Columns.is_caught: data.isCaught == true ? 1 : 0,
+        _Columns.is_donated: data.isDonated == true ? 1 : 0,
       };
 }
 
