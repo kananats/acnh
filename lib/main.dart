@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:acnh/bloc/fish/fish_bloc.dart';
 import 'package:acnh/bloc/time/time_bloc.dart';
 import 'package:acnh/dao/dao.dart';
-import 'package:acnh/data/preferences.dart';
 import 'package:acnh/module.dart';
 import 'package:acnh/ui/fish/fish_page.dart';
 import 'package:flutter/material.dart';
@@ -44,12 +42,12 @@ class MyApp extends StatelessWidget {
 }
 
 // Test code goes here
-class Test extends StatefulWidget {
+class TestPage extends StatefulWidget {
   @override
-  _TestState createState() => _TestState();
+  _TestPageState createState() => _TestPageState();
 }
 
-class _TestState extends State<Test> with DaoProviderMixin {
+class _TestPageState extends State<TestPage> with DaoProviderMixin {
   @override
   void initState() {
     super.initState();
