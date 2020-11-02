@@ -1,5 +1,6 @@
 import 'package:acnh/bloc/bloc.dart';
 import 'package:acnh/bloc/time/time_event.dart';
+import 'package:acnh/dto/language_enum.dart';
 import 'package:intl/intl.dart';
 
 import 'package:acnh/bloc/time/time_bloc.dart';
@@ -21,43 +22,83 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
           ),
           body: ListView(
             children: [
-              ListTile(
-                title: Text("Date"),
-                trailing: TextButton(
-                  onPressed: () => _showDatePicker(context, state),
-                  child: Text(
-                    DateFormat(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY)
-                        .format(state.dateTime ?? DateTime.now()),
-                  ),
-                ),
-              ),
-              ListTile(
-                title: Text("Time"),
-                trailing: TextButton(
-                  onPressed: () => _showTimePicker(context, state),
-                  child: Text(
-                    DateFormat(DateFormat.HOUR24_MINUTE_SECOND)
-                        .format(state.dateTime),
-                  ),
-                ),
-              ),
-              ListTile(
-                title: Text("Freeze"),
-                trailing: Switch(
-                  value: state is PauseTimeState,
-                  onChanged: (value) => timeBloc.add(
-                    value ? PauseTimeEvent() : PlayTimeEvent(),
-                  ),
-                ),
-              ),
+              SizedBox(height: 8),
               Center(
-                child: ElevatedButton(
-                  onPressed: () => timeBloc.add(ResetTimeEvent()),
-                  child: Text("Reset"),
+                child: Text(
+                  "Language Settings",
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
               ),
+              _language,
+              SizedBox(height: 8),
               Divider(),
+              SizedBox(height: 8),
+              Center(
+                child: Text(
+                  "Date Settings",
+                  style: Theme.of(context).textTheme.subtitle1,
+                ),
+              ),
+              _date(context, state),
+              _time(context, state),
+              _freeze(state),
+              _reset,
+              SizedBox(height: 8),
+              Divider(),
+              SizedBox(height: 8),
             ],
+          ),
+        ),
+      );
+
+  Widget get _reset => Center(
+        child: ElevatedButton(
+          onPressed: () => timeBloc.add(ResetTimeEvent()),
+          child: Text("Reset"),
+        ),
+      );
+
+  Widget get _language => ListTile(
+        title: Text("Language"),
+        trailing: DropdownButton<LanguageEnum>(
+          onChanged: (value) {},
+          items: LanguageEnum.values
+              .map(
+                (value) => DropdownMenuItem<LanguageEnum>(
+                  child: Text(value.name),
+                ),
+              )
+              .toList(),
+        ),
+      );
+
+  Widget _freeze(TimeState state) => ListTile(
+        title: Text("Freeze"),
+        trailing: Switch(
+          value: state is PauseTimeState,
+          onChanged: (value) => timeBloc.add(
+            value ? PauseTimeEvent() : PlayTimeEvent(),
+          ),
+        ),
+      );
+
+  Widget _time(BuildContext context, TimeState state) => ListTile(
+        title: Text("Time"),
+        trailing: TextButton(
+          onPressed: () => _showTimePicker(context, state),
+          child: Text(
+            DateFormat(DateFormat.HOUR24_MINUTE_SECOND).format(state.dateTime),
+          ),
+        ),
+      );
+
+  Widget _date(BuildContext context, TimeState state) => ListTile(
+        title: Text("Date"),
+        trailing: TextButton(
+          onPressed: () => _showDatePicker(context, state),
+          child: Text(
+            DateFormat(DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY)
+                .format(state.dateTime ?? DateTime.now()),
           ),
         ),
       );
