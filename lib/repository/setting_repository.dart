@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:acnh/module.dart';
 import 'package:acnh/data/preferences.dart';
 import 'package:acnh/dto/language_enum.dart';
-import 'package:acnh/dto/settings.dart';
+import 'package:acnh/dto/setting.dart';
 
 class SettingRepository {
   Setting cachedSetting;
@@ -23,6 +23,7 @@ class SettingRepository {
   }
 
   Future<void> setSetting(Setting setting) async {
+    cachedSetting = setting;
     var preferences = await modules.localStorage.preferences;
     preferences[PreferencesKey.setting] = json.encode(setting.toJson());
   }

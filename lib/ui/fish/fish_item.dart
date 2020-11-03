@@ -50,7 +50,7 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
                     _name,
                     SizedBox(width: 6),
                     if (widget.fish.availability.isAvailableNow(
-                      timeBloc.state.dateTime,
+                      settingBloc.state.dateTime,
                       fishBloc.state.condition.isNorth,
                     ))
                       _badge("Now"),
@@ -89,7 +89,9 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
       );
 
   Widget get _name => Text(
-        StringUtil.capitalize(widget.fish.name.name),
+        StringUtil.capitalize(
+          widget.fish.name.of(settingBloc.state.setting.language),
+        ),
         style: TextStyle(color: Colors.blue),
       );
 

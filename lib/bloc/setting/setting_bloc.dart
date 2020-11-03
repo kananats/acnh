@@ -4,7 +4,6 @@ import 'package:acnh/bloc/fish/fish_bloc.dart';
 import 'package:acnh/bloc/fish/fish_event.dart';
 import 'package:acnh/bloc/setting/setting_event.dart';
 import 'package:acnh/bloc/setting/setting_state.dart';
-import 'package:acnh/dto/settings.dart';
 import 'package:acnh/repository/repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,10 +14,8 @@ class SettingBloc extends Bloc<SettingEvent, SettingState>
 
   StreamSubscription<void> _subscription;
 
-  Setting setting;
-
   SettingBloc() : super(InitialSettingState()) {
-    add(InitializeSettingEvent());
+    add(InitializeSettingEvent()); // TODO: can we simplify?
 
     _subscription = _tickerStream().listen(
       (_) => add(TimeTickSettingEvent()),
@@ -27,47 +24,66 @@ class SettingBloc extends Bloc<SettingEvent, SettingState>
 
   @override
   Stream<SettingState> mapEventToState(SettingEvent event) async* {
-    fishBloc?.add(ViewFishEvent()); // TODO: optimization
-
     if (event is InitializeSettingEvent) {
       if (state is InitialSettingState) {
-        setting = await settingRepository.setting;
-        if (setting.offset != null)
+        var setting = await settingRepository.setting;
+        if (setting.freezedOffset != null)
           yield TimePlaySettingState()
-            ..dateTime = DateTime.now().add(setting.offset);
-        else if (setting.dateTime != null)
-          yield TimePauseSettingState()..dateTime = setting.dateTime;
+            ..setting = setting
+            ..dateTime = DateTime.now().add(setting.freezedOffset);
+        else if (setting.freezedDateTime != null)
+          yield TimePauseSettingState()
+            ..setting = setting
+            ..dateTime = setting.freezedDateTime;
         else
-          yield TimeNowSettingState();
+          yield TimeNowSettingState()..setting = setting;
       }
+    } else if (event is SetLanguageSettingEvent) {
+      var state = this.state.copy();
+      var setting = (await settingRepository.setting).copy();
+      setting.language = event.language;
+      settingRepository.setSetting(setting);
+
+      yield state..setting = setting;
     } else if (event is TimeTickSettingEvent) {
       if (state is TimeNowSettingState)
-        yield TimeNowSettingState();
-      else if (state is TimePlaySettingState)
+        yield TimeNowSettingState()..setting = await settingRepository.setting;
+      else if (state is TimePlaySettingState) {
+        var setting = await settingRepository.setting;
         yield TimePlaySettingState()
-          ..dateTime = DateTime.now().add(
-            setting.offset ?? Duration(),
-          );
+          ..setting = setting
+          ..dateTime = DateTime.now().add(setting.freezedOffset);
+      }
     } else if (event is TimePlaySettingEvent) {
       if (state is TimePauseSettingState) {
-        setting.offset = setting.dateTime.difference(DateTime.now());
-        setting.dateTime = null;
+        var setting = await settingRepository.setting;
+
+        setting.freezedOffset =
+            setting.freezedDateTime.difference(DateTime.now());
+        setting.freezedDateTime = null;
         settingRepository.setSetting(setting);
         yield TimePlaySettingState()
-          ..dateTime = DateTime.now().add(setting.offset);
+          ..setting = setting
+          ..dateTime = DateTime.now().add(setting.freezedOffset);
       }
     } else if (event is TimePauseSettingEvent) {
-      setting.offset = null;
+      var setting = await settingRepository.setting;
+
+      setting.freezedOffset = null;
       if (state is TimeNowSettingState)
-        setting.dateTime = event.dateTime ?? DateTime.now();
+        setting.freezedDateTime = event.dateTime ?? DateTime.now();
       else
-        setting.dateTime = event.dateTime ?? state.dateTime;
+        setting.freezedDateTime = event.dateTime ?? state.dateTime;
 
       settingRepository.setSetting(setting);
-      yield TimePauseSettingState()..dateTime = setting.dateTime;
+      yield TimePauseSettingState()
+        ..setting = setting
+        ..dateTime = setting.freezedDateTime;
     } else if (event is TimeResetSettingEvent) {
-      yield TimeNowSettingState();
+      yield TimeNowSettingState()..setting = await settingRepository.setting;
     }
+
+    fishBloc?.add(ViewFishEvent()); // TODO: optimization
   }
 
   static Stream<void> _tickerStream() => Stream.periodic(Duration(seconds: 1));

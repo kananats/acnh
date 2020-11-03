@@ -13,7 +13,9 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // ignore: close_sinks
     final settingBloc = SettingBloc();
+    // ignore: close_sinks
     final fishBloc = FishBloc();
 
     settingBloc.fishBloc = fishBloc;

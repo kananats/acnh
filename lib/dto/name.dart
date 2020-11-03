@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:acnh/dto/language_enum.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'name.g.dart';
@@ -52,5 +53,37 @@ class Name {
 
   Map<String, dynamic> toJson() => _$NameToJson(this);
 
-  String get name => USen; // TODO
+  String of(LanguageEnum language) {
+    switch (language) {
+      case LanguageEnum.USen:
+        return USen;
+      case LanguageEnum.EUen:
+        return EUen;
+      case LanguageEnum.EUde:
+        return EUde;
+      case LanguageEnum.EUes:
+        return EUes;
+      case LanguageEnum.USes:
+        return USes;
+      case LanguageEnum.EUfr:
+        return EUfr;
+      case LanguageEnum.USfr:
+        return USfr;
+      case LanguageEnum.EUit:
+        return EUit;
+      case LanguageEnum.EUnl:
+        return EUnl;
+      case LanguageEnum.CNzh:
+        return CNzh;
+      case LanguageEnum.TWzh:
+        return TWzh;
+      case LanguageEnum.JPja:
+        return JPja;
+      case LanguageEnum.KRko:
+        return KRko;
+      case LanguageEnum.EUru:
+        return EUru;
+    }
+    return USen;
+  }
 }

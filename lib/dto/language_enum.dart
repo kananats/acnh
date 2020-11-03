@@ -21,31 +21,31 @@ extension LanguageEnumExtension on LanguageEnum {
       case LanguageEnum.USen:
         return "English (US)";
       case LanguageEnum.EUen:
-        return "English (UK)";
+        return "English (Europe)";
       case LanguageEnum.EUde:
-        return "German";
+        return "Deutsch";
       case LanguageEnum.EUes:
-        return "Spanish";
+        return "Español (Europe)";
       case LanguageEnum.USes:
-        return "Spanish";
+        return "Español (Latinoamérica)";
       case LanguageEnum.EUfr:
-        return "French";
+        return "Français (Europe)";
       case LanguageEnum.USfr:
-        return "Canadian French";
+        return "Français (Canada)";
       case LanguageEnum.EUit:
-        return "Italian";
+        return "Italiano";
       case LanguageEnum.EUnl:
-        return "Dutch";
+        return "Nederlands";
       case LanguageEnum.CNzh:
-        return "Chinese";
+        return "简体中文";
       case LanguageEnum.TWzh:
-        return "Cantonese";
+        return "繁體中文";
       case LanguageEnum.JPja:
-        return "Japanese";
+        return "日本語";
       case LanguageEnum.KRko:
-        return "Korean";
+        return "한국어";
       case LanguageEnum.EUru:
-        return "Russian";
+        return "Русский";
     }
     return "";
   }

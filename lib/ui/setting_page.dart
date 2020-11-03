@@ -29,7 +29,7 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
               ),
-              _language,
+              _language(state),
               SizedBox(height: 8),
               Divider(),
               SizedBox(height: 8),
@@ -53,19 +53,23 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
 
   Widget get _reset => Center(
         child: ElevatedButton(
-          onPressed: () => timeBloc.add(TimeResetSettingEvent()),
+          onPressed: () => settingBloc.add(TimeResetSettingEvent()),
           child: Text("Reset"),
         ),
       );
 
-  Widget get _language => ListTile(
+  Widget _language(SettingState state) => ListTile(
         title: Text("Language"),
         trailing: DropdownButton<LanguageEnum>(
-          onChanged: (value) {},
+          value: state.setting.language,
+          onChanged: (value) => settingBloc.add(
+            SetLanguageSettingEvent()..language = value,
+          ),
           items: LanguageEnum.values
               .map(
                 (value) => DropdownMenuItem<LanguageEnum>(
                   child: Text(value.name),
+                  value: value,
                 ),
               )
               .toList(),
@@ -76,7 +80,7 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
         title: Text("Freeze"),
         trailing: Switch(
           value: state is TimePauseSettingState,
-          onChanged: (value) => timeBloc.add(
+          onChanged: (value) => settingBloc.add(
             value ? TimePauseSettingEvent() : TimePlaySettingEvent(),
           ),
         ),
@@ -121,7 +125,7 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
         dateTime.minute,
       );
 
-      timeBloc.add(TimePauseSettingEvent()..dateTime = dateTime);
+      settingBloc.add(TimePauseSettingEvent()..dateTime = dateTime);
     }
   }
 
@@ -145,7 +149,7 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
         time.minute,
       );
 
-      timeBloc.add(TimePauseSettingEvent()..dateTime = dateTime);
+      settingBloc.add(TimePauseSettingEvent()..dateTime = dateTime);
     }
   }
 }

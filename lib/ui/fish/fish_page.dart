@@ -2,6 +2,8 @@ import 'package:acnh/bloc/bloc.dart';
 import 'package:acnh/bloc/fish/fish_bloc.dart';
 import 'package:acnh/bloc/fish/fish_event.dart';
 import 'package:acnh/bloc/fish/fish_state.dart';
+import 'package:acnh/bloc/setting/setting_bloc.dart';
+import 'package:acnh/bloc/setting/setting_state.dart';
 import 'package:acnh/ui/common/my_drawer.dart';
 import 'package:acnh/ui/fish/fish_download_dialog.dart';
 import 'package:acnh/ui/fish/fish_filter_dialog.dart';
@@ -16,41 +18,43 @@ class FishPage extends StatefulWidget {
 
 class _FishPageState extends State<FishPage> with BlocProviderMixin {
   @override
-  Widget build(BuildContext context) => BlocBuilder<FishBloc, FishState>(
-        builder: (context, state) => Scaffold(
-          appBar: AppBar(
-            title: Text("Fish"),
-            actions: [
-              GestureDetector(
-                child: Icon(Icons.cloud_download),
-                onTap: () => _showDownloadDialog(context),
-              ),
-              SizedBox(width: 18),
-              GestureDetector(
-                child: Icon(Icons.article),
-                onTap: () => _showFilterDialog(context),
-              ),
-              SizedBox(width: 18),
-            ],
-          ),
-          drawer: MyDrawer(),
-          body: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12),
-                child: Row(
-                  children: [
-                    Icon(Icons.search),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: _searchTextField(state),
-                    ),
-                  ],
+  Widget build(BuildContext context) => BlocBuilder<SettingBloc, SettingState>(
+        builder: (context, state) => BlocBuilder<FishBloc, FishState>(
+          builder: (context, state) => Scaffold(
+            appBar: AppBar(
+              title: Text("Fish"),
+              actions: [
+                GestureDetector(
+                  child: Icon(Icons.cloud_download),
+                  onTap: () => _showDownloadDialog(context),
                 ),
-              ),
-              SizedBox(height: 4),
-              _body(context, state),
-            ],
+                SizedBox(width: 18),
+                GestureDetector(
+                  child: Icon(Icons.article),
+                  onTap: () => _showFilterDialog(context),
+                ),
+                SizedBox(width: 18),
+              ],
+            ),
+            drawer: MyDrawer(),
+            body: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  child: Row(
+                    children: [
+                      Icon(Icons.search),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: _searchTextField(state),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 4),
+                _body(context, state),
+              ],
+            ),
           ),
         ),
       );

@@ -1,4 +1,5 @@
 import 'package:acnh/dto/fish.dart';
+import 'package:acnh/dto/language_enum.dart';
 import 'package:acnh/ui/fish/fish_filter_dialog.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -25,7 +26,7 @@ class FishFilterCondition with EquatableMixin {
   @JsonKey(defaultValue: false)
   bool hideAllYear = false;
 
-  bool apply(Fish fish, DateTime dateTime) {
+  bool apply(Fish fish, DateTime dateTime, LanguageEnum language) {
     if (hideCaught && fish.isCaught) return false;
     if (hideDonated && fish.isDonated) return false;
     if (hideAllYear && fish.availability.isAvailableAllYear) return false;
@@ -34,7 +35,7 @@ class FishFilterCondition with EquatableMixin {
     if (availability == AvailabilityEnum.thisMonth &&
         !fish.availability.isAvailableThisMonth(dateTime, isNorth))
       return false;
-    if (!fish.name.name.contains(search)) return false;
+    if (!fish.name.of(language).contains(search)) return false;
 
     return true;
   }

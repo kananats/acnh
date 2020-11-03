@@ -1,6 +1,7 @@
 import 'package:acnh/dao/dao.dart';
 import 'package:acnh/data/get_fishs.dart';
 import 'package:acnh/data/preferences.dart';
+import 'package:acnh/dto/language_enum.dart';
 import 'package:acnh/module.dart';
 import 'package:acnh/repository/repository.dart';
 import 'package:acnh/dto/fish.dart';
@@ -38,7 +39,11 @@ class FishRepository with DaoProviderMixin, RepositoryProviderMixin {
 
     var isVisibles = fishs
         .map(
-          (fish) => condition.apply(fish, setting.dateTime),
+          (fish) => condition.apply(
+            fish,
+            setting.freezedDateTime,
+            settingRepository.cachedSetting?.language ?? LanguageEnum.USen,
+          ),
         )
         .toList();
 
@@ -62,6 +67,7 @@ class FishRepository with DaoProviderMixin, RepositoryProviderMixin {
   }
 
   Future<void> setCondition(FishFilterCondition condition) async {
+    cachedCondition = condition;
     var preferences = await modules.localStorage.preferences;
     preferences[PreferencesKey.fishFilterCondition] =
         json.encode(condition.toJson());
