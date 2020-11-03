@@ -16,7 +16,6 @@ class MyApp extends StatelessWidget {
     final settingBloc = SettingBloc();
     final fishBloc = FishBloc();
 
-    fishBloc.settingBloc = settingBloc;
     settingBloc.fishBloc = fishBloc;
 
     return MultiBlocProvider(

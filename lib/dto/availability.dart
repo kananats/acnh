@@ -23,7 +23,7 @@ class Availability {
   Map<String, dynamic> toJson() => _$AvailabilityToJson(this);
 
   String get availableTime => StringUtil.formatTimeArray(timeArray).join(", ");
-  String availableMonth(bool isNorth) => StringUtil.formatTimeArray(
+  String availableMonth(bool isNorth) => StringUtil.formatMonthArray(
         isNorth ? monthArrayNorthern : monthArraySouthern,
       ).join(", ");
 

@@ -1,7 +1,10 @@
 import 'package:acnh/dto/fish.dart';
+import 'package:acnh/dto/fish_filter_condition.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class FishState with EquatableMixin {
+  FishFilterCondition condition;
+
   @override
   List<Object> get props => [];
 }

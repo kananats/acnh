@@ -51,7 +51,7 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
                     SizedBox(width: 6),
                     if (widget.fish.availability.isAvailableNow(
                       timeBloc.state.dateTime,
-                      fishBloc.condition.isNorth,
+                      fishBloc.state.condition.isNorth,
                     ))
                       _badge("Now"),
                     if (widget.fish.isCaught) _badge("Caught"),
@@ -130,7 +130,7 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
           Expanded(
             child: Text(
               widget.fish.availability
-                  .availableMonth(fishBloc.condition.isNorth),
+                  .availableMonth(fishBloc.state.condition.isNorth),
             ),
           ),
         ],

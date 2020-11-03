@@ -1,6 +1,4 @@
-import 'package:acnh/bloc/setting/setting_bloc.dart';
 import 'package:acnh/repository/repository.dart';
-import 'package:acnh/dto/fish_filter_condition.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,62 +6,63 @@ import 'package:acnh/bloc/fish/fish_event.dart';
 import 'package:acnh/bloc/fish/fish_state.dart';
 
 class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
-  SettingBloc settingBloc;
-
-  FishFilterCondition condition;
-
   FishBloc() : super(InitialFishState()) {
-    add(InitializeFishEvent());
+    add(ViewFishEvent());
   }
 
   @override
   Stream<FishState> mapEventToState(FishEvent event) async* {
-    if (event is InitializeFishEvent) {
-      condition = await fishRepository.condition;
-
-      add(ViewFishEvent());
-    } else if (event is DownloadFishEvent) {
+    if (event is DownloadFishEvent) {
       if (state is! DownloadingFishState) {
         try {
-          yield DownloadingFishState();
+          yield DownloadingFishState()
+            ..condition = await fishRepository.condition;
 
           await fishRepository.fetchFishs();
 
-          var fishs = await fishRepository.getFishs();
+          var tuple = await fishRepository.getFishs();
+          var fishs = tuple.item1;
+          var isVisibles = tuple.item2;
+
           if (fishs.isEmpty) throw Exception("Fishs are empty");
 
           for (int index = 0; index < fishs.length; index++) {
             yield DownloadingFishState()
+              ..condition = await fishRepository.condition
               ..count = index + 1
               ..total = fishs.length;
 
             await fishRepository.downloadFishImage(fishs[index]);
           }
+
           yield SuccessFishState()
+            ..condition = await fishRepository.condition
             ..fishs = fishs
-            ..isVisibles = fishs.map((e) => true).toList();
+            ..isVisibles = isVisibles;
         } catch (error) {
-          yield FailedFishState()..error = error.toString();
+          yield FailedFishState()
+            ..condition = await fishRepository.condition
+            ..error = error.toString();
         }
       }
     } else if (event is ViewFishEvent) {
       if (state is SuccessFishState) {
         try {
-          var fishs = await fishRepository.getFishs();
-          if (fishs.isEmpty) yield NotDownloadedFishState();
+          var tuple = await fishRepository.getFishs();
+          var fishs = tuple.item1;
+          var isVisibles = tuple.item2;
+          if (fishs.isEmpty)
+            yield NotDownloadedFishState()
+              ..condition = await fishRepository.condition;
 
           yield SuccessFishState()
+            ..condition = await fishRepository.condition
             ..fishs = fishs
-            ..isVisibles = fishs
-                .map(
-                  (fish) => condition.apply(
-                    fish,
-                    settingBloc.state.dateTime,
-                  ),
-                )
-                .toList();
+            ..isVisibles = isVisibles;
         } catch (error) {
-          yield FailedFishState()..error = error.toString();
+          yield FailedFishState()
+            ..condition = await fishRepository.condition
+            ..error = error.toString();
         }
       }
     } else if (event is UpdateFishEvent) {
@@ -74,8 +73,7 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
       }
     } else if (event is SetFilterConditionFishEvent) {
       if (state is SuccessFishState) {
-        condition = event.condition;
-        fishRepository.setCondition(condition);
+        fishRepository.setCondition(event.condition);
 
         add(ViewFishEvent());
       }

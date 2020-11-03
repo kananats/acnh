@@ -43,13 +43,7 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
                     Icon(Icons.search),
                     SizedBox(width: 12),
                     Expanded(
-                      child: TextField(
-                        onChanged: (value) => fishBloc.add(
-                          SetFilterConditionFishEvent(
-                            fishBloc.condition..search = value,
-                          ),
-                        ),
-                      ),
+                      child: _searchTextField(state),
                     ),
                   ],
                 ),
@@ -57,6 +51,14 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
               SizedBox(height: 4),
               _body(context, state),
             ],
+          ),
+        ),
+      );
+
+  Widget _searchTextField(FishState state) => TextField(
+        onChanged: (value) => fishBloc.add(
+          SetFilterConditionFishEvent(
+            state.condition..search = value,
           ),
         ),
       );

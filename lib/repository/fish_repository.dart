@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:acnh/dto/fish_filter_condition.dart';
+import 'package:tuple/tuple.dart';
 
 class FishRepository with DaoProviderMixin, RepositoryProviderMixin {
   FishFilterCondition cachedCondition;
@@ -30,7 +31,19 @@ class FishRepository with DaoProviderMixin, RepositoryProviderMixin {
     await updateFish(fish);
   }
 
-  Future<List<Fish>> getFishs() async => fishDao.findAll();
+  Future<Tuple2<List<Fish>, List<bool>>> getFishs() async {
+    var fishs = await fishDao.findAll();
+    var condition = await this.condition;
+    var setting = await settingRepository.setting;
+
+    var isVisibles = fishs
+        .map(
+          (fish) => condition.apply(fish, setting.dateTime),
+        )
+        .toList();
+
+    return Tuple2(fishs, isVisibles);
+  }
 
   Future<void> updateFish(Fish fish) async => fishDao.update(fish.id, fish);
 

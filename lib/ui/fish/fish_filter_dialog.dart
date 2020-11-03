@@ -16,7 +16,7 @@ class _FishFilterDialogState extends State<FishFilterDialog>
   void initState() {
     super.initState();
 
-    _condition = fishBloc.condition.copy();
+    _condition = fishBloc.state.condition.copy();
   }
 
   @override
