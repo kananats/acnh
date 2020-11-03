@@ -1,4 +1,3 @@
-import 'package:acnh/data/preferences.dart';
 import 'package:acnh/dto/fish.dart';
 import 'package:acnh/ui/fish/fish_filter_dialog.dart';
 import 'package:equatable/equatable.dart';
@@ -8,13 +7,22 @@ part 'fish_filter_condition.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class FishFilterCondition with EquatableMixin {
+  @JsonKey(defaultValue: "")
   String search = "";
 
+  @JsonKey(defaultValue: true)
   bool isNorth = true;
+
+  @JsonKey(defaultValue: AvailabilityEnum.all)
   AvailabilityEnum availability = AvailabilityEnum.all;
 
+  @JsonKey(defaultValue: false)
   bool hideCaught = false;
+
+  @JsonKey(defaultValue: false)
   bool hideDonated = false;
+
+  @JsonKey(defaultValue: false)
   bool hideAllYear = false;
 
   bool apply(Fish fish, DateTime dateTime) {

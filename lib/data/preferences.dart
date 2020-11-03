@@ -28,5 +28,6 @@ class Preferences {
 }
 
 enum PreferencesKey {
+  setting,
   fishFilterCondition,
 }

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:acnh/bloc/fish/fish_bloc.dart';
-import 'package:acnh/bloc/time/time_bloc.dart';
+import 'package:acnh/bloc/setting/setting_bloc.dart';
 import 'package:acnh/dao/dao.dart';
 import 'package:acnh/module.dart';
 import 'package:acnh/ui/fish/fish_page.dart';
@@ -13,17 +13,17 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final timeBloc = TimeBloc();
+    final settingBloc = SettingBloc();
     final fishBloc = FishBloc();
 
-    fishBloc.timeBloc = timeBloc;
-    timeBloc.fishBloc = fishBloc;
+    fishBloc.settingBloc = settingBloc;
+    settingBloc.fishBloc = fishBloc;
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           lazy: false,
-          create: (context) => timeBloc,
+          create: (context) => settingBloc,
         ),
         BlocProvider(
           create: (context) => fishBloc,

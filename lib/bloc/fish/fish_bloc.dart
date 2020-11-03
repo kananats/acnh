@@ -1,4 +1,4 @@
-import 'package:acnh/bloc/time/time_bloc.dart';
+import 'package:acnh/bloc/setting/setting_bloc.dart';
 import 'package:acnh/repository/repository.dart';
 import 'package:acnh/dto/fish_filter_condition.dart';
 import 'package:bloc/bloc.dart';
@@ -8,7 +8,7 @@ import 'package:acnh/bloc/fish/fish_event.dart';
 import 'package:acnh/bloc/fish/fish_state.dart';
 
 class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
-  TimeBloc timeBloc;
+  SettingBloc settingBloc;
 
   FishFilterCondition condition;
 
@@ -19,7 +19,7 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
   @override
   Stream<FishState> mapEventToState(FishEvent event) async* {
     if (event is InitializeFishEvent) {
-      condition = await fileRepository.getFishFilterCondition();
+      condition = await fishRepository.condition;
 
       add(ViewFishEvent());
     } else if (event is DownloadFishEvent) {
@@ -58,7 +58,7 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
                 .map(
                   (fish) => condition.apply(
                     fish,
-                    timeBloc.state.dateTime,
+                    settingBloc.state.dateTime,
                   ),
                 )
                 .toList();
@@ -75,7 +75,7 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
     } else if (event is SetFilterConditionFishEvent) {
       if (state is SuccessFishState) {
         condition = event.condition;
-        fileRepository.setFishFilterCondition(condition);
+        fishRepository.setCondition(condition);
 
         add(ViewFishEvent());
       }

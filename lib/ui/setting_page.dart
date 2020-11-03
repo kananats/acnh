@@ -1,10 +1,10 @@
 import 'package:acnh/bloc/bloc.dart';
-import 'package:acnh/bloc/time/time_event.dart';
+import 'package:acnh/bloc/setting/setting_bloc.dart';
+import 'package:acnh/bloc/setting/setting_event.dart';
+import 'package:acnh/bloc/setting/setting_state.dart';
 import 'package:acnh/dto/language_enum.dart';
 import 'package:intl/intl.dart';
 
-import 'package:acnh/bloc/time/time_bloc.dart';
-import 'package:acnh/bloc/time/time_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,7 +15,7 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
   @override
-  Widget build(BuildContext context) => BlocBuilder<TimeBloc, TimeState>(
+  Widget build(BuildContext context) => BlocBuilder<SettingBloc, SettingState>(
         builder: (context, state) => Scaffold(
           appBar: AppBar(
             title: Text("Settings"),
@@ -53,7 +53,7 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
 
   Widget get _reset => Center(
         child: ElevatedButton(
-          onPressed: () => timeBloc.add(ResetTimeEvent()),
+          onPressed: () => timeBloc.add(TimeResetSettingEvent()),
           child: Text("Reset"),
         ),
       );
@@ -72,17 +72,17 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
         ),
       );
 
-  Widget _freeze(TimeState state) => ListTile(
+  Widget _freeze(SettingState state) => ListTile(
         title: Text("Freeze"),
         trailing: Switch(
-          value: state is PauseTimeState,
+          value: state is TimePauseSettingState,
           onChanged: (value) => timeBloc.add(
-            value ? PauseTimeEvent() : PlayTimeEvent(),
+            value ? TimePauseSettingEvent() : TimePlaySettingEvent(),
           ),
         ),
       );
 
-  Widget _time(BuildContext context, TimeState state) => ListTile(
+  Widget _time(BuildContext context, SettingState state) => ListTile(
         title: Text("Time"),
         trailing: TextButton(
           onPressed: () => _showTimePicker(context, state),
@@ -92,7 +92,7 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
         ),
       );
 
-  Widget _date(BuildContext context, TimeState state) => ListTile(
+  Widget _date(BuildContext context, SettingState state) => ListTile(
         title: Text("Date"),
         trailing: TextButton(
           onPressed: () => _showDatePicker(context, state),
@@ -103,7 +103,7 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
         ),
       );
 
-  Future<void> _showDatePicker(BuildContext context, TimeState state) async {
+  Future<void> _showDatePicker(BuildContext context, SettingState state) async {
     var newDateTime = await showDatePicker(
       context: context,
       initialDate: state.dateTime,
@@ -121,11 +121,11 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
         dateTime.minute,
       );
 
-      timeBloc.add(PauseTimeEvent()..dateTime = dateTime);
+      timeBloc.add(TimePauseSettingEvent()..dateTime = dateTime);
     }
   }
 
-  Future<void> _showTimePicker(BuildContext context, TimeState state) async {
+  Future<void> _showTimePicker(BuildContext context, SettingState state) async {
     var time = await showTimePicker(
       context: context,
       initialEntryMode: TimePickerEntryMode.input,
@@ -145,7 +145,7 @@ class _SettingPageState extends State<SettingPage> with BlocProviderMixin {
         time.minute,
       );
 
-      timeBloc.add(PauseTimeEvent()..dateTime = dateTime);
+      timeBloc.add(TimePauseSettingEvent()..dateTime = dateTime);
     }
   }
 }
