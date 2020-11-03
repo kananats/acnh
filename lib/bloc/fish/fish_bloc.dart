@@ -46,7 +46,7 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
         }
       }
     } else if (event is ViewFishEvent) {
-      if (state is SuccessFishState) {
+      if (state is InitialFishState || state is SuccessFishState) {
         try {
           var tuple = await fishRepository.getFishs();
           var fishs = tuple.item1;

@@ -46,10 +46,13 @@ class SettingBloc extends Bloc<SettingEvent, SettingState>
 
       yield state..setting = setting;
     } else if (event is TimeTickSettingEvent) {
-      if (state is TimeNowSettingState)
-        yield TimeNowSettingState()..setting = await settingRepository.setting;
-      else if (state is TimePlaySettingState) {
-        var setting = await settingRepository.setting;
+      var setting = await settingRepository.setting;
+
+      if (state is TimeNowSettingState) {
+        yield TimeNowSettingState()
+          ..setting = setting
+          ..dateTime = DateTime.now();
+      } else if (state is TimePlaySettingState) {
         yield TimePlaySettingState()
           ..setting = setting
           ..dateTime = DateTime.now().add(setting.freezedOffset);

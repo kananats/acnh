@@ -20,21 +20,21 @@ class InitialSettingState extends SettingState {
 
 class TimeNowSettingState extends SettingState {
   @override
-  SettingState copy() => InitialSettingState()
+  SettingState copy() => TimeNowSettingState()
     ..setting = setting
     ..dateTime = dateTime;
 }
 
 class TimePlaySettingState extends SettingState {
   @override
-  SettingState copy() => InitialSettingState()
+  SettingState copy() => TimePlaySettingState()
     ..setting = setting
     ..dateTime = dateTime;
 }
 
 class TimePauseSettingState extends SettingState {
   @override
-  SettingState copy() => InitialSettingState()
+  SettingState copy() => TimePauseSettingState()
     ..setting = setting
     ..dateTime = dateTime;
 }
