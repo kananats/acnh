@@ -1,12 +1,19 @@
+import 'dart:io';
+
 import 'package:acnh/bloc/bloc.dart';
 import 'package:acnh/bloc/fish/fish_bloc.dart';
 import 'package:acnh/bloc/setting/setting_bloc.dart';
+import 'package:acnh/dto/fish.dart';
+import 'package:acnh/dto/fish_filter_condition.dart';
+import 'package:acnh/ui/common/badge.dart';
 import 'package:acnh/ui/common/my_drawer.dart';
-import 'package:acnh/ui/fish/fish_download_dialog.dart';
-import 'package:acnh/ui/fish/fish_filter_dialog.dart';
-import 'package:acnh/ui/fish/fish_item.dart';
+import 'package:acnh/util/string_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+part 'fish_item.dart';
+part 'fish_download_dialog.dart';
+part 'fish_filter_dialog.dart';
 
 class FishPage extends StatefulWidget {
   @override

@@ -1,7 +1,4 @@
-import 'package:acnh/bloc/bloc.dart';
-import 'package:acnh/bloc/fish/fish_bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+part of 'fish_page.dart';
 
 class FishDownloadDialog extends StatefulWidget {
   @override

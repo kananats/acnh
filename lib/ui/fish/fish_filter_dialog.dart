@@ -1,7 +1,4 @@
-import 'package:acnh/bloc/bloc.dart';
-import 'package:acnh/bloc/fish/fish_bloc.dart';
-import 'package:acnh/dto/fish_filter_condition.dart';
-import 'package:flutter/material.dart';
+part of 'fish_page.dart';
 
 class FishFilterDialog extends StatefulWidget {
   @override
