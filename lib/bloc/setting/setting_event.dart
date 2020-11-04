@@ -5,7 +5,12 @@ abstract class SettingEvent with EquatableMixin {
   List<Object> get props => [];
 }
 
-class InitializeSettingEvent extends SettingEvent {}
+class TickSettingEvent extends SettingEvent {
+  DateTime dateTime;
+
+  @override
+  List<Object> get props => [dateTime];
+}
 
 class SetLanguageSettingEvent extends SettingEvent {
   LanguageEnum language;
@@ -14,15 +19,20 @@ class SetLanguageSettingEvent extends SettingEvent {
   List<Object> get props => [language];
 }
 
-class TimeTickSettingEvent extends SettingEvent {}
-
-class TimePauseSettingEvent extends SettingEvent {
-  DateTime dateTime;
+class SetDateSettingEvent extends SettingEvent {
+  DateTime date;
 
   @override
-  List<Object> get props => [dateTime];
+  List<Object> get props => [date];
 }
 
-class TimePlaySettingEvent extends SettingEvent {}
+class SetTimeSettingEvent extends SettingEvent {
+  TimeOfDay time;
 
-class TimeResetSettingEvent extends SettingEvent {}
+  @override
+  List<Object> get props => [time];
+}
+
+class ToggleFreezeSettingEvent extends SettingEvent {}
+
+class ResetTimeSettingEvent extends SettingEvent {}

@@ -30,7 +30,7 @@ class FishRepository with DaoProviderMixin, RepositoryProviderMixin {
         .map(
           (fish) => condition.apply(
             fish,
-            setting.freezedDateTime,
+            modules.clock.now,
             setting.language ?? LanguageEnum.USen,
           ),
         )

@@ -2,7 +2,7 @@ part of 'setting_bloc.dart';
 
 abstract class SettingState with EquatableMixin {
   Setting setting;
-  DateTime dateTime = DateTime.now();
+  DateTime dateTime;
 
   SettingState copy();
 
@@ -17,23 +17,9 @@ class InitialSettingState extends SettingState {
     ..dateTime = dateTime;
 }
 
-class TimeNowSettingState extends SettingState {
+class ReadySettingState extends SettingState {
   @override
-  SettingState copy() => TimeNowSettingState()
-    ..setting = setting
-    ..dateTime = dateTime;
-}
-
-class TimePlaySettingState extends SettingState {
-  @override
-  SettingState copy() => TimePlaySettingState()
-    ..setting = setting
-    ..dateTime = dateTime;
-}
-
-class TimePauseSettingState extends SettingState {
-  @override
-  SettingState copy() => TimePauseSettingState()
+  SettingState copy() => ReadySettingState()
     ..setting = setting
     ..dateTime = dateTime;
 }

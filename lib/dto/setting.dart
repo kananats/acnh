@@ -6,14 +6,17 @@ part 'setting.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Setting with EquatableMixin {
+  @JsonKey(defaultValue: LanguageEnum.USen)
   LanguageEnum language;
 
-  Duration freezedOffset;
+  Duration dateTimeOffset;
   DateTime freezedDateTime;
+
+  bool get isFreezed => freezedDateTime != null;
 
   Setting copy() => Setting()
     ..language = language
-    ..freezedOffset = freezedOffset
+    ..dateTimeOffset = dateTimeOffset
     ..freezedDateTime = freezedDateTime;
 
   static Setting fromJson(Map<String, dynamic> json) => _$SettingFromJson(json);
@@ -21,5 +24,5 @@ class Setting with EquatableMixin {
   Map<String, dynamic> toJson() => _$SettingToJson(this);
 
   @override
-  List<Object> get props => [language, freezedOffset, freezedDateTime];
+  List<Object> get props => [language, dateTimeOffset, freezedDateTime];
 }

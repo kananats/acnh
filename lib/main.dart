@@ -5,6 +5,7 @@ import 'package:acnh/bloc/setting/setting_bloc.dart';
 import 'package:acnh/dao/dao.dart';
 import 'package:acnh/module.dart';
 import 'package:acnh/ui/fish/fish_page.dart';
+import 'package:acnh/ui/setting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,34 +13,25 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    // ignore: close_sinks
-    final settingBloc = SettingBloc();
-    // ignore: close_sinks
-    final fishBloc = FishBloc();
-
-    settingBloc.fishBloc = fishBloc;
-
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          lazy: false,
-          create: (context) => settingBloc,
+  Widget build(BuildContext context) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            lazy: false,
+            create: (context) => SettingBloc(),
+          ),
+          BlocProvider(
+            create: (context) => FishBloc(),
+          ),
+        ],
+        child: MaterialApp(
+          title: "acnh",
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          home: FishPage(),
         ),
-        BlocProvider(
-          create: (context) => fishBloc,
-        ),
-      ],
-      child: MaterialApp(
-        title: "acnh",
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: FishPage(),
-      ),
-    );
-  }
+      );
 }
 
 // Test code goes here
@@ -53,6 +45,7 @@ class _TestPageState extends State<TestPage> with DaoProviderMixin {
   void initState() {
     super.initState();
 
+    modules.clock.stream.listen((event) => setState(() {}));
     test();
   }
 
@@ -62,10 +55,14 @@ class _TestPageState extends State<TestPage> with DaoProviderMixin {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            modules.clock.toggle();
+          },
+        ),
         body: Container(
-          child: Image.file(
-            File(
-                "/Users/kananats/Library/Developer/CoreSimulator/Devices/1DA5A9A1-55AC-4C16-B60C-D8CF1E7D869B/data/Containers/Data/Application/56EABFB1-C908-4F63-922D-84AF8FAB62C8/Documents/downloads/acnhapi.com/v1/images/fish/1.png"),
+          child: Center(
+            child: Text(modules.clock.now.toString()),
           ),
         ),
       );
