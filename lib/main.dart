@@ -1,15 +1,17 @@
-import 'dart:io';
-
 import 'package:acnh/bloc/fish/fish_bloc.dart';
 import 'package:acnh/bloc/setting/setting_bloc.dart';
 import 'package:acnh/dao/dao.dart';
 import 'package:acnh/module.dart';
 import 'package:acnh/ui/fish/fish_page.dart';
-import 'package:acnh/ui/setting_page.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  EquatableConfig.stringify = true;
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
