@@ -1,8 +1,6 @@
 part of 'repository.dart';
 
 class FishRepository with DaoProviderMixin, RepositoryProviderMixin {
-  FishFilterCondition cachedCondition;
-
   Future<void> fetchFishs() async {
     var fishs = await GetFishs().execute();
 
@@ -42,21 +40,16 @@ class FishRepository with DaoProviderMixin, RepositoryProviderMixin {
   Future<void> updateFish(Fish fish) async => fishDao.update(fish.id, fish);
 
   Future<FishFilterCondition> get condition async {
-    if (cachedCondition != null) return cachedCondition;
-
     var preferences = await modules.localStorage.preferences;
     var value = preferences[PreferencesKey.fishFilterCondition];
-    if (value != null) {
-      cachedCondition = FishFilterCondition.fromJson(json.decode(value));
-    } else {
-      cachedCondition = FishFilterCondition();
-      await setCondition(cachedCondition);
-    }
-    return cachedCondition;
+    if (value != null) return FishFilterCondition.fromJson(json.decode(value));
+    var condition = FishFilterCondition();
+    await setCondition(condition);
+
+    return condition;
   }
 
   Future<void> setCondition(FishFilterCondition condition) async {
-    cachedCondition = condition;
     var preferences = await modules.localStorage.preferences;
     preferences[PreferencesKey.fishFilterCondition] =
         json.encode(condition.toJson());

@@ -22,28 +22,26 @@ class Clock with RepositoryProviderMixin {
   bool get isPlaying => _isPlaying;
 
   Clock() {
-    _stream = Stream.periodic(Duration(seconds: 1))
-        .map((_) => _tick())
-        .asBroadcastStream();
-
-    _subscription = stream.listen((event) {});
+    _stream = _makeStream().asBroadcastStream();
   }
 
-  DateTime _tick() {
-    var setting = settingRepository.cachedSetting;
+  Stream<DateTime> _makeStream() async* {
+    while (true) {
+      var setting = await settingRepository.setting;
 
-    if (setting == null)
-      _now = DateTime.now();
-    else if (setting.freezedDateTime != null) {
-      _now = setting.freezedDateTime;
-      _isPlaying = false;
-    } else if (setting.dateTimeOffset != null) {
-      _now = DateTime.now().add(setting.dateTimeOffset);
-      _isPlaying = true;
-    } else
-      _now = DateTime.now();
-
-    return _now;
+      if (setting == null)
+        _now = DateTime.now();
+      else if (setting.freezedDateTime != null) {
+        _now = setting.freezedDateTime;
+        _isPlaying = false;
+      } else if (setting.dateTimeOffset != null) {
+        _now = DateTime.now().add(setting.dateTimeOffset);
+        _isPlaying = true;
+      } else
+        _now = DateTime.now();
+      yield _now;
+      await Future.delayed(Duration(seconds: 1));
+    }
   }
 
   Future<void> play() async {

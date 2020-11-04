@@ -4,7 +4,7 @@ class StringUtil {
 
   static List<String> formatTimeArray(List<int> times) {
     if (times.isEmpty) return [];
-    if (times.length >= 12) return ["All day"];
+    if (times.length >= 24) return ["All day"];
 
     List<String> result = [];
     var from = times[0];

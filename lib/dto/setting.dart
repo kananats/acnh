@@ -7,7 +7,7 @@ part 'setting.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Setting with EquatableMixin {
   @JsonKey(defaultValue: LanguageEnum.USen)
-  LanguageEnum language;
+  LanguageEnum language = LanguageEnum.USen;
 
   Duration dateTimeOffset;
   DateTime freezedDateTime;

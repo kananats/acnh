@@ -1,10 +1,11 @@
 import 'package:acnh/util/string_util.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'availability.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Availability {
+class Availability with EquatableMixin {
   String location;
   String rarity;
 
@@ -22,7 +23,17 @@ class Availability {
 
   Map<String, dynamic> toJson() => _$AvailabilityToJson(this);
 
+  @override
+  List<Object> get props => [
+        location,
+        rarity,
+        monthArrayNorthern,
+        monthArraySouthern,
+        timeArray,
+      ];
+
   String get availableTime => StringUtil.formatTimeArray(timeArray).join(", ");
+
   String availableMonth(bool isNorth) => StringUtil.formatMonthArray(
         isNorth ? monthArrayNorthern : monthArraySouthern,
       ).join(", ");
@@ -31,7 +42,7 @@ class Availability {
       isAvailableThisMonth(dateTime, isNorth) && isAvailableThisTime(dateTime);
 
   bool isAvailableThisMonth(DateTime dateTime, bool isNorth) =>
-      _monthArray(isNorth).contains(dateTime.month + 1);
+      _monthArray(isNorth).contains(dateTime.month);
 
   bool isAvailableThisTime(DateTime dateTime) =>
       timeArray.contains(dateTime.hour);
