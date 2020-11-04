@@ -1,15 +1,4 @@
-import 'package:acnh/dao/dao.dart';
-import 'package:acnh/data/get_fishs.dart';
-import 'package:acnh/data/preferences.dart';
-import 'package:acnh/dto/language_enum.dart';
-import 'package:acnh/module.dart';
-import 'package:acnh/repository/repository.dart';
-import 'package:acnh/dto/fish.dart';
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:acnh/dto/fish_filter_condition.dart';
-import 'package:tuple/tuple.dart';
+part of 'repository.dart';
 
 class FishRepository with DaoProviderMixin, RepositoryProviderMixin {
   FishFilterCondition cachedCondition;
@@ -42,7 +31,7 @@ class FishRepository with DaoProviderMixin, RepositoryProviderMixin {
           (fish) => condition.apply(
             fish,
             setting.freezedDateTime,
-            settingRepository.cachedSetting?.language ?? LanguageEnum.USen,
+            setting.language ?? LanguageEnum.USen,
           ),
         )
         .toList();

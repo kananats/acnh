@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:acnh/dto/fish.dart';
-import 'package:acnh/module.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 

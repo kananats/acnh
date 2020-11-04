@@ -1,6 +1,12 @@
-import 'package:acnh/dao/fish_dao.dart';
+import 'dart:convert';
+
+import 'package:acnh/dto/availability.dart';
+import 'package:acnh/dto/fish.dart';
+import 'package:acnh/dto/name.dart';
 import 'package:acnh/module.dart';
 import 'package:sqflite/sqlite_api.dart';
+
+part 'fish_dao.dart';
 
 mixin DaoProviderMixin {
   FishDao get fishDao => modules.fishDao;

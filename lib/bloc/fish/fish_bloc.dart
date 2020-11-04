@@ -1,9 +1,12 @@
+import 'package:acnh/dto/fish.dart';
+import 'package:acnh/dto/fish_filter_condition.dart';
 import 'package:acnh/repository/repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:acnh/bloc/fish/fish_event.dart';
-import 'package:acnh/bloc/fish/fish_state.dart';
+part 'fish_event.dart';
+part 'fish_state.dart';
 
 class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
   FishBloc() : super(InitialFishState()) {
@@ -51,10 +54,11 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
           var tuple = await fishRepository.getFishs();
           var fishs = tuple.item1;
           var isVisibles = tuple.item2;
-          if (fishs.isEmpty)
+          if (fishs.isEmpty) {
             yield NotDownloadedFishState()
               ..condition = await fishRepository.condition;
-
+            return;
+          }
           yield SuccessFishState()
             ..condition = await fishRepository.condition
             ..fishs = fishs

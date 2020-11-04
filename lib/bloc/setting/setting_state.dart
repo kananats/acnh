@@ -1,5 +1,4 @@
-import 'package:acnh/dto/setting.dart';
-import 'package:equatable/equatable.dart';
+part of 'setting_bloc.dart';
 
 abstract class SettingState with EquatableMixin {
   Setting setting;

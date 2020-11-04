@@ -1,11 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'dart:convert';
-
-import 'package:acnh/dao/dao.dart';
-import 'package:acnh/dto/availability.dart';
-import 'package:acnh/dto/fish.dart';
-import 'package:acnh/dto/name.dart';
+part of 'dao.dart';
 
 class FishDao with Dao<Fish> {
   @override

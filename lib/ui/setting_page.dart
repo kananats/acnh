@@ -1,7 +1,5 @@
 import 'package:acnh/bloc/bloc.dart';
 import 'package:acnh/bloc/setting/setting_bloc.dart';
-import 'package:acnh/bloc/setting/setting_event.dart';
-import 'package:acnh/bloc/setting/setting_state.dart';
 import 'package:acnh/dto/language_enum.dart';
 import 'package:intl/intl.dart';
 

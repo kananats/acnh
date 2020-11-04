@@ -1,17 +1,22 @@
 import 'dart:async';
 
 import 'package:acnh/bloc/fish/fish_bloc.dart';
-import 'package:acnh/bloc/fish/fish_event.dart';
-import 'package:acnh/bloc/setting/setting_event.dart';
-import 'package:acnh/bloc/setting/setting_state.dart';
+import 'package:acnh/dto/language_enum.dart';
+import 'package:acnh/dto/setting.dart';
 import 'package:acnh/repository/repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+part 'setting_event.dart';
+part 'setting_state.dart';
 
 class SettingBloc extends Bloc<SettingEvent, SettingState>
     with RepositoryProviderMixin {
   FishBloc fishBloc;
 
+  // ignore: unused_field
+  // ignore: cancel_subscriptions
   StreamSubscription<void> _subscription;
 
   SettingBloc() : super(InitialSettingState()) {

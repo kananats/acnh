@@ -1,8 +1,4 @@
-import 'dart:async';
-import 'dart:io';
-
-import 'package:dio/dio.dart';
-import 'package:path_provider/path_provider.dart';
+part of 'repository.dart';
 
 class FileRepository {
   Future<String> download(String url) async {

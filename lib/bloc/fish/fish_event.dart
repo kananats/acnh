@@ -1,6 +1,4 @@
-import 'package:acnh/dto/fish.dart';
-import 'package:acnh/dto/fish_filter_condition.dart';
-import 'package:equatable/equatable.dart';
+part of 'fish_bloc.dart';
 
 abstract class FishEvent with EquatableMixin {
   @override

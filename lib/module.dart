@@ -1,8 +1,6 @@
-import 'package:acnh/dao/fish_dao.dart';
+import 'package:acnh/dao/dao.dart';
 import 'package:acnh/data/db.dart';
-import 'package:acnh/repository/fish_repository.dart';
-import 'package:acnh/repository/file_repository.dart';
-import 'package:acnh/repository/setting_repository.dart';
+import 'package:acnh/repository/repository.dart';
 
 var modules = Modules();
 

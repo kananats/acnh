@@ -1,5 +1,4 @@
-import 'package:acnh/dto/language_enum.dart';
-import 'package:equatable/equatable.dart';
+part of 'setting_bloc.dart';
 
 abstract class SettingEvent with EquatableMixin {
   @override

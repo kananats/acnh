@@ -1,9 +1,4 @@
-import 'dart:async';
-import 'dart:convert';
-import 'package:acnh/module.dart';
-import 'package:acnh/data/preferences.dart';
-import 'package:acnh/dto/language_enum.dart';
-import 'package:acnh/dto/setting.dart';
+part of 'repository.dart';
 
 class SettingRepository {
   Setting cachedSetting;
