@@ -50,9 +50,10 @@ class MyDrawer extends StatelessWidget {
           context: context,
           applicationVersion: "0.0.1",
           applicationLegalese: """
-Things may break. 
-Use at your own risk.
 Made by @mnrfromnano
+API provided by http://acnhapi.com/
+This app is in development. Things may break. Use at your own risk.
+
           """,
         ),
       );
