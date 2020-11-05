@@ -1,6 +1,7 @@
 # User-defined
 **/*.g.dart
 /vendor/bundle
+fastfile/report.xml
 
 # Miscellaneous
 *.class
