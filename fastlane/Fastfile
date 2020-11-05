@@ -3,11 +3,8 @@ fastlane_version "2.166.0"
 desc "Build apk and upload to App Center"
 lane :appcenter_android do
     # Build apk
-    sh("flutter build apk")
-    path = "../build/app/outputs/flutter-apk/app-release.apk"
-    unless File.exist?(path) 
-        UI.user_error!("apk doesn't exist at path #{path}")
-    end
+    # sh("flutter build apk")
+    path = "./build/app/outputs/flutter-apk/app-release.apk"
     # Upload to appcenter
     appcenter_upload(
         owner_name: "kananats",
