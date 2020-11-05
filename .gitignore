@@ -1,6 +1,17 @@
 # User-defined
 **/*.g.dart
 
+# Rubygems
+/.bundle/
+/.yardoc
+/Gemfile.lock
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+
 # Miscellaneous
 *.class
 *.log
