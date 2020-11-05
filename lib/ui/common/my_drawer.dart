@@ -18,8 +18,7 @@ class MyDrawer extends StatelessWidget {
   Widget _fish(BuildContext context) => ListTile(
         title: Text("Fish"),
         onTap: () {
-          Navigator.of(context).pop();
-          Navigator.of(context).push(MaterialPageRoute(
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (_) => FishPage(),
           ));
         },
@@ -28,8 +27,7 @@ class MyDrawer extends StatelessWidget {
   Widget _setting(BuildContext context) => ListTile(
         title: Text("Settings"),
         onTap: () {
-          Navigator.of(context).pop();
-          Navigator.of(context).push(MaterialPageRoute(
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (_) => SettingPage(),
           ));
         },

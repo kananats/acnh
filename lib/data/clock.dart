@@ -3,8 +3,13 @@
 
 import 'dart:async';
 
+import 'package:acnh/modules.dart';
 import 'package:acnh/repository/repository.dart';
 import 'package:flutter/material.dart';
+
+mixin ClockProviderMixin {
+  Clock get clock => modules.clock;
+}
 
 class Clock with RepositoryProviderMixin {
   StreamSubscription<DateTime> _subscription;
@@ -40,6 +45,7 @@ class Clock with RepositoryProviderMixin {
       } else
         _now = DateTime.now();
       yield _now;
+
       await Future.delayed(Duration(seconds: 1));
     }
   }

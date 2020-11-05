@@ -3,9 +3,10 @@
 
 import 'dart:async';
 
+import 'package:acnh/data/clock.dart';
 import 'package:acnh/dto/language_enum.dart';
 import 'package:acnh/dto/setting.dart';
-import 'package:acnh/module.dart';
+import 'package:acnh/modules.dart';
 import 'package:acnh/repository/repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -16,11 +17,11 @@ part 'setting_event.dart';
 part 'setting_state.dart';
 
 class SettingBloc extends Bloc<SettingEvent, SettingState>
-    with RepositoryProviderMixin {
+    with RepositoryProviderMixin, ClockProviderMixin {
   StreamSubscription<DateTime> _subscription;
 
   SettingBloc() : super(InitialSettingState()) {
-    _subscription = modules.clock.stream.listen(
+    _subscription = clock.stream.listen(
       (event) => add(
         TickSettingEvent()..dateTime = event,
       ),
@@ -41,38 +42,38 @@ class SettingBloc extends Bloc<SettingEvent, SettingState>
         var setting = (await settingRepository.setting).copy();
         yield ReadySettingState()
           ..setting = setting
-          ..dateTime = modules.clock.now;
+          ..dateTime = clock.now;
       } else if (event is SetLanguageSettingEvent) {
         var setting = (await settingRepository.setting).copy();
         setting.language = event.language;
         await settingRepository.setSetting(setting);
         yield ReadySettingState()
           ..setting = setting
-          ..dateTime = modules.clock.now;
+          ..dateTime = clock.now;
       } else if (event is SetDateSettingEvent) {
         await modules.clock.setDate(event.date);
         var setting = await settingRepository.setting;
         yield ReadySettingState()
           ..setting = setting
-          ..dateTime = modules.clock.now;
+          ..dateTime = clock.now;
       } else if (event is SetTimeSettingEvent) {
         await modules.clock.setTime(event.time);
         var setting = await settingRepository.setting;
         yield ReadySettingState()
           ..setting = setting
-          ..dateTime = modules.clock.now;
+          ..dateTime = clock.now;
       } else if (event is ToggleFreezeSettingEvent) {
         await modules.clock.toggle();
         var setting = await settingRepository.setting;
         yield ReadySettingState()
           ..setting = setting
-          ..dateTime = modules.clock.now;
+          ..dateTime = clock.now;
       } else if (event is ResetTimeSettingEvent) {
-        await modules.clock.reset();
+        await clock.reset();
         var setting = await settingRepository.setting;
         yield ReadySettingState()
           ..setting = setting
-          ..dateTime = modules.clock.now;
+          ..dateTime = clock.now;
       }
     }
   }

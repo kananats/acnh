@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:tuple/tuple.dart';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:acnh/module.dart';
+import 'package:acnh/modules.dart';
 import 'package:acnh/dao/dao.dart';
 import 'package:acnh/data/get_fishs.dart';
 import 'package:acnh/data/preferences.dart';

@@ -18,7 +18,7 @@ class _FishDownloadDialogState extends State<FishDownloadDialog>
                 builder: (context, state) {
                   if (state is DownloadingFishState)
                     return _downloadingState(state);
-                  else if (state is SuccessFishState)
+                  else if (state is ReadyFishState)
                     return _successState(context);
                   else if (state is FailedFishState)
                     return _failedState(context, state);

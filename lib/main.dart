@@ -1,7 +1,7 @@
 import 'package:acnh/bloc/fish/fish_bloc.dart';
 import 'package:acnh/bloc/setting/setting_bloc.dart';
 import 'package:acnh/dao/dao.dart';
-import 'package:acnh/module.dart';
+import 'package:acnh/modules.dart';
 import 'package:acnh/ui/fish/fish_page.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -43,29 +43,12 @@ class TestPage extends StatefulWidget {
 }
 
 class _TestPageState extends State<TestPage> with DaoProviderMixin {
-  @override
-  void initState() {
-    super.initState();
-
-    modules.clock.stream.listen((event) => setState(() {}));
-    test();
-  }
-
   void test() async {
     var preferences = await modules.localStorage.preferences;
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            modules.clock.toggle();
-          },
-        ),
-        body: Container(
-          child: Center(
-            child: Text(modules.clock.now.toString()),
-          ),
-        ),
+        body: Container(),
       );
 }

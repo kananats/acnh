@@ -1,3 +1,9 @@
+// ignore_for_file: cancel_subscriptions
+// ignore_for_file: unused_field
+
+import 'dart:async';
+
+import 'package:acnh/data/clock.dart';
 import 'package:acnh/dto/fish.dart';
 import 'package:acnh/dto/fish_filter_condition.dart';
 import 'package:acnh/repository/repository.dart';
@@ -8,9 +14,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'fish_event.dart';
 part 'fish_state.dart';
 
-class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
+class FishBloc extends Bloc<FishEvent, FishState>
+    with RepositoryProviderMixin, ClockProviderMixin {
+  StreamSubscription<DateTime> _subscription;
+
   FishBloc() : super(InitialFishState()) {
-    add(ViewFishEvent());
+    _subscription = clock.stream.listen(
+      (event) => add(ViewFishEvent()),
+    );
   }
 
   @override
@@ -38,7 +49,7 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
             await fishRepository.downloadFishImage(fishs[index]);
           }
 
-          yield SuccessFishState()
+          yield ReadyFishState()
             ..condition = await fishRepository.condition
             ..fishs = fishs
             ..isVisibles = isVisibles;
@@ -49,17 +60,18 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
         }
       }
     } else if (event is ViewFishEvent) {
-      if (state is InitialFishState || state is SuccessFishState) {
+      if (state is InitialFishState || state is ReadyFishState) {
         try {
           var tuple = await fishRepository.getFishs();
           var fishs = tuple.item1;
           var isVisibles = tuple.item2;
+
           if (fishs.isEmpty) {
-            yield NotDownloadedFishState()
+            yield InitialFishState()
               ..condition = await fishRepository.condition;
             return;
           }
-          yield SuccessFishState()
+          yield ReadyFishState()
             ..condition = await fishRepository.condition
             ..fishs = fishs
             ..isVisibles = isVisibles;
@@ -70,17 +82,15 @@ class FishBloc extends Bloc<FishEvent, FishState> with RepositoryProviderMixin {
         }
       }
     } else if (event is UpdateFishEvent) {
-      if (state is SuccessFishState) {
+      if (state is ReadyFishState) {
         await fishRepository.updateFish(event.fish);
 
         add(ViewFishEvent());
       }
     } else if (event is SetFilterConditionFishEvent) {
-      if (state is SuccessFishState) {
-        fishRepository.setCondition(event.condition);
+      await fishRepository.setCondition(event.condition);
 
-        add(ViewFishEvent());
-      }
+      if (state is ReadyFishState) add(ViewFishEvent());
     }
   }
 }

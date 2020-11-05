@@ -8,8 +8,8 @@ part 'fish_filter_condition.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class FishFilterCondition with EquatableMixin {
-  @JsonKey(defaultValue: "")
-  String search = "";
+  @JsonKey(ignore: true)
+  String keyword = "";
 
   @JsonKey(defaultValue: true)
   bool isNorth = true;
@@ -35,13 +35,13 @@ class FishFilterCondition with EquatableMixin {
     if (availability == AvailabilityEnum.thisMonth &&
         !fish.availability.isAvailableThisMonth(dateTime, isNorth))
       return false;
-    if (!fish.name.of(language).contains(search)) return false;
+    if (!fish.name.of(language).contains(keyword)) return false;
 
     return true;
   }
 
   FishFilterCondition copy() => FishFilterCondition()
-    ..search = search
+    ..keyword = keyword
     ..isNorth = isNorth
     ..availability = availability
     ..hideCaught = hideCaught
@@ -55,7 +55,7 @@ class FishFilterCondition with EquatableMixin {
 
   @override
   List<Object> get props => [
-        search,
+        keyword,
         isNorth,
         availability,
         hideCaught,

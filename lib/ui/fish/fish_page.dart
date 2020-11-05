@@ -23,7 +23,8 @@ class FishPage extends StatefulWidget {
 class _FishPageState extends State<FishPage> with BlocProviderMixin {
   @override
   Widget build(BuildContext context) => BlocBuilder<SettingBloc, SettingState>(
-        builder: (context, state) => BlocBuilder<FishBloc, FishState>(
+        builder: (settingContext, settingState) =>
+            BlocBuilder<FishBloc, FishState>(
           builder: (context, state) => Scaffold(
             appBar: AppBar(
               title: Text("Fish"),
@@ -66,7 +67,7 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
   Widget _searchTextField(FishState state) => TextField(
         onChanged: (value) => fishBloc.add(
           SetFilterConditionFishEvent(
-            state.condition..search = value,
+            state.condition..keyword = value,
           ),
         ),
       );
@@ -77,8 +78,6 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
       pageBuilder: (context, animation, secondaryAnimation) =>
           FishFilterDialog(),
     );
-
-    setState(() {});
   }
 
   Future<void> _showDownloadDialog(BuildContext context) async {
@@ -87,12 +86,10 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
       pageBuilder: (context, animation, secondaryAnimation) =>
           FishDownloadDialog(),
     );
-
-    setState(() {});
   }
 
   Widget _body(BuildContext context, FishState state) {
-    if (state is SuccessFishState)
+    if (state is ReadyFishState)
       return Expanded(
         child: ListView.builder(
           shrinkWrap: true,
