@@ -35,7 +35,7 @@ class FishFilterCondition with EquatableMixin {
     if (availability == AvailabilityEnum.thisMonth &&
         !fish.availability.isAvailableThisMonth(dateTime, isNorth))
       return false;
-    if (!fish.name.of(language).contains(keyword)) return false;
+    if (!fish.name.of(language).contains(keyword.toLowerCase())) return false;
 
     return true;
   }
