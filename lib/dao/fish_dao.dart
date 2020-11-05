@@ -8,50 +8,50 @@ class FishDao with Dao<Fish> {
 
   @override
   List<String> get ignoredProps => [
-        _Columns.image_path,
-        _Columns.icon_path,
-        _Columns.is_caught,
-        _Columns.is_donated,
+        FishColumns.image_path,
+        FishColumns.icon_path,
+        FishColumns.is_caught,
+        FishColumns.is_donated,
       ];
 
   @override
   Fish fromMap(Map<String, dynamic> map) => Fish()
-    ..id = map[_Columns.id]
-    ..fileName = map[_Columns.file_name]
-    ..name = Name.fromJson(json.decode(map[_Columns.name]))
+    ..id = map[FishColumns.id]
+    ..fileName = map[FishColumns.file_name]
+    ..name = Name.fromJson(json.decode(map[FishColumns.name]))
     ..availability =
-        Availability.fromJson(json.decode(map[_Columns.availability]))
-    ..shadow = map[_Columns.shadow]
-    ..price = map[_Columns.price]
-    ..catchPhrase = map[_Columns.catch_phrase]
-    ..museumPhrase = map[_Columns.museum_phrase]
-    ..imageUri = map[_Columns.image_uri]
-    ..iconUri = map[_Columns.icon_uri]
-    ..imagePath = map[_Columns.image_path]
-    ..iconPath = map[_Columns.icon_path]
-    ..isCaught = map[_Columns.is_caught] == 1
-    ..isDonated = map[_Columns.is_donated] == 1;
+        Availability.fromJson(json.decode(map[FishColumns.availability]))
+    ..shadow = map[FishColumns.shadow]
+    ..price = map[FishColumns.price]
+    ..catchPhrase = map[FishColumns.catch_phrase]
+    ..museumPhrase = map[FishColumns.museum_phrase]
+    ..imageUri = map[FishColumns.image_uri]
+    ..iconUri = map[FishColumns.icon_uri]
+    ..imagePath = map[FishColumns.image_path]
+    ..iconPath = map[FishColumns.icon_path]
+    ..isCaught = map[FishColumns.is_caught] == 1
+    ..isDonated = map[FishColumns.is_donated] == 1;
 
   @override
   Map<String, dynamic> toMap(Fish data) => {
-        _Columns.id: data.id,
-        _Columns.file_name: data.fileName,
-        _Columns.name: json.encode(data.name.toJson()),
-        _Columns.availability: json.encode(data.availability.toJson()),
-        _Columns.shadow: data.shadow,
-        _Columns.price: data.price,
-        _Columns.catch_phrase: data.catchPhrase,
-        _Columns.museum_phrase: data.museumPhrase,
-        _Columns.image_uri: data.imageUri,
-        _Columns.icon_uri: data.iconUri,
-        _Columns.image_path: data.imagePath,
-        _Columns.icon_path: data.iconPath,
-        _Columns.is_caught: data.isCaught == true ? 1 : 0,
-        _Columns.is_donated: data.isDonated == true ? 1 : 0,
+        FishColumns.id: data.id,
+        FishColumns.file_name: data.fileName,
+        FishColumns.name: json.encode(data.name.toJson()),
+        FishColumns.availability: json.encode(data.availability.toJson()),
+        FishColumns.shadow: data.shadow,
+        FishColumns.price: data.price,
+        FishColumns.catch_phrase: data.catchPhrase,
+        FishColumns.museum_phrase: data.museumPhrase,
+        FishColumns.image_uri: data.imageUri,
+        FishColumns.icon_uri: data.iconUri,
+        FishColumns.image_path: data.imagePath,
+        FishColumns.icon_path: data.iconPath,
+        FishColumns.is_caught: data.isCaught == true ? 1 : 0,
+        FishColumns.is_donated: data.isDonated == true ? 1 : 0,
       };
 }
 
-class _Columns {
+class FishColumns {
   static final id = "id";
   static final file_name = "file_name";
   static final name = "name";

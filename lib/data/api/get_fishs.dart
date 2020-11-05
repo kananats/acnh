@@ -1,5 +1,4 @@
-import 'package:acnh/data/request.dart';
-import 'package:acnh/dto/fish.dart';
+part of 'api.dart';
 
 class GetFishs with RequestMixin<List<Fish>> {
   @override

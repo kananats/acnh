@@ -53,3 +53,9 @@ class Availability with EquatableMixin {
   List<int> _monthArray(bool isNorth) =>
       isNorth ? monthArrayNorthern : monthArraySouthern;
 }
+
+enum AvailabilityEnum {
+  all,
+  now,
+  thisMonth,
+}

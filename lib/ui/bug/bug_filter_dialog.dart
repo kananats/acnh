@@ -1,19 +1,19 @@
-part of 'fish_page.dart';
+part of 'bug_page.dart';
 
-class FishFilterDialog extends StatefulWidget {
+class BugFilterDialog extends StatefulWidget {
   @override
-  _FishFilterDialogState createState() => _FishFilterDialogState();
+  _BugFilterDialogState createState() => _BugFilterDialogState();
 }
 
-class _FishFilterDialogState extends State<FishFilterDialog>
+class _BugFilterDialogState extends State<BugFilterDialog>
     with BlocProviderMixin {
-  FishFilterCondition _condition;
+  BugFilterCondition _condition;
 
   @override
   void initState() {
     super.initState();
 
-    _condition = fishBloc.state.condition.copy();
+    _condition = bugBloc.state.condition.copy();
   }
 
   @override
@@ -43,7 +43,7 @@ class _FishFilterDialogState extends State<FishFilterDialog>
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          fishBloc.add(SetFilterConditionFishEvent(_condition));
+                          bugBloc.add(SetFilterConditionBugEvent(_condition));
                           Navigator.of(context).pop();
                         },
                         child: Text("OK"),

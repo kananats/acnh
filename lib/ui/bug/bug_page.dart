@@ -1,34 +1,34 @@
 import 'dart:io';
 
 import 'package:acnh/bloc/bloc.dart';
-import 'package:acnh/bloc/fish/fish_bloc.dart';
+import 'package:acnh/bloc/bug/bug_bloc.dart';
 import 'package:acnh/bloc/setting/setting_bloc.dart';
 import 'package:acnh/dto/availability.dart';
-import 'package:acnh/dto/fish.dart';
-import 'package:acnh/dto/fish_filter_condition.dart';
+import 'package:acnh/dto/bug.dart';
+import 'package:acnh/dto/bug_filter_condition.dart';
 import 'package:acnh/ui/common/badge.dart';
 import 'package:acnh/ui/common/my_drawer.dart';
 import 'package:acnh/util/string_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'fish_item.dart';
-part 'fish_download_dialog.dart';
-part 'fish_filter_dialog.dart';
+part 'bug_item.dart';
+part 'bug_download_dialog.dart';
+part 'bug_filter_dialog.dart';
 
-class FishPage extends StatefulWidget {
+class BugPage extends StatefulWidget {
   @override
-  _FishPageState createState() => _FishPageState();
+  _BugPageState createState() => _BugPageState();
 }
 
-class _FishPageState extends State<FishPage> with BlocProviderMixin {
+class _BugPageState extends State<BugPage> with BlocProviderMixin {
   @override
   Widget build(BuildContext context) => BlocBuilder<SettingBloc, SettingState>(
         builder: (settingContext, settingState) =>
-            BlocBuilder<FishBloc, FishState>(
+            BlocBuilder<BugBloc, BugState>(
           builder: (context, state) => Scaffold(
             appBar: AppBar(
-              title: Text("Fish"),
+              title: Text("Bug"),
               actions: [
                 GestureDetector(
                   child: Icon(Icons.cloud_download),
@@ -65,9 +65,9 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
         ),
       );
 
-  Widget _searchTextField(FishState state) => TextField(
-        onChanged: (value) => fishBloc.add(
-          SetFilterConditionFishEvent(
+  Widget _searchTextField(BugState state) => TextField(
+        onChanged: (value) => bugBloc.add(
+          SetFilterConditionBugEvent(
             state.condition..keyword = value,
           ),
         ),
@@ -77,7 +77,7 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
     await showGeneralDialog<void>(
       context: context,
       pageBuilder: (context, animation, secondaryAnimation) =>
-          FishFilterDialog(),
+          BugFilterDialog(),
     );
   }
 
@@ -85,19 +85,19 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
     await showGeneralDialog<void>(
       context: context,
       pageBuilder: (context, animation, secondaryAnimation) =>
-          FishDownloadDialog(),
+          BugDownloadDialog(),
     );
   }
 
-  Widget _body(BuildContext context, FishState state) {
-    if (state is ReadyFishState)
+  Widget _body(BuildContext context, BugState state) {
+    if (state is ReadyBugState)
       return Expanded(
         child: ListView.builder(
           shrinkWrap: true,
           padding: EdgeInsets.all(12),
-          itemCount: state.fishs.length,
-          itemBuilder: (context, index) => FishItem(
-            fish: state.fishs[index],
+          itemCount: state.bugs.length,
+          itemBuilder: (context, index) => BugItem(
+            bug: state.bugs[index],
             isVisible: state.isVisibles[index],
           ),
         ),

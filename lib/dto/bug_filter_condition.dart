@@ -1,13 +1,13 @@
 import 'package:acnh/dto/availability.dart';
-import 'package:acnh/dto/fish.dart';
+import 'package:acnh/dto/bug.dart';
 import 'package:acnh/dto/language_enum.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'fish_filter_condition.g.dart';
+part 'bug_filter_condition.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class FishFilterCondition with EquatableMixin {
+class BugFilterCondition with EquatableMixin {
   @JsonKey(ignore: true)
   String keyword = "";
 
@@ -26,21 +26,20 @@ class FishFilterCondition with EquatableMixin {
   @JsonKey(defaultValue: false)
   bool hideAllYear = false;
 
-  bool apply(Fish fish, DateTime dateTime, LanguageEnum language) {
-    if (hideCaught && fish.isCaught) return false;
-    if (hideDonated && fish.isDonated) return false;
-    if (hideAllYear && fish.availability.isAvailableAllYear) return false;
+  bool apply(Bug bug, DateTime dateTime, LanguageEnum language) {
+    if (hideCaught && bug.isCaught) return false;
+    if (hideDonated && bug.isDonated) return false;
+    if (hideAllYear && bug.availability.isAvailableAllYear) return false;
     if (availability == AvailabilityEnum.now &&
-        !fish.availability.isAvailableNow(dateTime, isNorth)) return false;
+        !bug.availability.isAvailableNow(dateTime, isNorth)) return false;
     if (availability == AvailabilityEnum.thisMonth &&
-        !fish.availability.isAvailableThisMonth(dateTime, isNorth))
-      return false;
-    if (!fish.name.of(language).contains(keyword.toLowerCase())) return false;
+        !bug.availability.isAvailableThisMonth(dateTime, isNorth)) return false;
+    if (!bug.name.of(language).contains(keyword.toLowerCase())) return false;
 
     return true;
   }
 
-  FishFilterCondition copy() => FishFilterCondition()
+  BugFilterCondition copy() => BugFilterCondition()
     ..keyword = keyword
     ..isNorth = isNorth
     ..availability = availability
@@ -48,10 +47,10 @@ class FishFilterCondition with EquatableMixin {
     ..hideDonated = hideDonated
     ..hideAllYear = hideAllYear;
 
-  static FishFilterCondition fromJson(Map<String, dynamic> json) =>
-      _$FishFilterConditionFromJson(json);
+  static BugFilterCondition fromJson(Map<String, dynamic> json) =>
+      _$BugFilterConditionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FishFilterConditionToJson(this);
+  Map<String, dynamic> toJson() => _$BugFilterConditionToJson(this);
 
   @override
   List<Object> get props => [

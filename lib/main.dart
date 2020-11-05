@@ -1,3 +1,4 @@
+import 'package:acnh/bloc/bug/bug_bloc.dart';
 import 'package:acnh/bloc/fish/fish_bloc.dart';
 import 'package:acnh/bloc/setting/setting_bloc.dart';
 import 'package:acnh/dao/dao.dart';
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => FishBloc(),
+          ),
+          BlocProvider(
+            create: (context) => BugBloc(),
           ),
         ],
         child: MaterialApp(
