@@ -8,7 +8,7 @@ part 'fish_filter_condition.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class FishFilterCondition with EquatableMixin {
-  @JsonKey(ignore: true)
+  @JsonKey(defaultValue: "")
   String keyword = "";
 
   @JsonKey(defaultValue: true)

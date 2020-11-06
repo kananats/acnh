@@ -43,7 +43,7 @@ class _BugFilterDialogState extends State<BugFilterDialog>
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          bugBloc.add(SetFilterConditionBugEvent(_condition));
+                          bugBloc.add(SetConditionBugEvent(_condition));
                           Navigator.of(context).pop();
                         },
                         child: Text("OK"),

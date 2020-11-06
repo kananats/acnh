@@ -43,7 +43,7 @@ class _FishFilterDialogState extends State<FishFilterDialog>
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          fishBloc.add(SetFilterConditionFishEvent(_condition));
+                          fishBloc.add(SetConditionFishEvent(_condition));
                           Navigator.of(context).pop();
                         },
                         child: Text("OK"),

@@ -55,20 +55,20 @@ class _BugDownloadDialogState extends State<BugDownloadDialog>
         children: [
           CircularProgressIndicator(),
           SizedBox(height: 12),
-          Text(state.downloadingString),
+          Text(state.progressString),
         ],
       );
 
   Widget _successState(BuildContext context) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("Download Complete"),
+          Text("Download Bug Images?"),
           ButtonBar(
             alignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
                 onPressed: () => bugBloc.add(DownloadBugEvent()),
-                child: Text("Download Again"),
+                child: Text("Download"),
               ),
               RaisedButton(
                 onPressed: () => Navigator.of(context).pop(),

@@ -6,10 +6,12 @@ import 'dart:async';
 import 'package:acnh/data/clock.dart';
 import 'package:acnh/dto/fish.dart';
 import 'package:acnh/dto/fish_filter_condition.dart';
+import 'package:acnh/error/error.dart';
 import 'package:acnh/repository/repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tuple/tuple.dart';
 
 part 'fish_event.dart';
 part 'fish_state.dart';
@@ -20,77 +22,61 @@ class FishBloc extends Bloc<FishEvent, FishState>
 
   FishBloc() : super(InitialFishState()) {
     _subscription = clock.stream.listen(
-      (event) => add(ViewFishEvent()),
+      (event) => add(FindFishEvent()),
     );
   }
 
   @override
   Stream<FishState> mapEventToState(FishEvent event) async* {
-    if (event is DownloadFishEvent) {
-      if (state is! DownloadingFishState) {
+    if (state is InitialFishState) {
+      if (event is FindFishEvent) {
+        List<Tuple2<Fish, bool>> tuples;
         try {
-          yield DownloadingFishState()
-            ..condition = await fishRepository.condition;
-
-          await fishRepository.fetchFishs();
-
-          var tuple = await fishRepository.getFishs();
-          var fishs = tuple.item1;
-          var isVisibles = tuple.item2;
-
-          if (fishs.isEmpty) throw Exception("Fishs are empty");
-
-          for (int index = 0; index < fishs.length; index++) {
-            yield DownloadingFishState()
-              ..condition = await fishRepository.condition
-              ..count = index + 1
-              ..total = fishs.length;
-
-            await fishRepository.downloadFishImage(fishs[index]);
-          }
-
-          yield ReadyFishState()
-            ..condition = await fishRepository.condition
-            ..fishs = fishs
-            ..isVisibles = isVisibles;
-        } catch (error) {
-          yield FailedFishState()
-            ..condition = await fishRepository.condition
-            ..error = error.toString();
+          tuples = await fishRepository.findFishs();
+        } on NoFishError {
+          tuples = await fishRepository.fetchFishs();
         }
+
+        yield ReadyFishState()
+          ..condition = await fishRepository.condition
+          ..fishs = tuples.map((e) => e.item1).toList()
+          ..isVisibles = tuples.map((e) => e.item2).toList();
       }
-    } else if (event is ViewFishEvent) {
-      if (state is InitialFishState || state is ReadyFishState) {
+    } else if (state is ReadyFishState) {
+      if (event is FindFishEvent) {
+        List<Tuple2<Fish, bool>> tuples;
         try {
-          var tuple = await fishRepository.getFishs();
-          var fishs = tuple.item1;
-          var isVisibles = tuple.item2;
-
-          if (fishs.isEmpty) {
-            yield InitialFishState()
-              ..condition = await fishRepository.condition;
-            return;
-          }
-          yield ReadyFishState()
-            ..condition = await fishRepository.condition
-            ..fishs = fishs
-            ..isVisibles = isVisibles;
-        } catch (error) {
-          yield FailedFishState()
-            ..condition = await fishRepository.condition
-            ..error = error.toString();
+          tuples = await fishRepository.findFishs();
+        } on NoFishError {
+          return;
         }
-      }
-    } else if (event is UpdateFishEvent) {
-      if (state is ReadyFishState) {
+
+        yield ReadyFishState()
+          ..condition = await fishRepository.condition
+          ..fishs = tuples.map((e) => e.item1).toList()
+          ..isVisibles = tuples.map((e) => e.item2).toList();
+      } else if (event is UpdateFishEvent) {
         await fishRepository.updateFish(event.fish);
 
-        add(ViewFishEvent());
-      }
-    } else if (event is SetFilterConditionFishEvent) {
-      await fishRepository.setCondition(event.condition);
+        add(FindFishEvent());
+      } else if (event is SetConditionFishEvent) {
+        await fishRepository.setCondition(event.condition);
 
-      if (state is ReadyFishState) add(ViewFishEvent());
+        add(FindFishEvent());
+      } else if (event is DownloadFishEvent) {
+        yield DownloadingFishState()
+          ..condition = await fishRepository.condition;
+
+        var tuples = await fishRepository.fetchFishs();
+
+        await fishRepository.downloadFishImages();
+        tuples = await fishRepository.findFishs();
+
+        yield ReadyFishState()
+          ..condition = await fishRepository.condition
+          ..fishs = tuples.map((e) => e.item1).toList()
+          ..isVisibles = tuples.map((e) => e.item2).toList();
+      }
     }
   }
 }

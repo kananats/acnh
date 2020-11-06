@@ -65,9 +65,10 @@ class _BugPageState extends State<BugPage> with BlocProviderMixin {
         ),
       );
 
-  Widget _searchTextField(BugState state) => TextField(
+  Widget _searchTextField(BugState state) => TextFormField(
+        initialValue: state.condition?.keyword ?? "",
         onChanged: (value) => bugBloc.add(
-          SetFilterConditionBugEvent(
+          SetConditionBugEvent(
             state.condition..keyword = value,
           ),
         ),
@@ -102,10 +103,13 @@ class _BugPageState extends State<BugPage> with BlocProviderMixin {
           ),
         ),
       );
-    return Expanded(
-      child: Center(
-        child: Text("Please download first"),
-      ),
-    );
+    else if (state is DownloadingBugState)
+      return Container();
+    else
+      return Expanded(
+        child: Center(
+          child: Text("Please download first"),
+        ),
+      );
   }
 }

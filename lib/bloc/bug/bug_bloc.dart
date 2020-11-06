@@ -6,10 +6,12 @@ import 'dart:async';
 import 'package:acnh/data/clock.dart';
 import 'package:acnh/dto/bug.dart';
 import 'package:acnh/dto/bug_filter_condition.dart';
+import 'package:acnh/error/error.dart';
 import 'package:acnh/repository/repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tuple/tuple.dart';
 
 part 'bug_event.dart';
 part 'bug_state.dart';
@@ -20,76 +22,60 @@ class BugBloc extends Bloc<BugEvent, BugState>
 
   BugBloc() : super(InitialBugState()) {
     _subscription = clock.stream.listen(
-      (event) => add(ViewBugEvent()),
+      (event) => add(FindBugEvent()),
     );
   }
 
   @override
   Stream<BugState> mapEventToState(BugEvent event) async* {
-    if (event is DownloadBugEvent) {
-      if (state is! DownloadingBugState) {
+    if (state is InitialBugState) {
+      if (event is FindBugEvent) {
+        List<Tuple2<Bug, bool>> tuples;
         try {
-          yield DownloadingBugState()
-            ..condition = await bugRepository.condition;
-
-          await bugRepository.fetchBugs();
-
-          var tuple = await bugRepository.getBugs();
-          var bugs = tuple.item1;
-          var isVisibles = tuple.item2;
-
-          if (bugs.isEmpty) throw Exception("Bugs are empty");
-
-          for (int index = 0; index < bugs.length; index++) {
-            yield DownloadingBugState()
-              ..condition = await bugRepository.condition
-              ..count = index + 1
-              ..total = bugs.length;
-
-            await bugRepository.downloadBugImage(bugs[index]);
-          }
-
-          yield ReadyBugState()
-            ..condition = await bugRepository.condition
-            ..bugs = bugs
-            ..isVisibles = isVisibles;
-        } catch (error) {
-          yield FailedBugState()
-            ..condition = await bugRepository.condition
-            ..error = error.toString();
+          tuples = await bugRepository.findBugs();
+        } on NoBugError {
+          tuples = await bugRepository.fetchBugs();
         }
+
+        yield ReadyBugState()
+          ..condition = await bugRepository.condition
+          ..bugs = tuples.map((e) => e.item1).toList()
+          ..isVisibles = tuples.map((e) => e.item2).toList();
       }
-    } else if (event is ViewBugEvent) {
-      if (state is InitialBugState || state is ReadyBugState) {
+    } else if (state is ReadyBugState) {
+      if (event is FindBugEvent) {
+        List<Tuple2<Bug, bool>> tuples;
         try {
-          var tuple = await bugRepository.getBugs();
-          var bugs = tuple.item1;
-          var isVisibles = tuple.item2;
-
-          if (bugs.isEmpty) {
-            yield InitialBugState()..condition = await bugRepository.condition;
-            return;
-          }
-          yield ReadyBugState()
-            ..condition = await bugRepository.condition
-            ..bugs = bugs
-            ..isVisibles = isVisibles;
-        } catch (error) {
-          yield FailedBugState()
-            ..condition = await bugRepository.condition
-            ..error = error.toString();
+          tuples = await bugRepository.findBugs();
+        } on NoBugError {
+          return;
         }
-      }
-    } else if (event is UpdateBugEvent) {
-      if (state is ReadyBugState) {
+
+        yield ReadyBugState()
+          ..condition = await bugRepository.condition
+          ..bugs = tuples.map((e) => e.item1).toList()
+          ..isVisibles = tuples.map((e) => e.item2).toList();
+      } else if (event is UpdateBugEvent) {
         await bugRepository.updateBug(event.bug);
 
-        add(ViewBugEvent());
-      }
-    } else if (event is SetFilterConditionBugEvent) {
-      await bugRepository.setCondition(event.condition);
+        add(FindBugEvent());
+      } else if (event is SetConditionBugEvent) {
+        await bugRepository.setCondition(event.condition);
 
-      if (state is ReadyBugState) add(ViewBugEvent());
+        add(FindBugEvent());
+      } else if (event is DownloadBugEvent) {
+        yield DownloadingBugState()..condition = await bugRepository.condition;
+
+        var tuples = await bugRepository.fetchBugs();
+
+        await bugRepository.downloadBugImages();
+        tuples = await bugRepository.findBugs();
+
+        yield ReadyBugState()
+          ..condition = await bugRepository.condition
+          ..bugs = tuples.map((e) => e.item1).toList()
+          ..isVisibles = tuples.map((e) => e.item2).toList();
+      }
     }
   }
 }

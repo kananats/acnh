@@ -9,24 +9,19 @@ abstract class FishState with EquatableMixin {
 
 class InitialFishState extends FishState {}
 
-class DownloadingFishState extends FishState {
-  int count;
-  int total;
-
-  @override
-  List<Object> get props => [condition, count, total];
-
-  String get downloadingString => count != null && total != null
-      ? "Downloading $count of $total"
-      : "Downloading...";
-}
-
 class ReadyFishState extends FishState {
   List<Fish> fishs;
   List<bool> isVisibles;
 
   @override
   List<Object> get props => [fishs, isVisibles];
+}
+
+class DownloadingFishState extends FishState {
+  @override
+  List<Object> get props => [condition];
+
+  String get progressString => "Downloading...";
 }
 
 class FailedFishState extends FishState {

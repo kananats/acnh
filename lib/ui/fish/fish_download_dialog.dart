@@ -55,20 +55,20 @@ class _FishDownloadDialogState extends State<FishDownloadDialog>
         children: [
           CircularProgressIndicator(),
           SizedBox(height: 12),
-          Text(state.downloadingString),
+          Text(state.progressString),
         ],
       );
 
   Widget _successState(BuildContext context) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("Download Complete"),
+          Text("Download Fish Images?"),
           ButtonBar(
             alignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
                 onPressed: () => fishBloc.add(DownloadFishEvent()),
-                child: Text("Download Again"),
+                child: Text("Download"),
               ),
               RaisedButton(
                 onPressed: () => Navigator.of(context).pop(),

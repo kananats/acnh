@@ -1,40 +1,38 @@
 part of 'repository.dart';
 
-class BugRepository with DaoProviderMixin, RepositoryProviderMixin {
-  Future<void> fetchBugs() async {
-    var bugs = await GetBugs().execute();
+class BugRepository
+    with DaoProviderMixin, ClockProviderMixin, RepositoryProviderMixin {
+  Future<List<Tuple2<Bug, bool>>> fetchBugs() async {
+    List<Bug> bugs = await GetBugs().execute();
+
+    if (bugs.isEmpty) throw NoBugError();
 
     for (var bug in bugs) await bugDao.insert(bug);
+
+    return await findBugs();
   }
 
-  Future<void> downloadBugImage(Bug bug) async {
-    return;
+  Future<List<Tuple2<Bug, bool>>> findBugs() async {
+    await _deleteBugImagesIfNeeded();
 
-    if (!await fileRepository.exists(bug.imagePath))
-      bug.imagePath = await fileRepository.downloadImage(bug.imageUri);
-
-    if (!await fileRepository.exists(bug.iconPath))
-      bug.iconPath = await fileRepository.downloadImage(bug.iconUri);
-
-    await updateBug(bug);
-  }
-
-  Future<Tuple2<List<Bug>, List<bool>>> getBugs() async {
     var bugs = await bugDao.findAll();
+    if (bugs.isEmpty) throw NoBugError();
+
     var condition = await this.condition;
     var setting = await settingRepository.setting;
 
-    var isVisibles = bugs
+    return bugs
         .map(
-          (bug) => condition.apply(
-            bug,
-            modules.clock.now,
-            setting.language ?? LanguageEnum.USen,
+          (e) => Tuple2(
+            e,
+            condition.apply(
+              e,
+              clock.now,
+              setting.language,
+            ),
           ),
         )
         .toList();
-
-    return Tuple2(bugs, isVisibles);
   }
 
   Future<void> updateBug(Bug bug) async => bugDao.update(bug.id, bug);
@@ -53,5 +51,48 @@ class BugRepository with DaoProviderMixin, RepositoryProviderMixin {
     var preferences = await modules.localStorage.preferences;
     preferences[PreferencesKey.bugFilterCondition] =
         json.encode(condition.toJson());
+  }
+
+  Future<void> downloadBugImages() async {
+    var tuples = await findBugs();
+    var bugs = tuples.map((e) => e.item1).toList();
+
+    for (int index = 0; index < bugs.length; index++) {
+      var bug = bugs[index];
+
+      var shouldUpdate = false;
+      if (!await fileRepository.exists(bug.imagePath)) {
+        bug.imagePath = await fileRepository.downloadImage(bug.imageUri);
+        shouldUpdate = true;
+      }
+
+      if (!await fileRepository.exists(bug.iconPath)) {
+        bug.iconPath = await fileRepository.downloadImage(bug.iconUri);
+        shouldUpdate = true;
+      }
+
+      if (shouldUpdate) await updateBug(bug);
+    }
+  }
+
+  Future<void> _deleteBugImagesIfNeeded() async {
+    var bugs = await bugDao.findAll();
+
+    for (int index = 0; index < bugs.length; index++) {
+      var bug = bugs[index];
+
+      var shouldUpdate = false;
+      if (!await fileRepository.exists(bug.imagePath)) {
+        bug.imagePath = null;
+        shouldUpdate = true;
+      }
+
+      if (!await fileRepository.exists(bug.iconPath)) {
+        bug.iconPath = null;
+        shouldUpdate = true;
+      }
+
+      if (shouldUpdate) await updateBug(bug);
+    }
   }
 }

@@ -8,7 +8,7 @@ part 'bug_filter_condition.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class BugFilterCondition with EquatableMixin {
-  @JsonKey(ignore: true)
+  @JsonKey(defaultValue: "")
   String keyword = "";
 
   @JsonKey(defaultValue: true)

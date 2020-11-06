@@ -65,9 +65,10 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
         ),
       );
 
-  Widget _searchTextField(FishState state) => TextField(
+  Widget _searchTextField(FishState state) => TextFormField(
+        initialValue: state.condition?.keyword ?? "",
         onChanged: (value) => fishBloc.add(
-          SetFilterConditionFishEvent(
+          SetConditionFishEvent(
             state.condition..keyword = value,
           ),
         ),
@@ -102,10 +103,13 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
           ),
         ),
       );
-    return Expanded(
-      child: Center(
-        child: Text("Please download first"),
-      ),
-    );
+    else if (state is DownloadingFishState)
+      return Container();
+    else
+      return Expanded(
+        child: Center(
+          child: Text("Please download first"),
+        ),
+      );
   }
 }

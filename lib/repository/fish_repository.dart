@@ -1,40 +1,38 @@
 part of 'repository.dart';
 
-class FishRepository with DaoProviderMixin, RepositoryProviderMixin {
-  Future<void> fetchFishs() async {
-    var fishs = await GetFishs().execute();
+class FishRepository
+    with DaoProviderMixin, ClockProviderMixin, RepositoryProviderMixin {
+  Future<List<Tuple2<Fish, bool>>> fetchFishs() async {
+    List<Fish> fishs = await GetFishs().execute();
+
+    if (fishs.isEmpty) throw NoFishError();
 
     for (var fish in fishs) await fishDao.insert(fish);
+
+    return await findFishs();
   }
 
-  Future<void> downloadFishImage(Fish fish) async {
-    return;
+  Future<List<Tuple2<Fish, bool>>> findFishs() async {
+    await _deleteFishImagesIfNeeded();
 
-    if (!await fileRepository.exists(fish.imagePath))
-      fish.imagePath = await fileRepository.downloadImage(fish.imageUri);
-
-    if (!await fileRepository.exists(fish.iconPath))
-      fish.iconPath = await fileRepository.downloadImage(fish.iconUri);
-
-    await updateFish(fish);
-  }
-
-  Future<Tuple2<List<Fish>, List<bool>>> getFishs() async {
     var fishs = await fishDao.findAll();
+    if (fishs.isEmpty) throw NoFishError();
+
     var condition = await this.condition;
     var setting = await settingRepository.setting;
 
-    var isVisibles = fishs
+    return fishs
         .map(
-          (fish) => condition.apply(
-            fish,
-            modules.clock.now,
-            setting.language ?? LanguageEnum.USen,
+          (e) => Tuple2(
+            e,
+            condition.apply(
+              e,
+              clock.now,
+              setting.language,
+            ),
           ),
         )
         .toList();
-
-    return Tuple2(fishs, isVisibles);
   }
 
   Future<void> updateFish(Fish fish) async => fishDao.update(fish.id, fish);
@@ -53,5 +51,48 @@ class FishRepository with DaoProviderMixin, RepositoryProviderMixin {
     var preferences = await modules.localStorage.preferences;
     preferences[PreferencesKey.fishFilterCondition] =
         json.encode(condition.toJson());
+  }
+
+  Future<void> downloadFishImages() async {
+    var tuples = await findFishs();
+    var fishs = tuples.map((e) => e.item1).toList();
+
+    for (int index = 0; index < fishs.length; index++) {
+      var fish = fishs[index];
+
+      var shouldUpdate = false;
+      if (!await fileRepository.exists(fish.imagePath)) {
+        fish.imagePath = await fileRepository.downloadImage(fish.imageUri);
+        shouldUpdate = true;
+      }
+
+      if (!await fileRepository.exists(fish.iconPath)) {
+        fish.iconPath = await fileRepository.downloadImage(fish.iconUri);
+        shouldUpdate = true;
+      }
+
+      if (shouldUpdate) await updateFish(fish);
+    }
+  }
+
+  Future<void> _deleteFishImagesIfNeeded() async {
+    var fishs = await fishDao.findAll();
+
+    for (int index = 0; index < fishs.length; index++) {
+      var fish = fishs[index];
+
+      var shouldUpdate = false;
+      if (!await fileRepository.exists(fish.imagePath)) {
+        fish.imagePath = null;
+        shouldUpdate = true;
+      }
+
+      if (!await fileRepository.exists(fish.iconPath)) {
+        fish.iconPath = null;
+        shouldUpdate = true;
+      }
+
+      if (shouldUpdate) await updateFish(fish);
+    }
   }
 }
