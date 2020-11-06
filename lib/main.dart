@@ -4,6 +4,7 @@ import 'package:acnh/bloc/setting/setting_bloc.dart';
 import 'package:acnh/dao/dao.dart';
 import 'package:acnh/modules.dart';
 import 'package:acnh/ui/fish/fish_page.dart';
+import 'package:acnh/ui/launch_page.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          home: FishPage(),
+          home: LaunchPage(),
         ),
       );
 }
