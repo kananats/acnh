@@ -1,6 +1,6 @@
 part of 'api.dart';
 
-class GetFishs with RequestMixin<List<Fish>> {
+class GetFishs with ApiMixin<List<Fish>> {
   @override
   String get path => "/v1/fish";
 

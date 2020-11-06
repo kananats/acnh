@@ -1,6 +1,6 @@
 part of 'api.dart';
 
-class GetBugs with RequestMixin<List<Bug>> {
+class GetBugs with ApiMixin<List<Bug>> {
   @override
   String get path => "/v1/bugs";
 
