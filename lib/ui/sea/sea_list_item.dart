@@ -61,6 +61,7 @@ class _SeaListItemState extends State<SeaListItem> with BlocProviderMixin {
                       _availableMonth(),
                       _availableTime(),
                       _shadow(),
+                      _speed(),
                     ],
                   ),
                   children: [
@@ -145,7 +146,21 @@ class _SeaListItemState extends State<SeaListItem> with BlocProviderMixin {
           ),
           SizedBox(width: 4),
           Expanded(
-            child: Text(widget.sea.shadow + " / " + widget.sea.speed),
+            child: Text(widget.sea.shadow),
+          ),
+        ],
+      );
+
+  Widget _speed() => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.speed,
+            size: 16,
+          ),
+          SizedBox(width: 4),
+          Expanded(
+            child: Text(widget.sea.speed),
           ),
         ],
       );

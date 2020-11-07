@@ -43,6 +43,7 @@ class _FishDetailPageState extends State<FishDetailPage>
             _price(),
             _location(),
             _shadow(),
+            _rarity(),
             ButtonBar(
               alignment: MainAxisAlignment.center,
               children: [
@@ -205,6 +206,14 @@ class _FishDetailPageState extends State<FishDetailPage>
         leading: Icon(Icons.visibility),
         title: Text("Shadow"),
         trailing: Text(widget.fish.shadow),
+      );
+
+  Widget _rarity() => ListTile(
+        dense: true,
+        contentPadding: EdgeInsets.symmetric(horizontal: 0),
+        leading: Icon(Icons.grade),
+        title: Text("Rarity"),
+        trailing: Text(widget.fish.availability.rarity),
       );
 
   Widget _availableContainer(String text) => Container(

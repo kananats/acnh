@@ -41,6 +41,7 @@ class _BugDetailPageState extends State<BugDetailPage> with BlocProviderMixin {
             SizedBox(height: 24),
             _price(),
             _location(),
+            _rarity(),
             ButtonBar(
               alignment: MainAxisAlignment.center,
               children: [
@@ -195,6 +196,14 @@ class _BugDetailPageState extends State<BugDetailPage> with BlocProviderMixin {
         leading: Icon(Icons.location_pin),
         title: Text("Location"),
         trailing: Text(widget.bug.availability.location),
+      );
+
+  Widget _rarity() => ListTile(
+        dense: true,
+        contentPadding: EdgeInsets.symmetric(horizontal: 0),
+        leading: Icon(Icons.grade),
+        title: Text("Rarity"),
+        trailing: Text(widget.bug.availability.rarity),
       );
 
   Widget _availableContainer(String text) => Container(

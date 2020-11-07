@@ -41,6 +41,7 @@ class _SeaDetailPageState extends State<SeaDetailPage> with BlocProviderMixin {
             SizedBox(height: 24),
             _price(),
             _shadow(),
+            _speed(),
             ButtonBar(
               alignment: MainAxisAlignment.center,
               children: [
@@ -195,6 +196,14 @@ class _SeaDetailPageState extends State<SeaDetailPage> with BlocProviderMixin {
         leading: Icon(Icons.visibility),
         title: Text("Shadow"),
         trailing: Text(widget.sea.shadow),
+      );
+
+  Widget _speed() => ListTile(
+        dense: true,
+        contentPadding: EdgeInsets.symmetric(horizontal: 0),
+        leading: Icon(Icons.speed),
+        title: Text("Speed"),
+        trailing: Text(widget.sea.speed),
       );
 
   Widget _availableContainer(String text) => Container(
