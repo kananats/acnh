@@ -1,4 +1,4 @@
-part of 'bug_page.dart';
+part of 'bug_list_page.dart';
 
 class BugFilterDialog extends StatefulWidget {
   @override

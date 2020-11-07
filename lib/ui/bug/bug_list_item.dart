@@ -1,19 +1,19 @@
-part of 'bug_page.dart';
+part of 'bug_list_page.dart';
 
-class BugItem extends StatefulWidget {
+class BugListItem extends StatefulWidget {
   final Bug bug;
   final bool isVisible;
 
-  BugItem({
+  BugListItem({
     @required this.bug,
     this.isVisible,
   });
 
   @override
-  _BugItemState createState() => _BugItemState();
+  _BugListItemState createState() => _BugListItemState();
 }
 
-class _BugItemState extends State<BugItem> with BlocProviderMixin {
+class _BugListItemState extends State<BugListItem> with BlocProviderMixin {
   @override
   Widget build(BuildContext context) => AnimatedCrossFade(
         duration: Duration(milliseconds: 300),
@@ -31,42 +31,47 @@ class _BugItemState extends State<BugItem> with BlocProviderMixin {
                 border: Border.all(color: Colors.lightBlue[300]),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: ExpansionTile(
-                leading: Column(
-                  children: [
-                    SizedBox(child: _iconImage),
-                  ],
+              child: GestureDetector(
+                onLongPress: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => BugDetailPage(
+                      bug: widget.bug,
+                    ),
+                  ),
                 ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    _name,
-                    SizedBox(width: 6),
-                    if (widget.bug.availability.isAvailableNow(
-                      settingBloc.state.dateTime,
-                      bugBloc.state.condition.isNorth,
-                    ))
-                      _badge("Now"),
-                    if (widget.bug.isCaught) _badge("Caught"),
-                    if (widget.bug.isDonated) _badge("Donated"),
-                  ],
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _location,
-                    _availableMonth,
-                    _availableTime,
-                  ],
-                ),
-                children: [
-                  ButtonBar(
+                child: ExpansionTile(
+                  leading: _iconImage,
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      _caughtChip,
-                      _donatedChip,
+                      _name,
+                      SizedBox(width: 6),
+                      if (widget.bug.availability.isAvailableNow(
+                        settingBloc.state.dateTime,
+                        bugBloc.state.condition.isNorth,
+                      ))
+                        _badge("Now"),
+                      if (widget.bug.isCaught) _badge("Caught"),
+                      if (widget.bug.isDonated) _badge("Donated"),
                     ],
-                  )
-                ],
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _location,
+                      _availableMonth,
+                      _availableTime,
+                    ],
+                  ),
+                  children: [
+                    ButtonBar(
+                      children: [
+                        _caughtChip,
+                        _donatedChip,
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ],
@@ -81,11 +86,13 @@ class _BugItemState extends State<BugItem> with BlocProviderMixin {
         ],
       );
 
-  Widget get _name => Text(
-        StringUtil.capitalize(
-          widget.bug.name.of(settingBloc.state.setting.language),
+  Widget get _name => Flexible(
+        child: Text(
+          StringUtil.capitalize(
+            widget.bug.name.of(settingBloc.state.setting.language),
+          ),
+          style: TextStyle(color: Colors.blue),
         ),
-        style: TextStyle(color: Colors.blue),
       );
 
   Widget get _location => Row(
@@ -104,7 +111,7 @@ class _BugItemState extends State<BugItem> with BlocProviderMixin {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
-            Icons.timelapse,
+            Icons.av_timer,
             size: 16,
           ),
           SizedBox(width: 4),

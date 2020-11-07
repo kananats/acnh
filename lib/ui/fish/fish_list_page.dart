@@ -12,16 +12,17 @@ import 'package:acnh/util/string_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'fish_item.dart';
+part 'fish_list_item.dart';
 part 'fish_download_dialog.dart';
 part 'fish_filter_dialog.dart';
+part 'fish_detail_page.dart';
 
-class FishPage extends StatefulWidget {
+class FishListPage extends StatefulWidget {
   @override
-  _FishPageState createState() => _FishPageState();
+  _FishListPageState createState() => _FishListPageState();
 }
 
-class _FishPageState extends State<FishPage> with BlocProviderMixin {
+class _FishListPageState extends State<FishListPage> with BlocProviderMixin {
   @override
   Widget build(BuildContext context) => BlocBuilder<SettingBloc, SettingState>(
         builder: (settingContext, settingState) =>
@@ -36,7 +37,7 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
                 ),
                 SizedBox(width: 18),
                 GestureDetector(
-                  child: Icon(Icons.article),
+                  child: Icon(Icons.tune),
                   onTap: () => _showFilterDialog(context),
                 ),
                 SizedBox(width: 18),
@@ -97,7 +98,7 @@ class _FishPageState extends State<FishPage> with BlocProviderMixin {
           shrinkWrap: true,
           padding: EdgeInsets.all(12),
           itemCount: state.fishs.length,
-          itemBuilder: (context, index) => FishItem(
+          itemBuilder: (context, index) => FishListItem(
             fish: state.fishs[index],
             isVisible: state.isVisibles[index],
           ),

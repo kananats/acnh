@@ -1,4 +1,4 @@
-part of 'fish_page.dart';
+part of 'fish_list_page.dart';
 
 class FishFilterDialog extends StatefulWidget {
   @override

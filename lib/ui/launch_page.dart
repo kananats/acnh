@@ -1,7 +1,7 @@
 import 'package:acnh/bloc/bloc.dart';
 import 'package:acnh/bloc/bug/bug_bloc.dart';
 import 'package:acnh/bloc/fish/fish_bloc.dart';
-import 'package:acnh/ui/fish/fish_page.dart';
+import 'package:acnh/ui/fish/fish_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -46,7 +46,7 @@ class _LaunchPageState extends State<LaunchPage> with BlocProviderMixin {
       _isFishReady = false;
       _isBugReady = false;
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => FishPage()),
+        MaterialPageRoute(builder: (_) => FishListPage()),
       );
     }
   }

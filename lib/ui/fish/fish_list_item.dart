@@ -1,19 +1,19 @@
-part of 'fish_page.dart';
+part of 'fish_list_page.dart';
 
-class FishItem extends StatefulWidget {
+class FishListItem extends StatefulWidget {
   final Fish fish;
   final bool isVisible;
 
-  FishItem({
+  FishListItem({
     @required this.fish,
     this.isVisible,
   });
 
   @override
-  _FishItemState createState() => _FishItemState();
+  _FishListItemState createState() => _FishListItemState();
 }
 
-class _FishItemState extends State<FishItem> with BlocProviderMixin {
+class _FishListItemState extends State<FishListItem> with BlocProviderMixin {
   @override
   Widget build(BuildContext context) => AnimatedCrossFade(
         duration: Duration(milliseconds: 300),
@@ -31,42 +31,48 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
                 border: Border.all(color: Colors.lightBlue[300]),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: ExpansionTile(
-                leading: Column(
-                  children: [
-                    SizedBox(child: _iconImage),
-                  ],
+              child: GestureDetector(
+                onLongPress: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => FishDetailPage(
+                      fish: widget.fish,
+                    ),
+                  ),
                 ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    _name,
-                    SizedBox(width: 6),
-                    if (widget.fish.availability.isAvailableNow(
-                      settingBloc.state.dateTime,
-                      fishBloc.state.condition.isNorth,
-                    ))
-                      _badge("Now"),
-                    if (widget.fish.isCaught) _badge("Caught"),
-                    if (widget.fish.isDonated) _badge("Donated"),
-                  ],
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _location,
-                    _availableMonth,
-                    _availableTime,
-                  ],
-                ),
-                children: [
-                  ButtonBar(
+                child: ExpansionTile(
+                  leading: _iconImage,
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      _caughtChip,
-                      _donatedChip,
+                      _name,
+                      SizedBox(width: 6),
+                      if (widget.fish.availability.isAvailableNow(
+                        settingBloc.state.dateTime,
+                        fishBloc.state.condition.isNorth,
+                      ))
+                        _badge("Now"),
+                      if (widget.fish.isCaught) _badge("Caught"),
+                      if (widget.fish.isDonated) _badge("Donated"),
                     ],
-                  )
-                ],
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _location,
+                      _availableMonth,
+                      _availableTime,
+                      _shadow,
+                    ],
+                  ),
+                  children: [
+                    ButtonBar(
+                      children: [
+                        _caughtChip,
+                        _donatedChip,
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ],
@@ -81,11 +87,13 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
         ],
       );
 
-  Widget get _name => Text(
-        StringUtil.capitalize(
-          widget.fish.name.of(settingBloc.state.setting.language),
+  Widget get _name => Flexible(
+        child: Text(
+          StringUtil.capitalize(
+            widget.fish.name.of(settingBloc.state.setting.language),
+          ),
+          style: TextStyle(color: Colors.blue),
         ),
-        style: TextStyle(color: Colors.blue),
       );
 
   Widget get _location => Row(
@@ -104,7 +112,7 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
-            Icons.timelapse,
+            Icons.av_timer,
             size: 16,
           ),
           SizedBox(width: 4),
@@ -127,6 +135,20 @@ class _FishItemState extends State<FishItem> with BlocProviderMixin {
               widget.fish.availability
                   .availableMonth(fishBloc.state.condition.isNorth),
             ),
+          ),
+        ],
+      );
+
+  Widget get _shadow => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.visibility,
+            size: 16,
+          ),
+          SizedBox(width: 4),
+          Expanded(
+            child: Text(widget.fish.shadow),
           ),
         ],
       );

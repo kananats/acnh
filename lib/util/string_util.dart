@@ -40,9 +40,9 @@ class StringUtil {
     for (int index = 1; index <= months.length; index++) {
       if (index >= months.length) {
         if (from == to)
-          result.add(_monthToString(from));
+          result.add(monthToString(from));
         else
-          result.add("${_monthToString(from)}~${_monthToString(to)}");
+          result.add("${monthToString(from)}~${monthToString(to)}");
         break;
       }
 
@@ -53,9 +53,9 @@ class StringUtil {
       }
 
       if (from == to)
-        result.add(_monthToString(from));
+        result.add(monthToString(from));
       else
-        result.add("${_monthToString(from)}~${_monthToString(to)}");
+        result.add("${monthToString(from)}~${monthToString(to)}");
 
       from = month;
       to = month;
@@ -78,5 +78,5 @@ class StringUtil {
     "Dec",
   ];
 
-  static String _monthToString(int month) => _monthNames[month - 1];
+  static String monthToString(int month) => _monthNames[month - 1];
 }

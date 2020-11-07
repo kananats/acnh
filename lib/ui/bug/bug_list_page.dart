@@ -12,16 +12,17 @@ import 'package:acnh/util/string_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'bug_item.dart';
+part 'bug_list_item.dart';
 part 'bug_download_dialog.dart';
 part 'bug_filter_dialog.dart';
+part 'bug_detail_page.dart';
 
-class BugPage extends StatefulWidget {
+class BugListPage extends StatefulWidget {
   @override
-  _BugPageState createState() => _BugPageState();
+  _BugListPageState createState() => _BugListPageState();
 }
 
-class _BugPageState extends State<BugPage> with BlocProviderMixin {
+class _BugListPageState extends State<BugListPage> with BlocProviderMixin {
   @override
   Widget build(BuildContext context) => BlocBuilder<SettingBloc, SettingState>(
         builder: (settingContext, settingState) =>
@@ -36,7 +37,7 @@ class _BugPageState extends State<BugPage> with BlocProviderMixin {
                 ),
                 SizedBox(width: 18),
                 GestureDetector(
-                  child: Icon(Icons.article),
+                  child: Icon(Icons.tune),
                   onTap: () => _showFilterDialog(context),
                 ),
                 SizedBox(width: 18),
@@ -97,7 +98,7 @@ class _BugPageState extends State<BugPage> with BlocProviderMixin {
           shrinkWrap: true,
           padding: EdgeInsets.all(12),
           itemCount: state.bugs.length,
-          itemBuilder: (context, index) => BugItem(
+          itemBuilder: (context, index) => BugListItem(
             bug: state.bugs[index],
             isVisible: state.isVisibles[index],
           ),

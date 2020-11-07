@@ -1,5 +1,5 @@
-import 'package:acnh/ui/bug/bug_page.dart';
-import 'package:acnh/ui/fish/fish_page.dart';
+import 'package:acnh/ui/bug/bug_list_page.dart';
+import 'package:acnh/ui/fish/fish_list_page.dart';
 import 'package:acnh/ui/setting_page.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,7 @@ class MyDrawer extends StatelessWidget {
         title: Text("Fish"),
         onTap: () {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => FishPage(),
+            builder: (_) => FishListPage(),
           ));
         },
       );
@@ -30,7 +30,7 @@ class MyDrawer extends StatelessWidget {
         title: Text("Bug"),
         onTap: () {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => BugPage(),
+            builder: (_) => BugListPage(),
           ));
         },
       );
