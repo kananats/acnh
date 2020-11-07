@@ -40,11 +40,11 @@ class _BugListItemState extends State<BugListItem> with BlocProviderMixin {
                   ),
                 ),
                 child: ExpansionTile(
-                  leading: _iconImage,
+                  leading: _icon(),
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      _name,
+                      _name(),
                       SizedBox(width: 6),
                       if (widget.bug.availability.isAvailableNow(
                         settingBloc.state.dateTime,
@@ -58,16 +58,16 @@ class _BugListItemState extends State<BugListItem> with BlocProviderMixin {
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _location,
-                      _availableMonth,
-                      _availableTime,
+                      _location(),
+                      _availableMonth(),
+                      _availableTime(),
                     ],
                   ),
                   children: [
                     ButtonBar(
                       children: [
-                        _caughtChip,
-                        _donatedChip,
+                        _caught(),
+                        _donated(),
                       ],
                     )
                   ],
@@ -79,14 +79,18 @@ class _BugListItemState extends State<BugListItem> with BlocProviderMixin {
         secondChild: Container(),
       );
 
-  Widget _badge(String text) => Row(
-        children: [
-          Badge(text),
-          SizedBox(width: 3),
-        ],
+  Widget _icon() => Hero(
+        tag: widget.bug,
+        child: Image(
+          width: 50,
+          height: 50,
+          image: widget.bug.iconPath != null
+              ? FileImage(File(widget.bug.iconPath))
+              : NetworkImage(widget.bug.iconUri),
+        ),
       );
 
-  Widget get _name => Flexible(
+  Widget _name() => Flexible(
         child: Text(
           StringUtil.capitalize(
             widget.bug.name.of(settingBloc.state.setting.language),
@@ -95,7 +99,14 @@ class _BugListItemState extends State<BugListItem> with BlocProviderMixin {
         ),
       );
 
-  Widget get _location => Row(
+  Widget _badge(String text) => Row(
+        children: [
+          Badge(text),
+          SizedBox(width: 3),
+        ],
+      );
+
+  Widget _location() => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
@@ -107,21 +118,7 @@ class _BugListItemState extends State<BugListItem> with BlocProviderMixin {
         ],
       );
 
-  Widget get _availableTime => Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(
-            Icons.av_timer,
-            size: 16,
-          ),
-          SizedBox(width: 4),
-          Expanded(
-            child: Text(widget.bug.availability.availableTime),
-          ),
-        ],
-      );
-
-  Widget get _availableMonth => Row(
+  Widget _availableMonth() => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
@@ -137,16 +134,21 @@ class _BugListItemState extends State<BugListItem> with BlocProviderMixin {
           ),
         ],
       );
-
-  Widget get _iconImage => Image(
-        width: 50,
-        height: 50,
-        image: widget.bug.iconPath != null
-            ? FileImage(File(widget.bug.iconPath))
-            : NetworkImage(widget.bug.iconUri),
+  Widget _availableTime() => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.av_timer,
+            size: 16,
+          ),
+          SizedBox(width: 4),
+          Expanded(
+            child: Text(widget.bug.availability.availableTime),
+          ),
+        ],
       );
 
-  Widget get _caughtChip => FilterChip(
+  Widget _caught() => FilterChip(
         selectedColor: Colors.lightBlue,
         selected: widget.bug.isCaught,
         onSelected: (isCaught) {
@@ -160,7 +162,7 @@ class _BugListItemState extends State<BugListItem> with BlocProviderMixin {
         ),
       );
 
-  Widget get _donatedChip => FilterChip(
+  Widget _donated() => FilterChip(
         selectedColor: Colors.lightBlue,
         selected: widget.bug.isDonated,
         onSelected: (isDonated) {

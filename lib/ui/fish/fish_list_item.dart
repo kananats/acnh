@@ -40,11 +40,11 @@ class _FishListItemState extends State<FishListItem> with BlocProviderMixin {
                   ),
                 ),
                 child: ExpansionTile(
-                  leading: _iconImage,
+                  leading: _icon(),
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      _name,
+                      _name(),
                       SizedBox(width: 6),
                       if (widget.fish.availability.isAvailableNow(
                         settingBloc.state.dateTime,
@@ -58,17 +58,17 @@ class _FishListItemState extends State<FishListItem> with BlocProviderMixin {
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _location,
-                      _availableMonth,
-                      _availableTime,
-                      _shadow,
+                      _location(),
+                      _availableMonth(),
+                      _availableTime(),
+                      _shadow(),
                     ],
                   ),
                   children: [
                     ButtonBar(
                       children: [
-                        _caughtChip,
-                        _donatedChip,
+                        _caught(),
+                        _donated(),
                       ],
                     )
                   ],
@@ -80,14 +80,20 @@ class _FishListItemState extends State<FishListItem> with BlocProviderMixin {
         secondChild: Container(),
       );
 
-  Widget _badge(String text) => Row(
-        children: [
-          Badge(text),
-          SizedBox(width: 3),
-        ],
+
+  Widget _icon() => Hero(
+        tag: widget.fish,
+        child: Image(
+          width: 50,
+          height: 50,
+          image: widget.fish.iconPath != null
+              ? FileImage(File(widget.fish.iconPath))
+              : NetworkImage(widget.fish.iconUri),
+        ),
       );
 
-  Widget get _name => Flexible(
+
+  Widget _name() => Flexible(
         child: Text(
           StringUtil.capitalize(
             widget.fish.name.of(settingBloc.state.setting.language),
@@ -96,7 +102,15 @@ class _FishListItemState extends State<FishListItem> with BlocProviderMixin {
         ),
       );
 
-  Widget get _location => Row(
+  Widget _badge(String text) => Row(
+        children: [
+          Badge(text),
+          SizedBox(width: 3),
+        ],
+      );
+
+
+  Widget _location() => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
@@ -108,21 +122,8 @@ class _FishListItemState extends State<FishListItem> with BlocProviderMixin {
         ],
       );
 
-  Widget get _availableTime => Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(
-            Icons.av_timer,
-            size: 16,
-          ),
-          SizedBox(width: 4),
-          Expanded(
-            child: Text(widget.fish.availability.availableTime),
-          ),
-        ],
-      );
 
-  Widget get _availableMonth => Row(
+  Widget _availableMonth() => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
@@ -138,8 +139,22 @@ class _FishListItemState extends State<FishListItem> with BlocProviderMixin {
           ),
         ],
       );
+  Widget _availableTime() => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.av_timer,
+            size: 16,
+          ),
+          SizedBox(width: 4),
+          Expanded(
+            child: Text(widget.fish.availability.availableTime),
+          ),
+        ],
+      );
 
-  Widget get _shadow => Row(
+
+  Widget _shadow() => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
@@ -153,15 +168,7 @@ class _FishListItemState extends State<FishListItem> with BlocProviderMixin {
         ],
       );
 
-  Widget get _iconImage => Image(
-        width: 50,
-        height: 50,
-        image: widget.fish.iconPath != null
-            ? FileImage(File(widget.fish.iconPath))
-            : NetworkImage(widget.fish.iconUri),
-      );
-
-  Widget get _caughtChip => FilterChip(
+  Widget _caught() => FilterChip(
         selectedColor: Colors.lightBlue,
         selected: widget.fish.isCaught,
         onSelected: (isCaught) {
@@ -175,7 +182,7 @@ class _FishListItemState extends State<FishListItem> with BlocProviderMixin {
         ),
       );
 
-  Widget get _donatedChip => FilterChip(
+  Widget _donated() => FilterChip(
         selectedColor: Colors.lightBlue,
         selected: widget.fish.isDonated,
         onSelected: (isDonated) {

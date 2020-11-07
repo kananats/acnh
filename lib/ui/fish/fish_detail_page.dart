@@ -55,10 +55,13 @@ class _FishDetailPageState extends State<FishDetailPage>
         ),
       );
 
-  Widget _icon() => Image(
-        image: widget.fish.iconPath != null
-            ? FileImage(File(widget.fish.iconPath))
-            : NetworkImage(widget.fish.iconUri),
+  Widget _icon() => Hero(
+        tag: widget.fish,
+        child: Image(
+          image: widget.fish.iconPath != null
+              ? FileImage(File(widget.fish.iconPath))
+              : NetworkImage(widget.fish.iconUri),
+        ),
       );
 
   Widget _image() => Transform.scale(
