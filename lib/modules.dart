@@ -13,10 +13,12 @@ class Modules {
   // DAO
   final FishDao fishDao = FishDao();
   final BugDao bugDao = BugDao();
+  final SeaDao seaDao = SeaDao();
 
   // Repository
   final FileRepository fileRepository = FileRepository();
   final SettingRepository settingRepository = SettingRepository();
   final FishRepository fishRepository = FishRepository();
   final BugRepository bugRepository = BugRepository();
+  final SeaRepository seaRepository = SeaRepository();
 }

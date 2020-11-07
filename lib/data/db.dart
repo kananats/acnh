@@ -31,18 +31,20 @@ class LocalStorage {
       onCreate: (db, version) async {
         await _createFishsTable(db);
         await _createBugsTable(db);
+        await _createSeasTable(db);
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         switch (oldVersion + 1) {
           case 2:
             await _createBugsTable(db);
+            continue version_3;
+          version_3:
+          case 3:
+            await _createSeasTable(db);
         }
       },
-      version: 2,
+      version: 3,
     );
-
-    // Uncomment this to log
-    // print(await _db.query("fishs"));
   }
 
   Future<void> _createFishsTable(Database db) async => await db.execute(
@@ -73,6 +75,28 @@ CREATE TABLE bugs(
   file_name TEXT,
   name TEXT,
   availability TEXT,
+  price INTEGER,
+  catch_phrase TEXT,
+  museum_phrase TEXT,
+  image_uri TEXT,
+  icon_uri TEXT,
+  image_path TEXT,
+  icon_path TEXT,
+  is_caught INTEGER,
+  is_donated INTEGER
+)
+      """,
+      );
+
+  Future<void> _createSeasTable(Database db) async => await db.execute(
+        """
+CREATE TABLE seas(
+  id INTEGER PRIMARY KEY, 
+  file_name TEXT,
+  name TEXT,
+  availability TEXT,
+  speed TEXT,
+  shadow TEXT,
   price INTEGER,
   catch_phrase TEXT,
   museum_phrase TEXT,

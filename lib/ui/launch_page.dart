@@ -1,6 +1,7 @@
 import 'package:acnh/bloc/bloc.dart';
 import 'package:acnh/bloc/bug/bug_bloc.dart';
 import 'package:acnh/bloc/fish/fish_bloc.dart';
+import 'package:acnh/bloc/sea/sea_bloc.dart';
 import 'package:acnh/ui/fish/fish_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,13 +14,16 @@ class LaunchPage extends StatefulWidget {
 class _LaunchPageState extends State<LaunchPage> with BlocProviderMixin {
   bool _isFishReady = false;
   bool _isBugReady = false;
+  bool _isSeaReady = false;
 
   @override
   Widget build(BuildContext context) => Scaffold(
         body: _fishListener(
           child: _bugListener(
-            child: Center(
-              child: CircularProgressIndicator(),
+            child: _seaListener(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
           ),
         ),
@@ -41,31 +45,22 @@ class _LaunchPageState extends State<LaunchPage> with BlocProviderMixin {
         child: child,
       );
 
+  Widget _seaListener({Widget child}) => BlocListener<SeaBloc, SeaState>(
+        listener: (context, state) {
+          if (state is ReadySeaState) _isSeaReady = true;
+          _navigateIfReady(context);
+        },
+        child: child,
+      );
+
   void _navigateIfReady(BuildContext context) {
-    if (_isFishReady && _isBugReady) {
+    if (_isFishReady && _isBugReady && _isSeaReady) {
       _isFishReady = false;
       _isBugReady = false;
+      _isSeaReady = false;
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => FishListPage()),
       );
     }
   }
-
-  /*
-  @override
-  Widget build(BuildContext context) => BlocConsumer<FishBloc, FishState>(
-        listener: (context, state) {
-          if (state is ReadyFishState) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => FishPage()),
-            );
-          }
-        },
-        builder: (context, state) => Scaffold(
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      );
-      */
 }

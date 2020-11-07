@@ -1,5 +1,6 @@
 import 'package:acnh/ui/bug/bug_list_page.dart';
 import 'package:acnh/ui/fish/fish_list_page.dart';
+import 'package:acnh/ui/sea/sea_list_page.dart';
 import 'package:acnh/ui/setting_page.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,7 @@ class MyDrawer extends StatelessWidget {
           children: [
             _fish(context),
             _bug(context),
+            _sea(context),
             Divider(),
             _setting(context),
             _about(context),
@@ -31,6 +33,15 @@ class MyDrawer extends StatelessWidget {
         onTap: () {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (_) => BugListPage(),
+          ));
+        },
+      );
+
+  Widget _sea(BuildContext context) => ListTile(
+        title: Text("Sea Creatures"),
+        onTap: () {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (_) => SeaListPage(),
           ));
         },
       );

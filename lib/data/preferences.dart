@@ -31,4 +31,5 @@ enum PreferencesKey {
   setting,
   fishFilterCondition,
   bugFilterCondition,
+  seaFilterCondition,
 }

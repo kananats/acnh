@@ -1,8 +1,7 @@
 import 'package:acnh/bloc/bug/bug_bloc.dart';
 import 'package:acnh/bloc/fish/fish_bloc.dart';
+import 'package:acnh/bloc/sea/sea_bloc.dart';
 import 'package:acnh/bloc/setting/setting_bloc.dart';
-import 'package:acnh/dao/dao.dart';
-import 'package:acnh/modules.dart';
 import 'package:acnh/ui/launch_page.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +27,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) => BugBloc(),
           ),
+          BlocProvider(
+            create: (context) => SeaBloc(),
+          ),
         ],
         child: MaterialApp(
           title: "acnh",
@@ -37,22 +39,5 @@ class MyApp extends StatelessWidget {
           ),
           home: LaunchPage(),
         ),
-      );
-}
-
-// Test code goes here
-class TestPage extends StatefulWidget {
-  @override
-  _TestPageState createState() => _TestPageState();
-}
-
-class _TestPageState extends State<TestPage> with DaoProviderMixin {
-  void test() async {
-    var preferences = await modules.localStorage.preferences;
-  }
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Container(),
       );
 }
