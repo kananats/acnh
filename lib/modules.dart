@@ -11,6 +11,7 @@ class Modules {
   final Clock clock = Clock();
 
   // DAO
+  final VillagerDao villagerDao = VillagerDao();
   final FishDao fishDao = FishDao();
   final BugDao bugDao = BugDao();
   final SeaDao seaDao = SeaDao();
@@ -18,6 +19,7 @@ class Modules {
   // Repository
   final FileRepository fileRepository = FileRepository();
   final SettingRepository settingRepository = SettingRepository();
+  final VillagerRepository villagerRepository = VillagerRepository();
   final FishRepository fishRepository = FishRepository();
   final BugRepository bugRepository = BugRepository();
   final SeaRepository seaRepository = SeaRepository();

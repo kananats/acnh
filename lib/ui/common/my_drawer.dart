@@ -1,14 +1,18 @@
-import 'package:acnh/ui/bug/bug_list_page.dart';
-import 'package:acnh/ui/fish/fish_list_page.dart';
-import 'package:acnh/ui/sea/sea_list_page.dart';
-import 'package:acnh/ui/setting_page.dart';
 import 'package:flutter/material.dart';
+
+import 'package:acnh/ui/setting_page.dart';
+import 'package:acnh/ui/villager/villager_list_page.dart';
+import 'package:acnh/ui/fish/fish_list_page.dart';
+import 'package:acnh/ui/bug/bug_list_page.dart';
+import 'package:acnh/ui/sea/sea_list_page.dart';
 
 class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Drawer(
         child: ListView(
           children: [
+            _villager(context),
+            Divider(),
             _fish(context),
             _bug(context),
             _sea(context),
@@ -17,6 +21,15 @@ class MyDrawer extends StatelessWidget {
             _about(context),
           ],
         ),
+      );
+
+  Widget _villager(BuildContext context) => ListTile(
+        title: Text("Villager"),
+        onTap: () {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (_) => VillagerListPage(),
+          ));
+        },
       );
 
   Widget _fish(BuildContext context) => ListTile(

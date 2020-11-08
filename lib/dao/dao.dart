@@ -2,12 +2,14 @@ import 'dart:convert';
 
 import 'package:acnh/dto/availability.dart';
 import 'package:acnh/dto/bug.dart';
+import 'package:acnh/dto/villager.dart';
 import 'package:acnh/dto/fish.dart';
 import 'package:acnh/dto/name.dart';
 import 'package:acnh/dto/sea.dart';
 import 'package:acnh/modules.dart';
 import 'package:sqflite/sqlite_api.dart';
 
+part 'villager_dao.dart';
 part 'fish_dao.dart';
 part 'bug_dao.dart';
 part 'sea_dao.dart';
@@ -16,6 +18,7 @@ mixin DaoProviderMixin {
   FishDao get fishDao => modules.fishDao;
   BugDao get bugDao => modules.bugDao;
   SeaDao get seaDao => modules.seaDao;
+  VillagerDao get villagerDao => modules.villagerDao;
 }
 
 mixin Dao<T> {

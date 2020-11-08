@@ -41,9 +41,13 @@ class LocalStorage {
           version_3:
           case 3:
             await _createSeasTable(db);
+            continue version_4;
+          version_4:
+          case 4:
+            await _createVillagersTable(db);
         }
       },
-      version: 3,
+      version: 4,
     );
   }
 
@@ -106,6 +110,27 @@ CREATE TABLE seas(
   icon_path TEXT,
   is_caught INTEGER,
   is_donated INTEGER
+)
+      """,
+      );
+
+  Future<void> _createVillagersTable(Database db) async => await db.execute(
+        """
+CREATE TABLE villagers(
+  id INTEGER PRIMARY KEY, 
+  file_name TEXT,
+  name TEXT,
+  personality TEXT,
+  birthday TEXT,
+  species TEXT,
+  gender TEXT,
+  catch_phrase TEXT,
+  image_uri TEXT,
+  icon_uri TEXT,
+  image_path TEXT,
+  icon_path TEXT,
+  is_resident INTEGER,
+  is_favorite INTEGER,
 )
       """,
       );

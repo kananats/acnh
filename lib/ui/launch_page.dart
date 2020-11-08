@@ -2,6 +2,7 @@ import 'package:acnh/bloc/bloc.dart';
 import 'package:acnh/bloc/bug/bug_bloc.dart';
 import 'package:acnh/bloc/fish/fish_bloc.dart';
 import 'package:acnh/bloc/sea/sea_bloc.dart';
+import 'package:acnh/bloc/villager/villager_bloc.dart';
 import 'package:acnh/ui/fish/fish_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,21 +13,33 @@ class LaunchPage extends StatefulWidget {
 }
 
 class _LaunchPageState extends State<LaunchPage> with BlocProviderMixin {
+  bool _isVillagerReady = false;
   bool _isFishReady = false;
   bool _isBugReady = false;
   bool _isSeaReady = false;
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: _fishListener(
-          child: _bugListener(
-            child: _seaListener(
-              child: Center(
-                child: CircularProgressIndicator(),
+        body: _villagerListener(
+          child: _fishListener(
+            child: _bugListener(
+              child: _seaListener(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
               ),
             ),
           ),
         ),
+      );
+
+  Widget _villagerListener({Widget child}) =>
+      BlocListener<VillagerBloc, VillagerState>(
+        listener: (context, state) {
+          if (state is ReadyVillagerState) _isVillagerReady = true;
+          _navigateIfReady(context);
+        },
+        child: child,
       );
 
   Widget _fishListener({Widget child}) => BlocListener<FishBloc, FishState>(
@@ -54,7 +67,8 @@ class _LaunchPageState extends State<LaunchPage> with BlocProviderMixin {
       );
 
   void _navigateIfReady(BuildContext context) {
-    if (_isFishReady && _isBugReady && _isSeaReady) {
+    if (_isVillagerReady && _isFishReady && _isBugReady && _isSeaReady) {
+      _isVillagerReady = false;
       _isFishReady = false;
       _isBugReady = false;
       _isSeaReady = false;

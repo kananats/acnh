@@ -2,6 +2,7 @@ import 'package:acnh/bloc/bug/bug_bloc.dart';
 import 'package:acnh/bloc/fish/fish_bloc.dart';
 import 'package:acnh/bloc/sea/sea_bloc.dart';
 import 'package:acnh/bloc/setting/setting_bloc.dart';
+import 'package:acnh/bloc/villager/villager_bloc.dart';
 import 'package:acnh/ui/launch_page.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             lazy: false,
             create: (context) => SettingBloc(),
+          ),
+          BlocProvider(
+            create: (context) => VillagerBloc(),
           ),
           BlocProvider(
             create: (context) => FishBloc(),

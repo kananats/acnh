@@ -7,6 +7,8 @@ import 'package:acnh/dto/bug.dart';
 import 'package:acnh/dto/bug_filter_condition.dart';
 import 'package:acnh/dto/sea.dart';
 import 'package:acnh/dto/sea_filter_condition.dart';
+import 'package:acnh/dto/villager.dart';
+import 'package:acnh/dto/villager_filter_condition.dart';
 import 'package:acnh/error/error.dart';
 import 'package:tuple/tuple.dart';
 import 'package:dio/dio.dart';
@@ -20,6 +22,7 @@ import 'package:acnh/dto/setting.dart';
 
 part 'file_repository.dart';
 part 'setting_repository.dart';
+part 'villager_repository.dart';
 part 'fish_repository.dart';
 part 'bug_repository.dart';
 part 'sea_repository.dart';
@@ -27,6 +30,7 @@ part 'sea_repository.dart';
 mixin RepositoryProviderMixin {
   FileRepository get fileRepository => modules.fileRepository;
   SettingRepository get settingRepository => modules.settingRepository;
+  VillagerRepository get villagerRepository => modules.villagerRepository;
   FishRepository get fishRepository => modules.fishRepository;
   BugRepository get bugRepository => modules.bugRepository;
   SeaRepository get seaRepository => modules.seaRepository;
