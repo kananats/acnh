@@ -1,6 +1,6 @@
 import 'package:acnh/bloc/bloc.dart';
 import 'package:acnh/bloc/setting/setting_bloc.dart';
-import 'package:acnh/dto/language_enum.dart';
+import 'package:acnh/dto/enum/enum.dart';
 import 'package:acnh/ui/common/my_drawer.dart';
 import 'package:intl/intl.dart';
 

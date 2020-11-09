@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:acnh/dto/language_enum.dart';
+import 'package:acnh/dto/enum/enum.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'name.g.dart';

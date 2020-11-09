@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:acnh/bloc/bloc.dart';
 import 'package:acnh/bloc/sea/sea_bloc.dart';
 import 'package:acnh/bloc/setting/setting_bloc.dart';
-import 'package:acnh/dto/availability.dart';
+import 'package:acnh/dto/enum/enum.dart';
 import 'package:acnh/dto/sea.dart';
 import 'package:acnh/dto/sea_filter_condition.dart';
 import 'package:acnh/ui/common/badge.dart';

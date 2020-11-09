@@ -4,7 +4,7 @@
 import 'dart:async';
 
 import 'package:acnh/data/clock.dart';
-import 'package:acnh/dto/language_enum.dart';
+import 'package:acnh/dto/enum/enum.dart';
 import 'package:acnh/dto/setting.dart';
 import 'package:acnh/modules.dart';
 import 'package:acnh/repository/repository.dart';

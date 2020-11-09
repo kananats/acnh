@@ -26,7 +26,7 @@ class _VillagerFilterDialogState extends State<VillagerFilterDialog>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  //_hemisphereToggle,
+                  _personality,
                   SizedBox(height: 12),
                   //_availabilityToggle,
                   SizedBox(height: 12),
@@ -61,32 +61,32 @@ class _VillagerFilterDialogState extends State<VillagerFilterDialog>
           ),
         ),
       );
-/*
-  Widget get _hemisphereToggle => Row(
+
+  Widget get _personality => Row(
         children: [
           SizedBox(
             width: 120,
-            child: Text("Hemisphere"),
+            child: Text("Personality"),
           ),
-          SizedBox(
-            height: 24,
-            child: ToggleButtons(
-              children: [
-                Text("North"),
-                Text("South"),
-              ],
-              isSelected: [
-                _condition.isNorth,
-                !_condition.isNorth,
-              ],
-              onPressed: (index) => setState(
-                () => _condition.isNorth = index == 0,
+          IntrinsicHeight(
+            child: DropdownButton<PersonalityEnum>(
+              value: _condition.personality,
+              onChanged: (value) => setState(
+                () => _condition.personality = value,
               ),
+              items: PersonalityEnum.values
+                  .map(
+                    (value) => DropdownMenuItem<PersonalityEnum>(
+                      child: Text(value.name),
+                      value: value,
+                    ),
+                  )
+                  .toList(),
             ),
           ),
         ],
       );
-
+/*
   Widget get _availabilityToggle => Row(
         children: [
           SizedBox(

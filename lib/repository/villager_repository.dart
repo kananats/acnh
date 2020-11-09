@@ -1,7 +1,6 @@
 part of 'repository.dart';
 
-class VillagerRepository
-    with DaoProviderMixin, ClockProviderMixin, RepositoryProviderMixin {
+class VillagerRepository with DaoProviderMixin, RepositoryProviderMixin {
   Future<List<Tuple2<Villager, bool>>> fetchVillagers() async {
     List<Villager> villagers = await GetVillagers().execute();
 
@@ -27,7 +26,6 @@ class VillagerRepository
             e,
             condition.apply(
               e,
-              clock.now,
               setting.language,
             ),
           ),
@@ -43,6 +41,7 @@ class VillagerRepository
     var value = preferences[PreferencesKey.villagerFilterCondition];
     if (value != null)
       return VillagerFilterCondition.fromJson(json.decode(value));
+
     var condition = VillagerFilterCondition();
     await setCondition(condition);
 

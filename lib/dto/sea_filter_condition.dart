@@ -1,6 +1,5 @@
-import 'package:acnh/dto/availability.dart';
+import 'package:acnh/dto/enum/enum.dart';
 import 'package:acnh/dto/sea.dart';
-import 'package:acnh/dto/language_enum.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
