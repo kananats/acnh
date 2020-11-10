@@ -3,7 +3,7 @@ import 'package:acnh/bloc/bug/bug_bloc.dart';
 import 'package:acnh/bloc/fish/fish_bloc.dart';
 import 'package:acnh/bloc/sea/sea_bloc.dart';
 import 'package:acnh/bloc/villager/villager_bloc.dart';
-import 'package:acnh/ui/fish/fish_list_page.dart';
+import 'package:acnh/ui/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -73,7 +73,7 @@ class _LaunchPageState extends State<LaunchPage> with BlocProviderMixin {
       _isBugReady = false;
       _isSeaReady = false;
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => FishListPage()),
+        MaterialPageRoute(builder: (_) => HomePage()),
       );
     }
   }

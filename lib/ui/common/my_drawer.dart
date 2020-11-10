@@ -1,3 +1,4 @@
+import 'package:acnh/ui/home/home_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:acnh/ui/setting_page.dart';
@@ -11,6 +12,8 @@ class MyDrawer extends StatelessWidget {
   Widget build(BuildContext context) => Drawer(
         child: ListView(
           children: [
+            _home(context),
+            Divider(),
             _villager(context),
             Divider(),
             _fish(context),
@@ -21,6 +24,15 @@ class MyDrawer extends StatelessWidget {
             _about(context),
           ],
         ),
+      );
+
+  Widget _home(BuildContext context) => ListTile(
+        title: Text("Home"),
+        onTap: () {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (_) => HomePage(),
+          ));
+        },
       );
 
   Widget _villager(BuildContext context) => ListTile(
