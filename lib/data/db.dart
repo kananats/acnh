@@ -32,6 +32,7 @@ class LocalStorage {
         await _createFishsTable(db);
         await _createBugsTable(db);
         await _createSeasTable(db);
+        await _createVillagersTable(db);
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         switch (oldVersion + 1) {
@@ -130,7 +131,7 @@ CREATE TABLE villagers(
   image_path TEXT,
   icon_path TEXT,
   is_resident INTEGER,
-  is_favorite INTEGER,
+  is_favorite INTEGER
 )
       """,
       );
