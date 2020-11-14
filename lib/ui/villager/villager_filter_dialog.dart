@@ -26,18 +26,13 @@ class _VillagerFilterDialogState extends State<VillagerFilterDialog>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  _species,
                   _personality,
                   SizedBox(height: 12),
-                  //_availabilityToggle,
+                  _residentToggle,
                   SizedBox(height: 12),
-                  Wrap(
-                    spacing: 12,
-                    children: [
-                      //_hideCaughtChip,
-                      //_hideDonatedChip,
-                      //_hideAllYearChip,
-                    ],
-                  ),
+                  _favoriteToggle,
+                  SizedBox(height: 12),
                   ButtonBar(
                     alignment: MainAxisAlignment.center,
                     children: [
@@ -60,6 +55,31 @@ class _VillagerFilterDialogState extends State<VillagerFilterDialog>
             ),
           ),
         ),
+      );
+
+  Widget get _species => Row(
+        children: [
+          SizedBox(
+            width: 120,
+            child: Text("Species"),
+          ),
+          IntrinsicHeight(
+            child: DropdownButton<SpeciesEnum>(
+              value: _condition.species,
+              onChanged: (value) => setState(
+                () => _condition.species = value,
+              ),
+              items: SpeciesEnum.values
+                  .map(
+                    (value) => DropdownMenuItem<SpeciesEnum>(
+                      child: Text(value.name),
+                      value: value,
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ],
       );
 
   Widget get _personality => Row(
@@ -86,61 +106,60 @@ class _VillagerFilterDialogState extends State<VillagerFilterDialog>
           ),
         ],
       );
-/*
-  Widget get _availabilityToggle => Row(
+
+  Widget get _residentToggle => Row(
         children: [
           SizedBox(
             width: 120,
-            child: Text("Available"),
+            child: Text("Resident"),
           ),
           SizedBox(
             height: 24,
             child: ToggleButtons(
               children: [
                 Text("All"),
-                Text("Now"),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 12),
-                  child: Text("This month"),
-                ),
+                Text("Only"),
+                Text("None"),
               ],
               isSelected: [
-                _condition.availability == AvailabilityEnum.all,
-                _condition.availability == AvailabilityEnum.now,
-                _condition.availability == AvailabilityEnum.thisMonth,
+                _condition.residentSelection == SelectionEnum.all,
+                _condition.residentSelection == SelectionEnum.only,
+                _condition.residentSelection == SelectionEnum.none,
               ],
               onPressed: (index) => setState(
-                () => _condition.availability = AvailabilityEnum.values[index],
+                () =>
+                    _condition.residentSelection = SelectionEnum.values[index],
               ),
             ),
           ),
         ],
       );
 
-  Widget get _hideCaughtChip => FilterChip(
-        selectedColor: Colors.lightBlue,
-        selected: _condition.hideCaught,
-        onSelected: (hideCaught) => setState(
-          () => _condition.hideCaught = hideCaught,
-        ),
-        label: Text("Hide Caught"),
+  Widget get _favoriteToggle => Row(
+        children: [
+          SizedBox(
+            width: 120,
+            child: Text("Favorite"),
+          ),
+          SizedBox(
+            height: 24,
+            child: ToggleButtons(
+              children: [
+                Text("All"),
+                Text("Only"),
+                Text("None"),
+              ],
+              isSelected: [
+                _condition.favoriteSelection == SelectionEnum.all,
+                _condition.favoriteSelection == SelectionEnum.only,
+                _condition.favoriteSelection == SelectionEnum.none,
+              ],
+              onPressed: (index) => setState(
+                () =>
+                    _condition.favoriteSelection = SelectionEnum.values[index],
+              ),
+            ),
+          ),
+        ],
       );
-
-  Widget get _hideDonatedChip => FilterChip(
-        selectedColor: Colors.lightBlue,
-        selected: _condition.hideDonated,
-        onSelected: (hideDonated) => setState(
-          () => _condition.hideDonated = hideDonated,
-        ),
-        label: Text("Hide Donated"),
-      );
-
-  Widget get _hideAllYearChip => FilterChip(
-        selectedColor: Colors.lightBlue,
-        selected: _condition.hideAllYear,
-        onSelected: (hideAllYear) => setState(
-          () => _condition.hideAllYear = hideAllYear,
-        ),
-        label: Text("Hide All Year"),
-      );*/
 }
