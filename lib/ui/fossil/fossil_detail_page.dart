@@ -2,8 +2,12 @@ part of 'fossil_list_page.dart';
 
 class FossilDetailPage extends StatefulWidget {
   final Fossil fossil;
+  final int count;
 
-  FossilDetailPage({@required this.fossil});
+  FossilDetailPage({
+    @required this.fossil,
+    @required this.count,
+  });
 
   @override
   _FossilDetailPageState createState() => _FossilDetailPageState();
@@ -35,6 +39,7 @@ class _FossilDetailPageState extends State<FossilDetailPage>
             ),
             SizedBox(height: 24),
             _price(),
+            _count(),
             ButtonBar(
               alignment: MainAxisAlignment.center,
               children: [
@@ -53,6 +58,14 @@ class _FossilDetailPageState extends State<FossilDetailPage>
               ? FileImage(File(widget.fossil.imagePath))
               : NetworkImage(widget.fossil.imageUri),
         ),
+      );
+
+  Widget _count() => ListTile(
+        dense: true,
+        contentPadding: EdgeInsets.symmetric(horizontal: 0),
+        leading: Icon(Icons.pie_chart),
+        title: Text("Piece"),
+        trailing: Text("${widget.count}"),
       );
 
   Widget _price() => ListTile(

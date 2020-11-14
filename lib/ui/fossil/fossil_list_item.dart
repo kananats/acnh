@@ -39,6 +39,7 @@ class _FossilListItemState extends State<FossilListItem>
                   MaterialPageRoute(
                     builder: (context) => FossilDetailPage(
                       fossil: widget.fossil,
+                      count: widget.count,
                     ),
                   ),
                 ),
