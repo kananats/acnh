@@ -66,7 +66,7 @@ class _SeaDetailPageState extends State<SeaDetailPage> with BlocProviderMixin {
   Widget _image() => Transform.scale(
         scale: 1.75,
         child: Image(
-          image: widget.sea.iconPath != null
+          image: widget.sea.imagePath != null
               ? FileImage(File(widget.sea.imagePath))
               : NetworkImage(widget.sea.imageUri),
         ),

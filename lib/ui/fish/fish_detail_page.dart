@@ -68,7 +68,7 @@ class _FishDetailPageState extends State<FishDetailPage>
   Widget _image() => Transform.scale(
         scale: 1.75,
         child: Image(
-          image: widget.fish.iconPath != null
+          image: widget.fish.imagePath != null
               ? FileImage(File(widget.fish.imagePath))
               : NetworkImage(widget.fish.imageUri),
         ),

@@ -58,7 +58,7 @@ class _VillagerDetailPageState extends State<VillagerDetailPage>
   Widget _image() => Transform.scale(
         scale: 1.75,
         child: Image(
-          image: widget.villager.iconPath != null
+          image: widget.villager.imagePath != null
               ? FileImage(File(widget.villager.imagePath))
               : NetworkImage(widget.villager.imageUri),
         ),

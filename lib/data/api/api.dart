@@ -1,17 +1,21 @@
 import 'dart:async';
 import 'dart:convert';
+
+import 'package:acnh/util/iterable_extension.dart';
+
+import 'package:acnh/error/error.dart';
+import 'package:acnh/dto/villager.dart';
+import 'package:acnh/dto/fish.dart';
 import 'package:acnh/dto/bug.dart';
 import 'package:acnh/dto/sea.dart';
-import 'package:acnh/dto/villager.dart';
-import 'package:acnh/error/error.dart';
+import 'package:acnh/dto/fossil.dart';
 import 'package:dio/dio.dart';
 
-import 'package:acnh/dto/fish.dart';
-
+part 'get_villagers.dart';
 part 'get_fishs.dart';
 part 'get_bugs.dart';
 part 'get_seas.dart';
-part 'get_villagers.dart';
+part 'get_fossils.dart';
 
 mixin ApiMixin<T> {
   String get baseUrl => "http://acnhapi.com";

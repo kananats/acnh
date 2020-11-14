@@ -33,6 +33,7 @@ class LocalStorage {
         await _createBugsTable(db);
         await _createSeasTable(db);
         await _createVillagersTable(db);
+        await _createFossilsTable(db);
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         switch (oldVersion + 1) {
@@ -46,9 +47,13 @@ class LocalStorage {
           version_4:
           case 4:
             await _createVillagersTable(db);
+            continue version_5;
+          version_5:
+          case 5:
+            await _createFossilsTable(db);
         }
       },
-      version: 4,
+      version: 5,
     );
   }
 
@@ -132,6 +137,21 @@ CREATE TABLE villagers(
   icon_path TEXT,
   is_resident INTEGER,
   is_favorite INTEGER
+)
+      """,
+      );
+
+  Future<void> _createFossilsTable(Database db) async => await db.execute(
+        """
+CREATE TABLE fossils(
+  id INTEGER PRIMARY KEY, 
+  file_name TEXT,
+  name TEXT,
+  price INTEGER,
+  museum_phrase TEXT,
+  image_uri TEXT,
+  image_path TEXT,
+  is_donated INTEGER
 )
       """,
       );

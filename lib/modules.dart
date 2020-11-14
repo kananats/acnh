@@ -15,6 +15,7 @@ class Modules {
   final FishDao fishDao = FishDao();
   final BugDao bugDao = BugDao();
   final SeaDao seaDao = SeaDao();
+  final FossilDao fossilDao = FossilDao();
 
   // Repository
   final FileRepository fileRepository = FileRepository();
@@ -23,4 +24,5 @@ class Modules {
   final FishRepository fishRepository = FishRepository();
   final BugRepository bugRepository = BugRepository();
   final SeaRepository seaRepository = SeaRepository();
+  final FossilRepository fossilRepository = FossilRepository();
 }

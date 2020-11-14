@@ -66,7 +66,7 @@ class _BugDetailPageState extends State<BugDetailPage> with BlocProviderMixin {
   Widget _image() => Transform.scale(
         scale: 1.75,
         child: Image(
-          image: widget.bug.iconPath != null
+          image: widget.bug.imagePath != null
               ? FileImage(File(widget.bug.imagePath))
               : NetworkImage(widget.bug.imageUri),
         ),

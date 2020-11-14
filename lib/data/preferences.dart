@@ -29,8 +29,9 @@ class Preferences {
 
 enum PreferencesKey {
   setting,
+  villagerFilterCondition,
   fishFilterCondition,
   bugFilterCondition,
   seaFilterCondition,
-  villagerFilterCondition,
+  fossilFilterCondition,
 }

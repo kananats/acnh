@@ -5,6 +5,8 @@ import 'package:acnh/data/api/api.dart';
 import 'package:acnh/data/clock.dart';
 import 'package:acnh/dto/bug.dart';
 import 'package:acnh/dto/bug_filter_condition.dart';
+import 'package:acnh/dto/fossil.dart';
+import 'package:acnh/dto/fossil_filter_condition.dart';
 import 'package:acnh/dto/sea.dart';
 import 'package:acnh/dto/sea_filter_condition.dart';
 import 'package:acnh/dto/villager.dart';
@@ -26,6 +28,7 @@ part 'villager_repository.dart';
 part 'fish_repository.dart';
 part 'bug_repository.dart';
 part 'sea_repository.dart';
+part 'fossil_repository.dart';
 
 mixin RepositoryProviderMixin {
   FileRepository get fileRepository => modules.fileRepository;
@@ -34,4 +37,5 @@ mixin RepositoryProviderMixin {
   FishRepository get fishRepository => modules.fishRepository;
   BugRepository get bugRepository => modules.bugRepository;
   SeaRepository get seaRepository => modules.seaRepository;
+  FossilRepository get fossilRepository => modules.fossilRepository;
 }
