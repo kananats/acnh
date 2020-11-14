@@ -4,3 +4,4 @@ part 'fish_error.dart';
 part 'bug_error.dart';
 part 'sea_error.dart';
 part 'fossil_error.dart';
+part 'art_error.dart';

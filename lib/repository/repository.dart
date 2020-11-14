@@ -3,6 +3,8 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:acnh/data/api/api.dart';
 import 'package:acnh/data/clock.dart';
+import 'package:acnh/dto/art.dart';
+import 'package:acnh/dto/art_filter_condition.dart';
 import 'package:acnh/dto/bug.dart';
 import 'package:acnh/dto/bug_filter_condition.dart';
 import 'package:acnh/dto/fossil.dart';
@@ -29,6 +31,7 @@ part 'fish_repository.dart';
 part 'bug_repository.dart';
 part 'sea_repository.dart';
 part 'fossil_repository.dart';
+part 'art_repository.dart';
 
 mixin RepositoryProviderMixin {
   FileRepository get fileRepository => modules.fileRepository;
@@ -38,4 +41,5 @@ mixin RepositoryProviderMixin {
   BugRepository get bugRepository => modules.bugRepository;
   SeaRepository get seaRepository => modules.seaRepository;
   FossilRepository get fossilRepository => modules.fossilRepository;
+  ArtRepository get artRepository => modules.artRepository;
 }

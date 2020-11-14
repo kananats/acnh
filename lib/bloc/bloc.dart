@@ -1,3 +1,4 @@
+import 'package:acnh/bloc/art/art_bloc.dart';
 import 'package:acnh/bloc/bug/bug_bloc.dart';
 import 'package:acnh/bloc/fish/fish_bloc.dart';
 import 'package:acnh/bloc/fossil/fossil_bloc.dart';
@@ -14,4 +15,5 @@ mixin BlocProviderMixin<T extends StatefulWidget> on State<T> {
   BugBloc get bugBloc => BlocProvider.of<BugBloc>(context);
   SeaBloc get seaBloc => BlocProvider.of<SeaBloc>(context);
   FossilBloc get fossilBloc => BlocProvider.of<FossilBloc>(context);
+  ArtBloc get artBloc => BlocProvider.of<ArtBloc>(context);
 }

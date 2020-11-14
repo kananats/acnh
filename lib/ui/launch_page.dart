@@ -1,3 +1,4 @@
+import 'package:acnh/bloc/art/art_bloc.dart';
 import 'package:acnh/bloc/bloc.dart';
 import 'package:acnh/bloc/bug/bug_bloc.dart';
 import 'package:acnh/bloc/fish/fish_bloc.dart';
@@ -19,6 +20,7 @@ class _LaunchPageState extends State<LaunchPage> with BlocProviderMixin {
   bool _isBugReady = false;
   bool _isSeaReady = false;
   bool _isFossilReady = false;
+  bool _isArtReady = false;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -27,8 +29,10 @@ class _LaunchPageState extends State<LaunchPage> with BlocProviderMixin {
             child: _bugListener(
               child: _seaListener(
                 child: _fossilListener(
-                  child: Center(
-                    child: CircularProgressIndicator(),
+                  child: _artListener(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
                 ),
               ),
@@ -79,17 +83,27 @@ class _LaunchPageState extends State<LaunchPage> with BlocProviderMixin {
         child: child,
       );
 
+  Widget _artListener({Widget child}) => BlocListener<ArtBloc, ArtState>(
+        listener: (context, state) {
+          if (state is ReadyArtState) _isArtReady = true;
+          _navigateIfReady(context);
+        },
+        child: child,
+      );
+
   void _navigateIfReady(BuildContext context) {
     if (_isVillagerReady &&
         _isFishReady &&
         _isBugReady &&
         _isSeaReady &&
-        _isFossilReady) {
+        _isFossilReady &&
+        _isArtReady) {
       _isVillagerReady = false;
       _isFishReady = false;
       _isBugReady = false;
       _isSeaReady = false;
       _isFossilReady = false;
+      _isArtReady = false;
 
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => HomePage()),

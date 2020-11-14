@@ -34,4 +34,5 @@ enum PreferencesKey {
   bugFilterCondition,
   seaFilterCondition,
   fossilFilterCondition,
+  artFilterCondition,
 }

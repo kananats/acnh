@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:acnh/dto/art.dart';
 import 'package:acnh/dto/availability.dart';
 import 'package:acnh/dto/bug.dart';
 import 'package:acnh/dto/fossil.dart';
@@ -15,6 +16,7 @@ part 'fish_dao.dart';
 part 'bug_dao.dart';
 part 'sea_dao.dart';
 part 'fossil_dao.dart';
+part 'art_dao.dart';
 
 mixin DaoProviderMixin {
   FishDao get fishDao => modules.fishDao;
@@ -22,6 +24,7 @@ mixin DaoProviderMixin {
   SeaDao get seaDao => modules.seaDao;
   VillagerDao get villagerDao => modules.villagerDao;
   FossilDao get fossilDao => modules.fossilDao;
+  ArtDao get artDao => modules.artDao;
 }
 
 mixin Dao<T> {

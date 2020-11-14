@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:acnh/dto/art.dart';
 import 'package:acnh/util/iterable_extension.dart';
 
 import 'package:acnh/error/error.dart';
@@ -16,6 +17,7 @@ part 'get_fishs.dart';
 part 'get_bugs.dart';
 part 'get_seas.dart';
 part 'get_fossils.dart';
+part 'get_arts.dart';
 
 mixin ApiMixin<T> {
   String get baseUrl => "http://acnhapi.com";

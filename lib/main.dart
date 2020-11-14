@@ -1,3 +1,4 @@
+import 'package:acnh/bloc/art/art_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => FossilBloc(),
+          ),
+          BlocProvider(
+            create: (context) => ArtBloc(),
           ),
         ],
         child: MaterialApp(

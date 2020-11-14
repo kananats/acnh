@@ -34,6 +34,7 @@ class LocalStorage {
         await _createSeasTable(db);
         await _createVillagersTable(db);
         await _createFossilsTable(db);
+        await _createArtsTable(db);
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         switch (oldVersion + 1) {
@@ -51,9 +52,13 @@ class LocalStorage {
           version_5:
           case 5:
             await _createFossilsTable(db);
+            continue version_6;
+          version_6:
+          case 6:
+            await _createArtsTable(db);
         }
       },
-      version: 5,
+      version: 6,
     );
   }
 
@@ -151,6 +156,23 @@ CREATE TABLE fossils(
   museum_phrase TEXT,
   image_uri TEXT,
   image_path TEXT,
+  is_donated INTEGER
+)
+      """,
+      );
+
+  Future<void> _createArtsTable(Database db) async => await db.execute(
+        """
+CREATE TABLE arts(
+  id INTEGER PRIMARY KEY, 
+  file_name TEXT,
+  name TEXT,
+  has_fake INTEGER,
+  buy_price INTEGER,
+  sell_price INTEGER,
+  image_uri TEXT,
+  image_path TEXT,
+  museum_desc TEXT,
   is_donated INTEGER
 )
       """,

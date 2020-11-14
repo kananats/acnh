@@ -1,3 +1,4 @@
+import 'package:acnh/ui/art/art_list_page.dart';
 import 'package:acnh/ui/fossil/fossil_list_page.dart';
 import 'package:acnh/ui/home/home_page.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class MyDrawer extends StatelessWidget {
             _sea(context),
             Divider(),
             _fossil(context),
+            _art(context),
             Divider(),
             _setting(context),
             _about(context),
@@ -79,6 +81,15 @@ class MyDrawer extends StatelessWidget {
         onTap: () {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (_) => FossilListPage(),
+          ));
+        },
+      );
+
+  Widget _art(BuildContext context) => ListTile(
+        title: Text("Art"),
+        onTap: () {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (_) => ArtListPage(),
           ));
         },
       );
