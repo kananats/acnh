@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:acnh/bloc/bloc.dart';
 import 'package:acnh/bloc/fossil/fossil_bloc.dart';
 import 'package:acnh/bloc/setting/setting_bloc.dart';
-import 'package:acnh/dto/enum/enum.dart';
 import 'package:acnh/dto/fossil.dart';
 import 'package:acnh/dto/fossil_filter_condition.dart';
 import 'package:acnh/ui/common/badge.dart';
@@ -99,10 +98,19 @@ class _FossilListPageState extends State<FossilListPage>
           shrinkWrap: true,
           padding: EdgeInsets.all(12),
           itemCount: state.fossils.length,
-          itemBuilder: (context, index) => FossilListItem(
-            fossil: state.fossils[index],
-            isVisible: state.isVisibles[index],
-          ),
+          itemBuilder: (context, index) {
+            var fossil = state.fossils[index];
+            var name = fossil.name.USen.split(" ").first;
+            var count = state.fossils
+                .where((element) => element.name.USen.split(" ").first == name)
+                .length;
+
+            return FossilListItem(
+              fossil: fossil,
+              count: count,
+              isVisible: state.isVisibles[index],
+            );
+          },
         ),
       );
     else if (state is DownloadingFossilState)

@@ -2,10 +2,12 @@ part of 'fossil_list_page.dart';
 
 class FossilListItem extends StatefulWidget {
   final Fossil fossil;
+  final int count;
   final bool isVisible;
 
   FossilListItem({
     @required this.fossil,
+    @required this.count,
     this.isVisible,
   });
 
@@ -50,6 +52,12 @@ class _FossilListItemState extends State<FossilListItem>
                       if (widget.fossil.isDonated) _badge("Donated"),
                     ],
                   ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _count(),
+                    ],
+                  ),
                   children: [
                     ButtonBar(
                       children: [
@@ -89,6 +97,18 @@ class _FossilListItemState extends State<FossilListItem>
         children: [
           Badge(text),
           SizedBox(width: 3),
+        ],
+      );
+
+  Widget _count() => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.pie_chart,
+            size: 16,
+          ),
+          SizedBox(width: 4),
+          Expanded(child: Text("${widget.count} piece(s)")),
         ],
       );
 
