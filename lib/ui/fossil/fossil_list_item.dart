@@ -108,7 +108,10 @@ class _FossilListItemState extends State<FossilListItem>
             size: 16,
           ),
           SizedBox(width: 4),
-          Expanded(child: Text("${widget.count} piece(s)")),
+          Expanded(
+              child: Text(widget.count > 1
+                  ? "${widget.count} pieces"
+                  : "${widget.count} piece")),
         ],
       );
 
